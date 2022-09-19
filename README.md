@@ -34,6 +34,9 @@ Historique des modifications : __changelog.md__
 - Nettoyer le projet : __"flutter clean"__
 - Récupérer la liste des packages après nettoyage ou erreurs : __"flutter packages get"__
 
+## Exemple
+- Une démo du provider se situe dans la branche demo
+
 ## Architecture
 - Lancement du programme depuis __lib/main.dart__
 

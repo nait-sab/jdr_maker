@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil_view.dart';
-import 'package:jdr_maker/src/app/views/bonjour_view.dart';
 import 'package:provider/provider.dart';
 
 /// Liste des pages de l'application
@@ -22,8 +21,8 @@ List<Page> applicationRoutes(context) {
   // Routing
   // Toujours un / en début de route
   switch (navigation.currentRoute) {
-    case "/bonjour":
-      liste.add(MaterialPage(child: Bonjour()));
+    case "/exemple":
+      liste.add(MaterialPage(child: Accueil()));
       break;
   }
 
