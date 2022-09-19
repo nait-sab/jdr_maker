@@ -1,0 +1,56 @@
+========================================================
+= Partie Application
+========================================================
+- Pour ajouter un nouvel écran
+lib/src/app/views/nom_view.dart
+    - Si le fichier devient trop volumineux ou nécéssite des doublons de code / widgets
+    lib/src/app/views/nom/nom_view.dart
+    lib/src/app/views/nom/widgets/ (placer les widgets ici)
+
+- Pour ajouter un widget commun utilisé sur plusieurs view
+lib/src/app/widgets
+
+- Pour ajouter un nouvel outil (ex: Fonctions d'accès à Firebase)
+lib/src/app/tools/nom_tool.dart
+
+- Pour ajouter un nouveau controller gérant des données dynamique
+lib/src/app/controllers/nom_controller.dart
+
+
+========================================================
+= Partie Données
+========================================================
+- Pour ajouter des données fixes
+lib/src/domain/data/nom_data
+
+- Pour ajouter des énumérations (types)
+lib/src/domain/enums/nom_enum.dart
+
+- Pour ajouter un modèle de données (ex : utilisateur)
+lib/src/domain/models/nom_model.dart
+
+
+========================================================
+= Partie Tuto
+========================================================
+- Comment créer une nouvelle route ?
+    - Créer la view nécéssaire
+    - Ajouter la view dans "lib/src/app/routes.dart" 
+    à l'intérieur du switch comme l'exemple
+
+- Comment changer la route actuelle ?
+    - Vérifier le nom de la route dans "lib/src/app/routes.dart"
+    - Modification de la route via le provider du controller navigation
+    Provider.of<NavigationController>(context, listen: false).changerRoute("/");
+
+- Comment créer un nouveau controller pour les données dynamique ?
+    - Créer le controller dans "lib/src/app/controllers"
+    - Extends la classe avec "ChangeNotifier"
+    - Créer une fonction de SET à chaque variable finissant par "notifyListeners();"
+    - Déclare un nouveau provider du controller dans le 
+    "providers:" de "src/main.dart"
+
+- Comment utiliser une variable dynamique ?
+    - La view doit être un StateFullWidget
+    - Modifier la valeur dynamique du controller via le provider, suivi de la fonction SET
+    Provider.of<NavigationController>(context, listen: false)
