@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/routes.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme:
+            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+      ),
       home: Navigator(
         pages: applicationRoutes(context),
         onPopPage: (route, resultat) {
