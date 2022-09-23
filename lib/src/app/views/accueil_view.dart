@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:provider/provider.dart';
 
 /// Classe Accueil
 ///
