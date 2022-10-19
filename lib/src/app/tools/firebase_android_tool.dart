@@ -1,22 +1,24 @@
-import 'package:firedart/firedart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Classe : Firebase Desktop
+/// Classe : Firebase Android
 ///
 /// Type : Tool
 ///
-/// Contient les fonctions de manipulation Firebase pour le support Desktop
-class FirebaseDesktopTool {
-  /// Récupérer l'instance d'une collection par son nom
+/// Contient les fonctions de manipulation Firebase pour le support Android
+class FirebaseAndroidTool {
+  // =============================================================
+  // Instance Firebase
+  // =============================================================
+  /// Récupérer l'instance d'une collection par son [nom]
   static CollectionReference _getInstanceCollection(String nom) {
-    return Firestore.instance.collection(nom);
+    return FirebaseFirestore.instance.collection(nom);
   }
 
   // =============================================================
-  // Fonctions liés à Firestore
+  // Fonctions Firestore
   // =============================================================
-
   /// Récupérer la liste des documents d'une collection
-  static Future<Page<Document>> getCollection(String nom) async {
+  static Future<QuerySnapshot<Object?>> getCollection(String nom) async {
     return await _getInstanceCollection(nom).get();
   }
 
@@ -34,13 +36,11 @@ class FirebaseDesktopTool {
     String document,
     Map<String, dynamic> json,
   ) async {
-    return await _getInstanceCollection(collection)
-        .document(document)
-        .update(json);
+    return await _getInstanceCollection(collection).doc(document).update(json);
   }
 
   /// Supprimer le [document] de la [collection]
   static Future supprimerDocument(String collection, String document) async {
-    return await _getInstanceCollection(collection).document(document).delete();
+    return await _getInstanceCollection(collection).doc(document).delete();
   }
 }
