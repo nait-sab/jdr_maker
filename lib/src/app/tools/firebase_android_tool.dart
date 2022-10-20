@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Classe : Firebase Android
 ///
@@ -12,6 +13,11 @@ class FirebaseAndroidTool {
   /// Récupérer l'instance d'une collection par son [nom]
   static CollectionReference _getInstanceCollection(String nom) {
     return FirebaseFirestore.instance.collection(nom);
+  }
+
+  /// Récupérer l'instance du module Auth
+  static FirebaseAuth _getAuthInstance() {
+    return FirebaseAuth.instance;
   }
 
   // =============================================================
@@ -42,5 +48,32 @@ class FirebaseAndroidTool {
   /// Supprimer le [document] de la [collection]
   static Future supprimerDocument(String collection, String document) async {
     return await _getInstanceCollection(collection).doc(document).delete();
+  }
+
+  // =============================================================
+  // Fonctions Auth
+  // =============================================================
+  /// Créer un nouveau compte à partir d'un [mail] et d'un [passe]
+  static Future creerCompte(String mail, String passe) async {
+    await _getAuthInstance()
+        .createUserWithEmailAndPassword(email: mail, password: passe);
+  }
+
+  /// Se connecter à un compte à partir d'un [mail] et d'un [passe]
+  static Future connexion(String mail, String passe) async {
+    await _getAuthInstance()
+        .signInWithEmailAndPassword(email: mail, password: passe);
+  }
+
+  /// Récupérer l'utilisateur connecter actuellement
+  /// Voir https://firebase.flutter.dev/docs/auth/start authStateChanges()
+  static User? getUtilisateur() {
+    return _getAuthInstance().currentUser;
+  }
+
+  /// Déconnecter l'utilisateur
+  /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
+  static Future deconnexion() async {
+    await _getAuthInstance().signOut();
   }
 }
