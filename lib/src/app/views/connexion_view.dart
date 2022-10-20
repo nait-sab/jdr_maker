@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ///
 /// Type : View
 ///
-/// Page de connexion à l'application
+/// Page de connexion de l'application
 class ConnexionView extends StatefulWidget {
   @override
   State<ConnexionView> createState() => _ConnexionViewState();

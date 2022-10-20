@@ -4,7 +4,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.1 <3.0.0"
+  sdk: ">=2.18.1 <3.3.2"
 
 # Mise à jour des dépendances avec
 # flutter pub upgrade --major-versions
@@ -22,6 +22,7 @@ dependencies:
   cloud_firestore: ^4.0.1
   firebase_core: ^2.0.0
   firebase_auth: ^4.0.1
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
