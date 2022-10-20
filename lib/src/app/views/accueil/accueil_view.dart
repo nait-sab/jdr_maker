@@ -27,54 +27,57 @@ class _AccueilViewState extends State<AccueilView> {
 
   void allerDebut() {
     Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/creerJDR");
+        .changerRoute("/creer_jdr");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff1e1e1e),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  onTap: allerDebut,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.20,
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    decoration: BoxDecoration(
-                      color: Color(0xff81818f),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: allerDebut,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.20,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  decoration: BoxDecoration(
+                    color: Color(0xff81818f),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 15,
+                        blurRadius: 60,
+                        offset: Offset(0, 1), // changes position of shadow
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 15,
-                          blurRadius: 60,
-                          offset: Offset(0, 1), // changes position of shadow
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Création JDR",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.035,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Création JDR",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.035,
-                                color: Colors.white),
-                            textAlign: TextAlign.center),
-                      ],
-                    ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            )
-          ],
-        ));
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil/accueil_view.dart';
 import 'package:jdr_maker/src/app/views/connexion_view.dart';
-import 'package:jdr_maker/src/app/views/creerJDR/debutJDR_view.dart';
+import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +32,7 @@ List<Page> applicationRoutes(context) {
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
       break;
-    case "/creerJDR":
+    case "/creer_jdr":
       liste.add(MaterialPage(child: DebutJDR()));
       break;
   }

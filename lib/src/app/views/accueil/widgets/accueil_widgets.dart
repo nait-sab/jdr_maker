@@ -1,0 +1,1 @@
+// Widgets venant de l'accueil
