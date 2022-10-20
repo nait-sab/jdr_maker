@@ -32,7 +32,7 @@ List<Page> applicationRoutes(context) {
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
       break;
-    case "/creerJDR":
+    case "/creer_jdr":
       liste.add(MaterialPage(child: DebutJDR()));
       break;
   }

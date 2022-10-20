@@ -27,7 +27,7 @@ class _AccueilViewState extends State<AccueilView> {
 
   void allerDebut() {
     Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/creerJDR");
+        .changerRoute("/creer_jdr");
   }
 
   @override
