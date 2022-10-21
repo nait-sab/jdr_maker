@@ -1,40 +1,80 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
+import 'package:jdr_maker/src/app/tools/get_random_string.dart';
 import 'package:jdr_maker/src/app/views/creerJDR/widgets/debut_jdr_widgets.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
 /// Classe DebutJDR
 ///
 /// Type : View
 ///
-/// TODO - Description à écrire
+///Ecran création d'un projet
 class DebutJDR extends StatefulWidget {
   @override
   State<DebutJDR> createState() => _DebutJDRState();
 }
 
 class _DebutJDRState extends State<DebutJDR> {
-  // TODO - Variables à initialiser en init State, jamais en brute + late avant la variable déclaré
-  String bullet = "\u2022 ";
-  int etape = 0;
+  late String bullet;
+  late int etape;
+  late TextEditingController nomJdrController;
+  late String nomJdr;
 
   @override
   void initState() {
     super.initState();
-    etape = 1;
+    etape = 0;
+    nomJdr = "";
+    bullet = "\u2022 ";
+    nomJdrController = TextEditingController();
   }
 
   void gestionEtape() {
     setState(() {
+      if (etape == 1) nomJdr = nomJdrController.text;
       etape++;
     });
+  }
+
+  Future<void> creationJDR() async {
+    String idProjet = getRandomString(20);
+    ProjetModel newProjet = ProjetModel(
+        id: idProjet,
+        idCreateur: "wi3eEPNOwmecmOy9nuVzETg19oP2", //Brut Pour le moment
+        nomProjet: nomJdrController.text);
+    print("Création du jdr");
+    if (Platform.isWindows) {
+      await FirebaseDesktopTool.ajouterDocumentID(
+          "projets", idProjet, newProjet.toMap());
+    } else {
+      await FirebaseAndroidTool.ajouterDocumentID(
+          "projets", idProjet, newProjet.toMap());
+    }
+
+    print("Création fini !");
+    retourAcceuil();
+  }
+
+  void retourAcceuil() {
+    NavigationController.changerView(context, "/acceuil");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff1e1e1e),
-      body: etape == 1
+      body: etape == 0
           ? DebutJDRWidgets.rendu1(context, bullet, gestionEtape)
-          : DebutJDRWidgets.rendu2(context),
+          : etape == 2
+              ? DebutJDRWidgets.rendu3(
+                  context,
+                  creationJDR,
+                )
+              : DebutJDRWidgets.rendu2(
+                  context, gestionEtape, nomJdrController, nomJdr),
     );
   }
 }

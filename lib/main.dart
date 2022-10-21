@@ -31,6 +31,7 @@ Future main() async {
       providers: [
         ListenableProvider<NavigationController>(
             create: (_) => NavigationController()),
+
       ],
       child: App(),
     ),

@@ -116,14 +116,139 @@ class DebutJDRWidgets {
     );
   }
 
-  static Widget rendu2(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Donnez un nom à votre JDR:",
-        ),
-      ],
+  static Widget rendu2(BuildContext context, VoidCallback gestionEtape,
+      TextEditingController nomJdrController, String nomJdr) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Donnez un nom à votre JDR:",
+            style: GoogleFonts.poppins(
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 10,
+                  blurRadius: 30,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: TextField(
+              controller: nomJdrController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  filled: true,
+                  hintStyle: TextStyle(color: Colors.grey[800]),
+                  hintText: "Nom de votre jeu de rôle",
+                  fillColor: Colors.white70),
+            ),
+          ),
+          SizedBox(
+            height: 80,
+          ),
+          InkWell(
+            onTap:  gestionEtape ,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.2,
+              decoration: BoxDecoration(
+                color: Color(0xff81818f),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 15,
+                    blurRadius: 40,
+                    offset: Offset(0, 1), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Confirmer",
+                    style: GoogleFonts.poppins(
+                      fontSize: MediaQuery.of(context).size.height * 0.05,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            "Vous pourrez le changer plus tard.",
+            style: GoogleFonts.poppins(
+                fontSize: MediaQuery.of(context).size.width * 0.01,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget rendu3(BuildContext context, VoidCallback creationJDR) {
+    creationJDR();
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Création de votre jeu de Rôle en cours...",
+            style: GoogleFonts.poppins(
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          SizedBox(
+            width: 200,
+            height: 200,
+            child: CircularProgressIndicator.adaptive(
+              strokeWidth: 7,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Color.fromARGB(255, 82, 81, 81), //<-- SEE HERE
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Text(
+            "Veuillez ne pas fermer la fenêtre pendant la création",
+            style: GoogleFonts.poppins(
+                fontSize: MediaQuery.of(context).size.width * 0.01,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
+          ),
+        ],
+      ),
     );
   }
 }

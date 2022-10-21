@@ -35,6 +35,9 @@ List<Page> applicationRoutes(context) {
     case "/creer_jdr":
       liste.add(MaterialPage(child: DebutJDR()));
       break;
+          case "/acceuil":
+      liste.add(MaterialPage(child: AccueilView()));
+      break;
   }
 
   return liste;
