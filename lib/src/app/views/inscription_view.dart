@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:provider/provider.dart';
 
 /// Classe Inscription
@@ -13,16 +14,32 @@ class InscriptionView extends StatefulWidget {
 }
 
 class _InscriptionViewState extends State<InscriptionView> {
-  late TextEditingController userNameController;
+  late TextEditingController usernameController;
+  late TextEditingController mailController;
+  late TextEditingController passController;
   @override
   void initState() {
     super.initState();
-    userNameController = TextEditingController();
+    usernameController = TextEditingController();
+    mailController = TextEditingController();
+    passController = TextEditingController();
   }
 
   void goConnexion() {
     Provider.of<NavigationController>(context, listen: false)
         .changerRoute("/connexion");
+  }
+
+  void goAcceuil() {
+    Provider.of<NavigationController>(context, listen: false).changerRoute("/");
+  }
+
+  Future createAccount() async {
+    String mailValue = mailController.text;
+    String passValue = passController.text;
+    await FirebaseDesktopTool.creerCompte(mailValue, passValue);
+    await FirebaseDesktopTool.ajouterDocument("Users", {'mail': mailValue});
+    goAcceuil();
   }
 
   @override
@@ -48,7 +65,7 @@ class _InscriptionViewState extends State<InscriptionView> {
           //         ),
           //         SizedBox(height: 15),
           //         TextFormField(
-          //           controller: userNameController,
+          //           controller: usernameController,
           //           decoration: InputDecoration(
           //             fillColor: Colors.white,
           //             filled: true,
@@ -82,6 +99,7 @@ class _InscriptionViewState extends State<InscriptionView> {
                   ),
                   SizedBox(height: 15),
                   TextFormField(
+                    controller: mailController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -118,6 +136,8 @@ class _InscriptionViewState extends State<InscriptionView> {
                   ),
                   SizedBox(height: 15),
                   TextFormField(
+                    controller: passController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -137,6 +157,7 @@ class _InscriptionViewState extends State<InscriptionView> {
           ),
           SizedBox(height: 50),
           InkWell(
+            onTap: createAccount,
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xff36AC50),
