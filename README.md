@@ -11,7 +11,7 @@
 
 ## Support
 - Windows (EXE)
-- Android (APK)
+- Android >= 5  (APK)
 
 ## Version actuelle : 1.0.0
 Historique des modifications : __changelog.md__
