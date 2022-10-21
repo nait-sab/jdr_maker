@@ -34,7 +34,9 @@ class _DebutJDRState extends State<DebutJDR> {
 
   void gestionEtape() {
     setState(() {
-      if (etape == 1) nomJdr = nomJdrController.text;
+      if (etape == 1) {
+        nomJdr = nomJdrController.text;
+      }
       etape++;
     });
   }
