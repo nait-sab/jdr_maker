@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:provider/provider.dart';
 
 /// Classe Connexion
 ///
@@ -14,6 +16,11 @@ class _ConnexionViewState extends State<ConnexionView> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void goInscription() {
+    Provider.of<NavigationController>(context, listen: false)
+        .changerRoute("/inscription");
   }
 
   @override
@@ -138,6 +145,20 @@ class _ConnexionViewState extends State<ConnexionView> {
                 "Connexion",
                 style: TextStyle(
                   fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          InkWell(
+            onTap: goInscription,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              child: Text(
+                "Creer un compte",
+                style: TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 15,
                 ),
               ),
             ),

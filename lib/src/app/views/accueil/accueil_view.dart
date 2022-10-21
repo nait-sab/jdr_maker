@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:firedart/auth/user_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:provider/provider.dart';
 
 /// Classe Accueil
@@ -13,14 +18,19 @@ class AccueilView extends StatefulWidget {
 }
 
 class _AccueilViewState extends State<AccueilView> {
+  late bool isConnected;
+  late bool chargement;
   @override
   void initState() {
     super.initState();
+    if (Platform.isAndroid) {
+      if (FirebaseAndroidTool.getUtilisateur() != null) {
+      } else {
+        NavigationController.changerView(context, "/connexion");
+      }
 
-    // Vérification si l'utilisateur est connecté
-    // if !connecter
-    //  NavigationController.changerView(context, "/connexion");
-
+      // print(FirebaseDesktopTool.getUtilisateur().toString());
+    }
     // Affichage de l'interface selon les données user
     // La gestion ne doit pas apparaître si aucun JDR est lié à l'user
   }
