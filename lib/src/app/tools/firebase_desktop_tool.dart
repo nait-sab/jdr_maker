@@ -77,6 +77,11 @@ class FirebaseDesktopTool {
     return await _getAuthInstance().getUser();
   }
 
+  /// Récupérer l'utilisateur connecter actuellement
+  static String getUtilisateurID() {
+    return _getAuthInstance().userId;
+  }
+
   /// Déconnecter l'utilisateur
   /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
   static void deconnexion() {
