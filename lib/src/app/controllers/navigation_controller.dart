@@ -15,7 +15,6 @@ class NavigationController extends ChangeNotifier {
   }
 
   static void changerView(BuildContext context, String route) {
-    Provider.of<NavigationController>(context, listen: false)
-        .changerRoute(route);
+    Provider.of<NavigationController>(context, listen: false).changerRoute(route);
   }
 }

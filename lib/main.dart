@@ -29,9 +29,7 @@ Future main() async {
   runApp(
     MultiProvider(
       providers: [
-        ListenableProvider<NavigationController>(
-            create: (_) => NavigationController()),
-
+        ListenableProvider<NavigationController>(create: (_) => NavigationController()),
       ],
       child: App(),
     ),
