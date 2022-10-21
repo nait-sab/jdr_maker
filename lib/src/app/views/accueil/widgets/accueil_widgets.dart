@@ -7,6 +7,15 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 ///
 /// Contient les widgets utilisés par la view
 class AccueilWidgets {
+  static Widget renduChargement(BuildContext context) {
+    return Container(
+      color: Color(0xff1e1e1e),
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   static Widget renduDesktop(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -15,7 +24,8 @@ class AccueilWidgets {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             InkWell(
-              onTap: () => NavigationController.changerView(context, "/creer_jdr"),
+              onTap: () =>
+                  NavigationController.changerView(context, "/creer_jdr"),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.20,
                 width: MediaQuery.of(context).size.width * 0.1,
@@ -49,7 +59,8 @@ class AccueilWidgets {
               ),
             ),
             InkWell(
-              onTap: () => NavigationController.changerView(context, "/inscription"),
+              onTap: () =>
+                  NavigationController.changerView(context, "/inscription"),
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.20,
                 width: MediaQuery.of(context).size.width * 0.1,

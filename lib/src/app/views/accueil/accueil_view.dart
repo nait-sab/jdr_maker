@@ -5,7 +5,6 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/accueil_widgets.dart';
-import 'package:provider/provider.dart';
 
 /// Classe Accueil
 ///
@@ -23,27 +22,31 @@ class _AccueilViewState extends State<AccueilView> {
   @override
   void initState() {
     super.initState();
+    chargement = true;
   }
 
-  void allerDebut() {
-    Provider.of<NavigationController>(context, listen: false).changerRoute("/creer_jdr");
-  }
-
-  void goInscription() {
-    Provider.of<NavigationController>(context, listen: false).changerRoute("/inscription");
+  void changerRoute(String route) {
+    NavigationController.changerView(context, route);
   }
 
   Future verifierUtilisateur() async {
-    if (Platform.isAndroid) {
-      await FirebaseAndroidTool.getUtilisateur();
-    } else {
-      await FirebaseDesktopTool.getUtilisateur();
+    Object? utilisateurConnecter;
+
+    Platform.isAndroid
+        ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
+        : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
+
+    if (utilisateurConnecter == null) {
+      // TODO - Commenter l'appel si besoin de modifier sans se connecter
+      changerRoute("/inscription");
     }
+
+    setState(() => chargement = false);
   }
 
   Widget definirRendu(BuildContext context) {
     if (chargement) {
-      return CircularProgressIndicator();
+      return AccueilWidgets.renduChargement(context);
     } else if (Platform.isAndroid) {
       return AccueilWidgets.renduAndroid(context);
     } else {

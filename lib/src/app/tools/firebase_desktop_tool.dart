@@ -51,7 +51,9 @@ class FirebaseDesktopTool {
     String document,
     Map<String, dynamic> json,
   ) async {
-    return await _getInstanceCollection(collection).document(document).update(json);
+    return await _getInstanceCollection(collection)
+        .document(document)
+        .update(json);
   }
 
   /// Supprimer le [document] de la [collection]
@@ -73,8 +75,9 @@ class FirebaseDesktopTool {
   }
 
   /// Récupérer l'utilisateur connecter actuellement
-  static Future<User> getUtilisateur() async {
-    return await _getAuthInstance().getUser();
+  static Future<User?> getUtilisateur() async {
+    bool connexionActive = _getAuthInstance().isSignedIn;
+    return connexionActive ? _getAuthInstance().getUser() : null;
   }
 
   /// Récupérer l'utilisateur connecter actuellement
