@@ -36,6 +36,15 @@ class FirebaseAndroidTool {
     return await _getInstanceCollection(collection).add(json);
   }
 
+  /// Ajouter un nouveau document par un [id] à une [collection] contenant les données [json]
+  static Future ajouterDocumentID(
+    String collection,
+    String id,
+    Map<String, dynamic> json,
+  ) async {
+    return await _getInstanceCollection(collection).doc(id).set(json);
+  }
+
   /// Modifier le [document] de la [collection] par les données [json]
   static Future modifierDocument(
     String collection,
@@ -55,14 +64,12 @@ class FirebaseAndroidTool {
   // =============================================================
   /// Créer un nouveau compte à partir d'un [mail] et d'un [passe]
   static Future creerCompte(String mail, String passe) async {
-    await _getAuthInstance()
-        .createUserWithEmailAndPassword(email: mail, password: passe);
+    await _getAuthInstance().createUserWithEmailAndPassword(email: mail, password: passe);
   }
 
   /// Se connecter à un compte à partir d'un [mail] et d'un [passe]
   static Future connexion(String mail, String passe) async {
-    await _getAuthInstance()
-        .signInWithEmailAndPassword(email: mail, password: passe);
+    await _getAuthInstance().signInWithEmailAndPassword(email: mail, password: passe);
   }
 
   /// Récupérer l'utilisateur connecter actuellement

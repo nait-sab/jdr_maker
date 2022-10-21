@@ -36,15 +36,22 @@ class FirebaseDesktopTool {
     return await _getInstanceCollection(collection).add(json);
   }
 
+  /// Ajouter un nouveau document par un [id] à une [collection] contenant les données [json]
+  static Future ajouterDocumentID(
+    String collection,
+    String id,
+    Map<String, dynamic> json,
+  ) async {
+    return await _getInstanceCollection(collection).document(id).set(json);
+  }
+
   /// Modifier le [document] de la [collection] par les données [json]
   static Future modifierDocument(
     String collection,
     String document,
     Map<String, dynamic> json,
   ) async {
-    return await _getInstanceCollection(collection)
-        .document(document)
-        .update(json);
+    return await _getInstanceCollection(collection).document(document).update(json);
   }
 
   /// Supprimer le [document] de la [collection]
