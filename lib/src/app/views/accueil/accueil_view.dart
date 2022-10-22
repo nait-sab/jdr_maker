@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/views/accueil/widgets/accueil_widgets.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/entete.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
+import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 /// Classe Accueil
 ///
@@ -36,27 +39,69 @@ class _AccueilViewState extends State<AccueilView> {
         ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
         : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
 
-    if (utilisateurConnecter == null) {
-      // TODO - Commenter l'appel si besoin de modifier sans se connecter
-      changerRoute("/inscription");
-    }
+    // TODO - Commenter l'appel si besoin de modifier sans se connecter
+    // if (utilisateurConnecter == null) {
+    //   changerRoute("/inscription");
+    // }
 
     setState(() => chargement = false);
   }
 
   Widget definirRendu(BuildContext context) {
     if (chargement) {
-      return AccueilWidgets.renduChargement(context);
-    } else if (Platform.isAndroid) {
-      return AccueilWidgets.renduAndroid(context);
-    } else {
-      return AccueilWidgets.renduDesktop(context);
+      return renduChargement(context);
     }
+
+    return Platform.isAndroid ? renduAndroid(context) : renduDesktop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     verifierUtilisateur();
-    return Scaffold(backgroundColor: Colors.white, body: definirRendu(context));
+    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
+  }
+
+  Widget renduChargement(BuildContext context) {
+    return Container(
+      color: Couleurs.fondPrincipale,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  Widget renduDesktop(BuildContext context) {
+    return Container(
+      color: Couleurs.fondPrincipale,
+      child: Column(
+        children: [
+          AccueilEntete(),
+          Expanded(
+            child: Row(
+              children: [
+                AccueilNavigation(isAndroid: false),
+                // Zone
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget renduAndroid(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Couleurs.fondPrincipale,
+      child: SafeArea(
+        child: Column(
+          children: [
+            AccueilTitre(isAndroid: true),
+            Spacer(),
+            AccueilNavigation(isAndroid: true),
+          ],
+        ),
+      ),
+    );
   }
 }
