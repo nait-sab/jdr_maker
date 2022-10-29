@@ -6,12 +6,9 @@ import 'package:flutter/material.dart';
 ///
 /// Contient les variables d'un projet JDRw
 class ProjetModel extends ChangeNotifier {
-  // Contenu d'exemple pour RoRo
-
   String id;
   String idCreateur;
   String nomProjet;
-  
 
   ProjetModel({
     required this.id,

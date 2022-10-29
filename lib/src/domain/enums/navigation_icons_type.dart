@@ -11,4 +11,7 @@ enum NavigationIconeType {
 
   /// Icone Options
   options,
+
+  /// Icone Deconnexion
+  deconnexion,
 }

@@ -5,6 +5,7 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/entete.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
@@ -78,9 +79,11 @@ class _AccueilViewState extends State<AccueilView> {
           AccueilEntete(),
           Expanded(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AccueilNavigation(isAndroid: false),
                 // Zone
+                Expanded(child: AccueilListe())
               ],
             ),
           ),
@@ -97,7 +100,7 @@ class _AccueilViewState extends State<AccueilView> {
         child: Column(
           children: [
             AccueilTitre(isAndroid: true),
-            Spacer(),
+            Expanded(child: AccueilListe()),
             AccueilNavigation(isAndroid: true),
           ],
         ),
