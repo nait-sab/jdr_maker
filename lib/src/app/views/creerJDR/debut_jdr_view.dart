@@ -59,7 +59,7 @@ class _DebutJDRState extends State<DebutJDR> {
   }
 
   void retourAcceuil() {
-    NavigationController.changerView(context, "/acceuil");
+    NavigationController.changerView(context, "/accueil");
   }
 
   @override

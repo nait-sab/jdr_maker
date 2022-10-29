@@ -26,6 +26,9 @@ List<Page> applicationRoutes(context) {
   // Routing
   // Toujours un / en début de route
   switch (navigation.currentRoute) {
+    case "/accueil":
+      liste.add(MaterialPage(child: AccueilView()));
+      break;
     case "/connexion":
       liste.add(MaterialPage(child: ConnexionView()));
       break;

@@ -7,7 +7,9 @@ import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/entete.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/selection.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
+import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
@@ -25,6 +27,12 @@ class _AccueilViewState extends State<AccueilView> {
   /// Chargement de la page
   late bool chargement;
 
+  /// Vérouiller la recherche de projets une fois terminé
+  late bool rechercheProjetsTerminer;
+
+  /// Afficher ou non la sélection de projets
+  late bool afficherProjets;
+
   /// Liste des projets
   late List<ProjetModel> projets;
 
@@ -32,6 +40,8 @@ class _AccueilViewState extends State<AccueilView> {
   void initState() {
     super.initState();
     chargement = true;
+    rechercheProjetsTerminer = false;
+    afficherProjets = false;
     projets = [];
   }
 
@@ -55,13 +65,27 @@ class _AccueilViewState extends State<AccueilView> {
 
   /// Récupérer la liste des projets
   Future recupererProjets() async {
-    Object listeProjets = Platform.isAndroid
-        ? await FirebaseAndroidTool.getCollection("Projets")
-        : await FirebaseDesktopTool.getCollection("Projets");
+    if (Platform.isAndroid) {
+      var collection = await FirebaseAndroidTool.getCollection("Projets");
+      var liste = collection.docs.map((document) => document.data()).toList();
+      for (var data in liste) {
+        projets.add(ProjetModel.fromMap(data));
+      }
+    } else {
+      var collection = await FirebaseDesktopTool.getCollection("Projets");
+      for (var document in collection) {
+        projets.add(ProjetModel.fromMap(document.map));
+      }
+    }
 
-    print(listeProjets);
+    setState(() {
+      rechercheProjetsTerminer = true;
+      chargement = false;
+    });
+  }
 
-    setState(() => chargement = false);
+  void modifierAffichageProjets() {
+    setState(() => afficherProjets = !afficherProjets);
   }
 
   Widget definirRendu(BuildContext context) {
@@ -75,8 +99,10 @@ class _AccueilViewState extends State<AccueilView> {
   @override
   Widget build(BuildContext context) {
     verifierUtilisateur();
-    recupererProjets();
-
+    if (!rechercheProjetsTerminer) {
+      recupererProjets();
+    }
+    print("test");
     return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
@@ -94,14 +120,19 @@ class _AccueilViewState extends State<AccueilView> {
       color: Couleurs.fondPrincipale,
       child: Column(
         children: [
-          AccueilEntete(),
+          AccueilEntete(actionTitre: modifierAffichageProjets),
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                AccueilNavigation(isAndroid: false),
-                // Zone
-                Expanded(child: AccueilListe())
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AccueilNavigation(isAndroid: false),
+                    // Zone
+                    Expanded(child: AccueilListe())
+                  ],
+                ),
+                if (afficherProjets) AccueilSelection(projets: projets),
               ],
             ),
           ),

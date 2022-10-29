@@ -129,19 +129,19 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         break;
       case NavigationIconeType.recherche:
         icone = Icons.search_rounded;
-        texteCouleur = route == "/" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.jouer:
         icone = Icons.play_arrow_rounded;
-        texteCouleur = route == "/" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;
-        texteCouleur = route == "/" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.deconnexion:
         icone = Icons.power_settings_new_rounded;
-        texteCouleur = route == "/" ? Colors.white : Couleurs.texte;
+        texteCouleur = Couleurs.texte;
         break;
     }
 

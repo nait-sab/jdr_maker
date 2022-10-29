@@ -23,4 +23,12 @@ class ProjetModel extends ChangeNotifier {
       "nomProjet": nomProjet,
     };
   }
+
+  static ProjetModel fromMap(data) {
+    return ProjetModel(
+      id: data["id"],
+      idCreateur: data["idCreateur"],
+      nomProjet: data["nomProjet"],
+    );
+  }
 }
