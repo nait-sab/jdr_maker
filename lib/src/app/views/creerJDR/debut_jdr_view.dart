@@ -49,11 +49,9 @@ class _DebutJDRState extends State<DebutJDR> {
         nomProjet: nomJdrController.text);
     print("Création du jdr");
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.ajouterDocumentID(
-          "projets", idProjet, newProjet.toMap());
+      await FirebaseDesktopTool.ajouterDocumentID("Projets", idProjet, newProjet.toMap());
     } else {
-      await FirebaseAndroidTool.ajouterDocumentID(
-          "projets", idProjet, newProjet.toMap());
+      await FirebaseAndroidTool.ajouterDocumentID("Projets", idProjet, newProjet.toMap());
     }
 
     print("Création fini !");
@@ -75,8 +73,7 @@ class _DebutJDRState extends State<DebutJDR> {
                   context,
                   creationJDR,
                 )
-              : DebutJDRWidgets.rendu2(
-                  context, gestionEtape, nomJdrController, nomJdr),
+              : DebutJDRWidgets.rendu2(context, gestionEtape, nomJdrController, nomJdr),
     );
   }
 }

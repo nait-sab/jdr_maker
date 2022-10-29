@@ -9,6 +9,7 @@ import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
 /// Classe Accueil
 ///
@@ -21,18 +22,24 @@ class AccueilView extends StatefulWidget {
 }
 
 class _AccueilViewState extends State<AccueilView> {
+  /// Chargement de la page
   late bool chargement;
+
+  /// Liste des projets
+  late List<ProjetModel> projets;
 
   @override
   void initState() {
     super.initState();
     chargement = true;
+    projets = [];
   }
 
   void changerRoute(String route) {
     NavigationController.changerView(context, route);
   }
 
+  /// Vérifier la connexion de l'utilisateur
   Future verifierUtilisateur() async {
     Object? utilisateurConnecter;
 
@@ -44,6 +51,15 @@ class _AccueilViewState extends State<AccueilView> {
     // if (utilisateurConnecter == null) {
     //   changerRoute("/inscription");
     // }
+  }
+
+  /// Récupérer la liste des projets
+  Future recupererProjets() async {
+    Object listeProjets = Platform.isAndroid
+        ? await FirebaseAndroidTool.getCollection("Projets")
+        : await FirebaseDesktopTool.getCollection("Projets");
+
+    print(listeProjets);
 
     setState(() => chargement = false);
   }
@@ -59,6 +75,8 @@ class _AccueilViewState extends State<AccueilView> {
   @override
   Widget build(BuildContext context) {
     verifierUtilisateur();
+    recupererProjets();
+
     return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
