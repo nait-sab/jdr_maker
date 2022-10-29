@@ -9,7 +9,6 @@ import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/selection.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
