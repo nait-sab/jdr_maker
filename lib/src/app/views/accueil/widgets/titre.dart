@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Titre
 ///
@@ -18,8 +20,15 @@ class AccueilTitre extends StatefulWidget {
 }
 
 class _AccueilTitreState extends State<AccueilTitre> {
+  late ProjetController projetController;
+
+  String nomProjet() {
+    return projetController.projet == null ? "Projet JDR" : projetController.projet!.nomProjet;
+  }
+
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     return widget.isAndroid ? renduAndroid(context) : renduDesktop(context);
   }
 
@@ -36,7 +45,7 @@ class _AccueilTitreState extends State<AccueilTitre> {
           Padding(
             padding: EdgeInsets.only(right: 5),
             child: Text(
-              "Projet JDR",
+              nomProjet(),
               style: TextStyle(
                 fontSize: ecran.width * 0.01,
                 color: Couleurs.texte,
@@ -69,7 +78,7 @@ class _AccueilTitreState extends State<AccueilTitre> {
         children: [
           Expanded(
             child: Text(
-              "Projet JDR",
+              nomProjet(),
               style: TextStyle(
                 fontSize: ecran.width * 0.04,
                 color: Couleurs.texte,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/entete.dart';
@@ -87,6 +88,19 @@ class _AccueilViewState extends State<AccueilView> {
     setState(() => afficherProjets = !afficherProjets);
   }
 
+  dynamic changerProjet(String projetID) {
+    ProjetModel? projetSelectionner;
+    for (ProjetModel projet in projets) {
+      if (projetID == projet.id) {
+        projetSelectionner = projet;
+      }
+    }
+    setState(() {
+      afficherProjets = false;
+      ProjetController.changerProjet(context, projetSelectionner!);
+    });
+  }
+
   Widget definirRendu(BuildContext context) {
     if (chargement) {
       return renduChargement(context);
@@ -101,7 +115,6 @@ class _AccueilViewState extends State<AccueilView> {
     if (!rechercheProjetsTerminer) {
       recupererProjets();
     }
-    print("test");
     return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
@@ -131,7 +144,7 @@ class _AccueilViewState extends State<AccueilView> {
                     Expanded(child: AccueilListe())
                   ],
                 ),
-                if (afficherProjets) AccueilSelection(projets: projets),
+                if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
               ],
             ),
           ),

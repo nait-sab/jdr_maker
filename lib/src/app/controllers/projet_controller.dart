@@ -15,7 +15,7 @@ class ProjetController extends ChangeNotifier {
     notifyListeners();
   }
 
-  static void changerView(BuildContext context, ProjetModel projet) {
+  static void changerProjet(BuildContext context, ProjetModel projet) {
     Provider.of<ProjetController>(context, listen: false)._actualiser(projet);
   }
 }

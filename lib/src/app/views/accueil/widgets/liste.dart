@@ -40,14 +40,24 @@ class _AccueilListeState extends State<AccueilListe> {
   }
 
   Widget renduDesktop(BuildContext context) {
-    return Text(
-      "Aucun projet sélectionné",
+    return Center(
+      child: Text(
+        "Project actuel : ${projetController.projet!.nomProjet}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 
   Widget renduMobile(BuildContext context) {
-    return Text(
-      "Aucun projet sélectionné",
+    return Center(
+      child: Text(
+        "Project actuel : ${projetController.projet!.nomProjet}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

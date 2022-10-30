@@ -11,9 +11,11 @@ import 'package:jdr_maker/src/domain/models/projet_model.dart';
 /// Contient la sélection de projet
 class AccueilSelection extends StatefulWidget {
   final List<ProjetModel> projets;
+  final Function(String) changerProjet;
 
   AccueilSelection({
     required this.projets,
+    required this.changerProjet,
   });
 
   @override
@@ -74,6 +76,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
 
   Widget boutonProjet(ProjetModel projet) {
     return Bouton(
+      onTap: () => widget.changerProjet(projet.id),
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(border: Border.all()),
