@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
@@ -31,7 +33,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   Widget build(BuildContext context) {
     Size ecran = MediaQuery.of(context).size;
     return Container(
-      width: ecran.width / 4,
+      width: Platform.isAndroid ? double.infinity : ecran.width / 4,
       color: Couleurs.fondSecondaire,
       child: Wrap(children: liste(context)),
     );

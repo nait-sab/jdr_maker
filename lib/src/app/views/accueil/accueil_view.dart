@@ -10,6 +10,8 @@ import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/selection.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
+import 'package:jdr_maker/src/app/widgets/alerte/alerte.dart';
+import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
@@ -160,8 +162,18 @@ class _AccueilViewState extends State<AccueilView> {
       child: SafeArea(
         child: Column(
           children: [
-            AccueilTitre(isAndroid: true),
-            Expanded(child: AccueilListe()),
+            Bouton(
+              onTap: modifierAffichageProjets,
+              child: AccueilTitre(isAndroid: true),
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  AccueilListe(),
+                  if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
+                ],
+              ),
+            ),
             AccueilNavigation(isAndroid: true),
           ],
         ),
