@@ -5,12 +5,11 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/contenu.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/entete.dart';
-import 'package:jdr_maker/src/app/views/accueil/widgets/liste.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/selection.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
-import 'package:jdr_maker/src/app/widgets/alerte/alerte.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
@@ -103,6 +102,15 @@ class _AccueilViewState extends State<AccueilView> {
     });
   }
 
+  void rafraichir() {
+    setState(() {
+      chargement = true;
+      rechercheProjetsTerminer = false;
+      afficherProjets = false;
+      projets = [];
+    });
+  }
+
   Widget definirRendu(BuildContext context) {
     if (chargement) {
       return renduChargement(context);
@@ -141,9 +149,9 @@ class _AccueilViewState extends State<AccueilView> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AccueilNavigation(isAndroid: false),
+                    AccueilNavigation(isAndroid: false, rafraichir: rafraichir),
                     // Zone
-                    Expanded(child: AccueilListe())
+                    Expanded(child: AccueilContenu())
                   ],
                 ),
                 if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
@@ -169,12 +177,12 @@ class _AccueilViewState extends State<AccueilView> {
             Expanded(
               child: Stack(
                 children: [
-                  AccueilListe(),
+                  AccueilContenu(),
                   if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
                 ],
               ),
             ),
-            AccueilNavigation(isAndroid: true),
+            AccueilNavigation(isAndroid: true, rafraichir: rafraichir),
           ],
         ),
       ),

@@ -12,9 +12,11 @@ import 'package:provider/provider.dart';
 /// Contient la barre de navigation
 class AccueilNavigation extends StatefulWidget {
   final bool isAndroid;
+  final VoidCallback rafraichir;
 
   AccueilNavigation({
     required this.isAndroid,
+    required this.rafraichir,
   });
 
   @override
@@ -28,16 +30,27 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
   }
 
   /// Action du bouton Accueil
-  void boutonAccueil() {}
+  void boutonAccueil() {
+    String route = Provider.of<NavigationController>(context, listen: false).currentRoute;
+    if (route == "/" || route == "/accueil") {
+      widget.rafraichir();
+    } else {
+      NavigationController.changerView(context, "/accueil");
+    }
+  }
 
   /// Action du bouton Rechercher (Mobile)
-  void boutonRechercher() {}
+  void boutonRechercher() {
+    NavigationController.changerView(context, "/rechercher");
+  }
 
   /// Action du bouton Jouer
   void boutonJouer() {}
 
   /// Action du bouton Options
-  void boutonOptions() {}
+  void boutonOptions() {
+    NavigationController.changerView(context, "/options");
+  }
 
   /// Action du bouton Déconnexion (Windows)
   void boutonDeconnexion() {}
@@ -117,7 +130,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
 
   Widget icone(NavigationIconeType iconeType) {
     Size ecran = MediaQuery.of(context).size;
-    String route = Provider.of<NavigationController>(context).currentRoute;
+    String route = Provider.of<NavigationController>(context, listen: false).currentRoute;
     IconData icone;
     Color texteCouleur;
 
@@ -125,11 +138,11 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     switch (iconeType) {
       case NavigationIconeType.maison:
         icone = Icons.home_rounded;
-        texteCouleur = route == "/" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/" || route == "/accueil" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.recherche:
         icone = Icons.search_rounded;
-        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/rechercher" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.jouer:
         icone = Icons.play_arrow_rounded;
@@ -137,7 +150,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;
-        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/options" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.deconnexion:
         icone = Icons.power_settings_new_rounded;

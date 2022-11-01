@@ -26,50 +26,37 @@ List<Page> applicationRoutes(context) {
   // Routing
   // Toujours un / en début de route
   switch (navigation.currentRoute) {
+    // =======================================================
+    // Routes de l'accueil
+    // =======================================================
     case "/accueil":
       liste.add(MaterialPage(child: AccueilView()));
       break;
+    case "/rechercher":
+      liste.add(MaterialPage(child: AccueilView()));
+      break;
+    case "/options":
+      liste.add(MaterialPage(child: AccueilView()));
+      break;
+
+    // =======================================================
+    // Routes Connexion / Inscription
+    // =======================================================
     case "/connexion":
       liste.add(MaterialPage(child: ConnexionView()));
       break;
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
       break;
+
+    // =======================================================
+    // Routes diverses
+    // =======================================================
     case "/creer_jdr":
       liste.add(MaterialPage(child: DebutJDR()));
       break;
-    case "/projet":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/evenements":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/evenement":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/personnages":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/personnage":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/lieux":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/lieu":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/objets":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/objet":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/options":
-      //liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/profil":
-      //liste.add(MaterialPage(child: AccueilView()));
+    case "/jouer":
+      //liste.add(MaterialPage(child: ));
       break;
   }
 
