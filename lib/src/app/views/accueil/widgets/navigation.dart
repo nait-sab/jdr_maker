@@ -134,7 +134,6 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     IconData icone;
     Color texteCouleur;
 
-    // TODO - Remplacer les routes testés hors maison une fois qu'elles existeront
     switch (iconeType) {
       case NavigationIconeType.maison:
         icone = Icons.home_rounded;
@@ -146,7 +145,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         break;
       case NavigationIconeType.jouer:
         icone = Icons.play_arrow_rounded;
-        texteCouleur = route == "/ert" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/jouer" ? Colors.white : Couleurs.texte;
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;

@@ -13,7 +13,7 @@
 - Windows (EXE)
 - Android >= 5  (APK)
 
-## Version actuelle : 1.0.0
+## Version actuelle : 1.0.2
 Historique des modifications : __changelog.md__
 
 ## Langages
@@ -41,26 +41,17 @@ Historique des modifications : __changelog.md__
 - Lancement du programme depuis __lib/main.dart__
 
 - Contenu Application depuis __lib/src/app__ :
+    - Dossier Controllers : Contient les controllers de variables dynamique
+    - Dossier Tools : Contients les outils / API utilisé
+    - Dossiers Views : Contient les vues de l'applications rangés avec leurs widgets
+    - Dossier Widgets : Contient les widgets communs entre plusieurs vues
     - __app.dart__ : Contient le démarrage de l'application lancé par le fichier main.dart
     - __routes.dart__ : Contient l'ensemble des routes avec leurs UI correspondant
-    - Dossier Controllers :
-        - __navigation_controller.dart__ : Controller des routes permettant de modifier 
-        dans l'application la page actuelle
-
-    - Dossiers Views :
-        - __accueil_view.dart__ : Page d'accueil
-
-    - Dossier Widgets :
-
-    - Dossier Tools :
-
-
-- Contenu Données depuis __lib/src/data__ :
 
 - Contenu Modèles, Énumérations et données fixes depuis __lib/src/domain__ :
-    - Dossier __enums__ :    
-    - Dossier __models__ :
-    - Dossier __data__ :
+    - Dossier __data__ : Contient les données fixe
+    - Dossier __enums__ : Contient les types de données
+    - Dossier __models__ : Contient les modèles de données
 
 - __android__ : Librairie interne générant l'APK
 - __windows__ : Librairie interne générant le EXE

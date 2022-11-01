@@ -23,7 +23,6 @@ class _AccueilContenuState extends State<AccueilContenu> {
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
     String route = Provider.of<NavigationController>(context).currentRoute;
-    print(route);
 
     if (route == "/" || route == "/accueil") {
       return projetController.projet == null
