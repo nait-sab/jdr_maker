@@ -48,9 +48,9 @@ class _DebutJDRState extends State<DebutJDR> {
         idCreateur: "wi3eEPNOwmecmOy9nuVzETg19oP2", //Brut Pour le moment
         nomProjet: nomJdrController.text);
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.ajouterDocumentID("Projets", idProjet, newProjet.toMap());
+      await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
     } else {
-      await FirebaseAndroidTool.ajouterDocumentID("Projets", idProjet, newProjet.toMap());
+      await FirebaseAndroidTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
     }
 
     retourAcceuil();

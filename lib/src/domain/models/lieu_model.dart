@@ -1,34 +1,34 @@
-/// Classe : Projet
+/// Classe : Lieu
 ///
 /// Type : Model
 ///
-/// Modèle des projets
-class ProjetModel {
-  static String nomCollection = "Projets";
+/// Modèle des lieux
+class LieuModel {
+  static String nomCollection = "Lieux";
 
   String id;
   String idCreateur;
-  String nomProjet;
+  String nomLieu;
 
-  ProjetModel({
+  LieuModel({
     required this.id,
     required this.idCreateur,
-    required this.nomProjet,
+    required this.nomLieu,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "idCreateur": idCreateur,
-      "nomProjet": nomProjet,
+      "nomLieu": nomLieu,
     };
   }
 
-  static ProjetModel fromMap(data) {
-    return ProjetModel(
+  static LieuModel fromMap(data) {
+    return LieuModel(
       id: data["id"],
       idCreateur: data["idCreateur"],
-      nomProjet: data["nomProjet"],
+      nomLieu: data["nomLieu"],
     );
   }
 }

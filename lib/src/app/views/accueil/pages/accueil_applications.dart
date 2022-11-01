@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
+import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Applications
 ///
@@ -22,8 +24,11 @@ class AccueilPageApplications extends StatefulWidget {
 }
 
 class _AccueilPageApplicationsState extends State<AccueilPageApplications> {
+  late ProjetController projetController;
+
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);
   }
 
@@ -41,28 +46,28 @@ class _AccueilPageApplicationsState extends State<AccueilPageApplications> {
               Color(0xff935941),
               Icons.menu_book_rounded,
               "Événements",
-              "12",
+              projetController.evenements!.length.toString(),
             ),
             boutonApplication(
               () {},
               Color(0xff3C6D47),
               Icons.menu_book_rounded,
               "Personnages",
-              "7",
+              projetController.personnages!.length.toString(),
             ),
             boutonApplication(
               () {},
               Color(0xff794567),
               Icons.menu_book_rounded,
               "Lieux",
-              "35",
+              projetController.lieux!.length.toString(),
             ),
             boutonApplication(
               () {},
               Color(0xff46487E),
               Icons.menu_book_rounded,
               "Objets",
-              "1254",
+              projetController.objets!.length.toString(),
             ),
           ],
         ),

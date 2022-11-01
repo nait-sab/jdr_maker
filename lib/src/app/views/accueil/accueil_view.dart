@@ -12,6 +12,10 @@ import 'package:jdr_maker/src/app/views/accueil/widgets/selection.dart';
 import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/models/evenement_model.dart';
+import 'package:jdr_maker/src/domain/models/lieu_model.dart';
+import 'package:jdr_maker/src/domain/models/objet_model.dart';
+import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
 /// Classe Accueil
@@ -66,18 +70,9 @@ class _AccueilViewState extends State<AccueilView> {
 
   /// Récupérer la liste des projets
   Future recupererProjets() async {
-    if (Platform.isAndroid) {
-      var collection = await FirebaseAndroidTool.getCollection("Projets");
-      var liste = collection.docs.map((document) => document.data()).toList();
-      for (var data in liste) {
-        projets.add(ProjetModel.fromMap(data));
-      }
-    } else {
-      var collection = await FirebaseDesktopTool.getCollection("Projets");
-      for (var document in collection) {
-        projets.add(ProjetModel.fromMap(document.map));
-      }
-    }
+    await recupererListe(projets, ProjetModel.nomCollection, (data) {
+      projets.add(ProjetModel.fromMap(data));
+    });
 
     setState(() {
       rechercheProjetsTerminer = true;
@@ -85,20 +80,69 @@ class _AccueilViewState extends State<AccueilView> {
     });
   }
 
+  Future recupererListe(List<dynamic> liste, String nomCollection, Function action) async {
+    if (Platform.isAndroid) {
+      var collection = await FirebaseAndroidTool.getCollection(nomCollection);
+      var liste = collection.docs.map((document) => document.data()).toList();
+      for (var data in liste) {
+        action(data);
+      }
+    } else {
+      var collection = await FirebaseDesktopTool.getCollection(nomCollection);
+      for (var document in collection) {
+        action(document.map);
+      }
+    }
+  }
+
   void modifierAffichageProjets() {
     setState(() => afficherProjets = !afficherProjets);
   }
 
-  dynamic changerProjet(String projetID) {
+  Future changerProjet(String projetID) async {
     ProjetModel? projetSelectionner;
+    List<EvenementModel> evenements = [];
+    List<PersonnageModel> personnages = [];
+    List<LieuModel> lieux = [];
+    List<ObjetModel> objets = [];
+
+    setState(() {
+      chargement = true;
+    });
+
     for (ProjetModel projet in projets) {
       if (projetID == projet.id) {
         projetSelectionner = projet;
       }
     }
+
+    await recupererListe(evenements, EvenementModel.nomCollection, (data) {
+      evenements.add(EvenementModel.fromMap(data));
+    });
+
+    await recupererListe(personnages, PersonnageModel.nomCollection, (data) {
+      personnages.add(PersonnageModel.fromMap(data));
+    });
+
+    await recupererListe(lieux, LieuModel.nomCollection, (data) {
+      lieux.add(LieuModel.fromMap(data));
+    });
+
+    await recupererListe(objets, ObjetModel.nomCollection, (data) {
+      objets.add(ObjetModel.fromMap(data));
+    });
+
     setState(() {
       afficherProjets = false;
-      ProjetController.changerProjet(context, projetSelectionner!);
+      chargement = false;
+      ProjetController.changerProjet(
+        context,
+        projetSelectionner!,
+        evenements,
+        personnages,
+        lieux,
+        objets,
+      );
     });
   }
 
