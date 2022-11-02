@@ -9,21 +9,21 @@ import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Applications
 ///
-/// Type : Page
+/// Type : View
 ///
 /// Contient la page des applications du projet sélectionné de l'accueil
-class AccueilPageApplications extends StatefulWidget {
+class ApplicationsView extends StatefulWidget {
   final ProjetModel projet;
 
-  AccueilPageApplications({
+  ApplicationsView({
     required this.projet,
   });
 
   @override
-  State<AccueilPageApplications> createState() => _AccueilPageApplicationsState();
+  State<ApplicationsView> createState() => _ApplicationsViewState();
 }
 
-class _AccueilPageApplicationsState extends State<AccueilPageApplications> {
+class _ApplicationsViewState extends State<ApplicationsView> {
   late ProjetController projetController;
 
   @override

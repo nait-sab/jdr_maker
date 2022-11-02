@@ -8,11 +8,13 @@ class LieuModel {
 
   String id;
   String idCreateur;
+  String idProjet;
   String nomLieu;
 
   LieuModel({
     required this.id,
     required this.idCreateur,
+    required this.idProjet,
     required this.nomLieu,
   });
 
@@ -20,6 +22,7 @@ class LieuModel {
     return {
       "id": id,
       "idCreateur": idCreateur,
+      "idProjet": idProjet,
       "nomLieu": nomLieu,
     };
   }
@@ -28,6 +31,7 @@ class LieuModel {
     return LieuModel(
       id: data["id"],
       idCreateur: data["idCreateur"],
+      idProjet: data["idProjet"],
       nomLieu: data["nomLieu"],
     );
   }

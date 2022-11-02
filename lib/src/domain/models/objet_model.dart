@@ -8,11 +8,13 @@ class ObjetModel {
 
   String id;
   String idCreateur;
+  String idProjet;
   String nomObjet;
 
   ObjetModel({
     required this.id,
     required this.idCreateur,
+    required this.idProjet,
     required this.nomObjet,
   });
 
@@ -20,6 +22,7 @@ class ObjetModel {
     return {
       "id": id,
       "idCreateur": idCreateur,
+      "idProjet": idProjet,
       "nomObjet": nomObjet,
     };
   }
@@ -28,6 +31,7 @@ class ObjetModel {
     return ObjetModel(
       id: data["id"],
       idCreateur: data["idCreateur"],
+      idProjet: data["idProjet"],
       nomObjet: data["nomObjet"],
     );
   }

@@ -5,17 +5,17 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
-/// Classe : Accueil - Options
+/// Classe Options
 ///
-/// Type : Page
+/// Type : View
 ///
-/// Contient la page d'options de l'accueil
-class AccueilPageOptions extends StatefulWidget {
+/// Page contenant les options de l'application
+class OptionsView extends StatefulWidget {
   @override
-  State<AccueilPageOptions> createState() => _AccueilPageOptionsState();
+  State<OptionsView> createState() => _OptionsViewState();
 }
 
-class _AccueilPageOptionsState extends State<AccueilPageOptions> {
+class _OptionsViewState extends State<OptionsView> {
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);

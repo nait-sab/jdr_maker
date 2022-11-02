@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/views/accueil/pages/accueil_applications.dart';
-import 'package:jdr_maker/src/app/views/accueil/pages/accueil_options.dart';
-import 'package:jdr_maker/src/app/views/accueil/pages/accueil_rechercher.dart';
+import 'package:jdr_maker/src/app/views/applications/applications_view.dart';
+import 'package:jdr_maker/src/app/views/options/options_view.dart';
+import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:provider/provider.dart';
 
-/// Classe : Accueil - Contenue
+/// Classe : Accueil - Contenu
 ///
 /// Type : Widget
 ///
@@ -24,27 +24,34 @@ class _AccueilContenuState extends State<AccueilContenu> {
     projetController = Provider.of<ProjetController>(context);
     String route = Provider.of<NavigationController>(context).currentRoute;
 
+    // Rendu de l'accueil
     if (route == "/" || route == "/accueil") {
-      return projetController.projet == null
-          ? renduDefault(context)
-          : AccueilPageApplications(projet: projetController.projet!);
-    } else if (route == "/rechercher") {
-      return AccueilPageRechercher();
-    } else if (route == "/options") {
-      return AccueilPageOptions();
+      if (projetController.projet != null) {
+        return ApplicationsView(projet: projetController.projet!);
+      }
+
+      return Center(
+        child: Text(
+          "Aucun projet sélectionné",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
     }
 
-    return Center(child: Text("AccueilContenu::Build::Erreur"));
-  }
-
-  Widget renduDefault(BuildContext context) {
-    return Center(
-      child: Text(
-        "Aucun projet sélectionné",
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-    );
+    // Rendu des autres pages et applications
+    switch (route) {
+      case "/rechercher":
+        return AccueilPageRechercher();
+      case "/options":
+        return OptionsView();
+      case "/evenements":
+        return Container();
+      case "/evenement":
+        return Container();
+      default:
+        return Center(child: Text("AccueilContenu::Build::Erreur"));
+    }
   }
 }

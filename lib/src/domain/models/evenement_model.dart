@@ -8,11 +8,13 @@ class EvenementModel {
 
   String id;
   String idCreateur;
+  String idProjet;
   String nomEvenement;
 
   EvenementModel({
     required this.id,
     required this.idCreateur,
+    required this.idProjet,
     required this.nomEvenement,
   });
 
@@ -20,6 +22,7 @@ class EvenementModel {
     return {
       "id": id,
       "idCreateur": idCreateur,
+      "idProjet": idProjet,
       "nomEvenement": nomEvenement,
     };
   }
@@ -28,6 +31,7 @@ class EvenementModel {
     return EvenementModel(
       id: data["id"],
       idCreateur: data["idCreateur"],
+      idProjet: data["idProjet"],
       nomEvenement: data["nomEvenement"],
     );
   }
