@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/views/accueil/widgets/recherche.dart';
-import 'package:jdr_maker/src/app/views/accueil/widgets/titre.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/interface/widgets/recherche.dart';
+import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 /// Classe : Accueil - Entête

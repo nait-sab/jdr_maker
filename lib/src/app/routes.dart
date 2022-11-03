@@ -3,7 +3,12 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil/accueil_view.dart';
 import 'package:jdr_maker/src/app/views/connexion_view.dart';
 import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
+import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
+import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
+import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
+import 'package:jdr_maker/src/app/views/options/options_view.dart';
+import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:provider/provider.dart';
 
 /// Liste des pages de l'application
@@ -27,19 +32,6 @@ List<Page> applicationRoutes(context) {
   // Toujours un / en début de route
   switch (navigation.currentRoute) {
     // =======================================================
-    // Routes de l'accueil
-    // =======================================================
-    case "/accueil":
-      liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/rechercher":
-      liste.add(MaterialPage(child: AccueilView()));
-      break;
-    case "/options":
-      liste.add(MaterialPage(child: AccueilView()));
-      break;
-
-    // =======================================================
     // Routes Connexion / Inscription
     // =======================================================
     case "/connexion":
@@ -50,13 +42,35 @@ List<Page> applicationRoutes(context) {
       break;
 
     // =======================================================
-    // Routes diverses
+    // Routes de l'accueil
     // =======================================================
+    case "/accueil":
+      liste.add(MaterialPage(child: AccueilView()));
+      break;
+    case "/rechercher":
+      liste.add(MaterialPage(child: RechercherView()));
+      break;
+    case "/options":
+      liste.add(MaterialPage(child: OptionsView()));
+      break;
     case "/creer_jdr":
       liste.add(MaterialPage(child: DebutJDR()));
       break;
     case "/jouer":
       //liste.add(MaterialPage(child: ));
+      break;
+
+    // =======================================================
+    // Routes des applications
+    // =======================================================
+    case "/evenements":
+      liste.add(MaterialPage(child: EvenementsView()));
+      break;
+    case "/evenement":
+      liste.add(MaterialPage(child: EvenementView()));
+      break;
+    case "/creer_evenement":
+      liste.add(MaterialPage(child: EvenementCreateView()));
       break;
   }
 

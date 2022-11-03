@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
@@ -32,6 +33,22 @@ class _ApplicationsViewState extends State<ApplicationsView> {
     return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);
   }
 
+  void ouvrirApplicationEvenement() {
+    NavigationController.changerView(context, "/evenements");
+  }
+
+  void ouvrirApplicationPersonnage() {
+    NavigationController.changerView(context, "/personnages");
+  }
+
+  void ouvrirApplicationLieu() {
+    NavigationController.changerView(context, "/lieux");
+  }
+
+  void ouvrirApplicationObjet() {
+    NavigationController.changerView(context, "/objets");
+  }
+
   Widget renduDesktop(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
@@ -42,30 +59,30 @@ class _ApplicationsViewState extends State<ApplicationsView> {
           mainAxisSpacing: 20,
           children: [
             boutonApplication(
-              () {},
+              ouvrirApplicationEvenement,
               Color(0xff935941),
               Icons.menu_book_rounded,
               "Événements",
               projetController.evenements!.length.toString(),
             ),
             boutonApplication(
-              () {},
+              ouvrirApplicationPersonnage,
               Color(0xff3C6D47),
-              Icons.menu_book_rounded,
+              Icons.person_rounded,
               "Personnages",
               projetController.personnages!.length.toString(),
             ),
             boutonApplication(
-              () {},
+              ouvrirApplicationLieu,
               Color(0xff794567),
-              Icons.menu_book_rounded,
+              Icons.location_on_rounded,
               "Lieux",
               projetController.lieux!.length.toString(),
             ),
             boutonApplication(
-              () {},
+              ouvrirApplicationObjet,
               Color(0xff46487E),
-              Icons.menu_book_rounded,
+              Icons.diamond_rounded,
               "Objets",
               projetController.objets!.length.toString(),
             ),
@@ -89,7 +106,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   Widget boutonApplication(VoidCallback action, Color couleurFond, IconData icone, String titre, String total) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
-      onTap: () {},
+      onTap: action,
       child: Container(
         padding: EdgeInsets.all(20),
         width: double.infinity,

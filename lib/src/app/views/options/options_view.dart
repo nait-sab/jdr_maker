@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 /// Classe Options
@@ -18,7 +19,9 @@ class OptionsView extends StatefulWidget {
 class _OptionsViewState extends State<OptionsView> {
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);
+    return AppInterface(
+      child: Platform.isAndroid ? renduMobile(context) : renduDesktop(context),
+    );
   }
 
   void boutonDeconnexion() {
