@@ -42,6 +42,10 @@ class ProjetController extends ChangeNotifier {
 
   Future _actualiserProjet(ProjetModel projet) async {
     this.projet = projet;
+    evenements = [];
+    personnages = [];
+    lieux = [];
+    objets = [];
 
     await FirebaseGlobalTool.recupererListe(EvenementModel.nomCollection, (data) {
       evenements!.add(EvenementModel.fromMap(data));
@@ -68,7 +72,6 @@ class ProjetController extends ChangeNotifier {
         evenement = event;
       }
     }
-    print(evenement!.id);
     notifyListeners();
   }
 
@@ -76,7 +79,7 @@ class ProjetController extends ChangeNotifier {
     await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
   }
 
-  static void changerEvenement(BuildContext context, String evenementID) async {
+  static Future changerEvenement(BuildContext context, String evenementID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
   }
 }

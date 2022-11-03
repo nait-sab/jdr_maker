@@ -61,7 +61,7 @@ List<Page> applicationRoutes(context) {
       break;
 
     // =======================================================
-    // Routes des applications
+    // Routes de l'application événement
     // =======================================================
     case "/evenements":
       liste.add(MaterialPage(child: EvenementsView()));

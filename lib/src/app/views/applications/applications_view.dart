@@ -30,31 +30,11 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
-    return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);
-  }
-
-  void ouvrirApplicationEvenement() {
-    NavigationController.changerView(context, "/evenements");
-  }
-
-  void ouvrirApplicationPersonnage() {
-    NavigationController.changerView(context, "/personnages");
-  }
-
-  void ouvrirApplicationLieu() {
-    NavigationController.changerView(context, "/lieux");
-  }
-
-  void ouvrirApplicationObjet() {
-    NavigationController.changerView(context, "/objets");
-  }
-
-  Widget renduDesktop(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: StaggeredGrid.count(
-          crossAxisCount: 2,
+          crossAxisCount: Platform.isAndroid ? 1 : 2,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
           children: [
@@ -90,6 +70,22 @@ class _ApplicationsViewState extends State<ApplicationsView> {
         ),
       ),
     );
+  }
+
+  void ouvrirApplicationEvenement() {
+    NavigationController.changerView(context, "/evenements");
+  }
+
+  void ouvrirApplicationPersonnage() {
+    NavigationController.changerView(context, "/personnages");
+  }
+
+  void ouvrirApplicationLieu() {
+    NavigationController.changerView(context, "/lieux");
+  }
+
+  void ouvrirApplicationObjet() {
+    NavigationController.changerView(context, "/objets");
   }
 
   Widget renduMobile(BuildContext context) {
