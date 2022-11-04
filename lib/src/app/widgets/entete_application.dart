@@ -35,7 +35,7 @@ class _EnteteApplicationState extends State<EnteteApplication> {
             child: Bouton(
               onTap: () => NavigationController.changerView(context, widget.routeRetour),
               child: Text(
-                "< Retour",
+                Platform.isAndroid ? "<" : "< Retour",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Platform.isAndroid ? 22 : ecran.width * 0.02,
