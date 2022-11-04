@@ -8,6 +8,8 @@ import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/options/options_view.dart';
+import 'package:jdr_maker/src/app/views/personnage/personnage_create.dart';
+import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +72,19 @@ List<Page> applicationRoutes(context) {
       liste.add(MaterialPage(child: EvenementView()));
       break;
     case "/creer_evenement":
+      liste.add(MaterialPage(child: EvenementCreateView()));
+      break;
+
+    // =======================================================
+    // Routes de l'application personnage
+    // =======================================================
+    case "/personnages":
+      liste.add(MaterialPage(child: PersonnagesView()));
+      break;
+    case "/personnage":
+      liste.add(MaterialPage(child: PersonnageView()));
+      break;
+    case "/creer_personnage":
       liste.add(MaterialPage(child: EvenementCreateView()));
       break;
   }

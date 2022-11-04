@@ -75,11 +75,25 @@ class ProjetController extends ChangeNotifier {
     notifyListeners();
   }
 
+    Future _actualiserPersonnage(String personnageID) async {
+    for (PersonnageModel perso in personnages!) {
+      if (perso.id == personnageID) {
+        personnage = perso;
+      }
+    }
+    notifyListeners();
+  }
+
   static Future changerProjet(BuildContext context, ProjetModel projet) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
   }
 
   static Future changerEvenement(BuildContext context, String evenementID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
+  }
+
+
+    static Future changerPersonnage(BuildContext context, String personnageID) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
   }
 }
