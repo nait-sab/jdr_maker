@@ -34,7 +34,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: StaggeredGrid.count(
-          crossAxisCount: Platform.isAndroid ? 1 : 2,
+          crossAxisCount: Platform.isAndroid ? 1 : 3,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
           children: [

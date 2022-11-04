@@ -109,7 +109,7 @@ class _AppInterfaceState extends State<AppInterface> {
       projetSelectionner!,
     );
 
-    if (!(navigationController.currentRoute == "/" || navigationController.currentRoute == "/aceuil")) {
+    if (!(navigationController.currentRoute == "/" || navigationController.currentRoute == "/acceuil")) {
       changerRoute("/accueil");
     }
 
