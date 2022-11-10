@@ -42,28 +42,39 @@ class ProjetController extends ChangeNotifier {
 
   Future _actualiserProjet(ProjetModel projet) async {
     this.projet = projet;
+    await _actualiserListe();
+    notifyListeners();
+  }
+
+  Future _actualiserListe() async {
     evenements = [];
     personnages = [];
     lieux = [];
     objets = [];
 
     await FirebaseGlobalTool.recupererListe(EvenementModel.nomCollection, (data) {
-      evenements!.add(EvenementModel.fromMap(data));
+      if (data["idProjet"] == projet!.id) {
+        evenements!.add(EvenementModel.fromMap(data));
+      }
     });
 
     await FirebaseGlobalTool.recupererListe(PersonnageModel.nomCollection, (data) {
-      personnages!.add(PersonnageModel.fromMap(data));
+      if (data["idProjet"] == projet!.id) {
+        personnages!.add(PersonnageModel.fromMap(data));
+      }
     });
 
     await FirebaseGlobalTool.recupererListe(LieuModel.nomCollection, (data) {
-      lieux!.add(LieuModel.fromMap(data));
+      if (data["idProjet"] == projet!.id) {
+        lieux!.add(LieuModel.fromMap(data));
+      }
     });
 
     await FirebaseGlobalTool.recupererListe(ObjetModel.nomCollection, (data) {
-      objets!.add(ObjetModel.fromMap(data));
+      if (data["idProjet"] == projet!.id) {
+        objets!.add(ObjetModel.fromMap(data));
+      }
     });
-
-    notifyListeners();
   }
 
   Future _actualiserEvenement(String evenementID) async {
@@ -86,6 +97,12 @@ class ProjetController extends ChangeNotifier {
 
   static Future changerProjet(BuildContext context, ProjetModel projet) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
+  }
+
+  static Future actualiser(BuildContext context) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(
+      Provider.of<ProjetController>(context, listen: false).projet!,
+    );
   }
 
   static Future changerEvenement(BuildContext context, String evenementID) async {

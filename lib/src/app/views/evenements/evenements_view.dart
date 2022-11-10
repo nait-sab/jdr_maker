@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
@@ -26,12 +27,21 @@ class _EvenementsViewState extends State<EvenementsView> {
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
     return AppInterface(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: getListe(),
-          ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            EnteteApplication(routeRetour: "/accueil", titreFormulaire: "Événements"),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: getListe(),
+                ),
+              ),
+            ),
+            boutonNouveauEvenement(),
+          ],
         ),
       ),
     );
@@ -46,8 +56,6 @@ class _EvenementsViewState extends State<EvenementsView> {
     List<EvenementModel> evenements = projetController.evenements!;
     List<Widget> liste = [];
 
-    liste.add(boutonNouveauEvenement());
-
     for (int index = 0; index < evenements.length; index++) {
       liste.add(boutonEvenement(() {}, (index + 1).toString(), evenements[index]));
     }
@@ -61,20 +69,16 @@ class _EvenementsViewState extends State<EvenementsView> {
       onTap: () => NavigationController.changerView(context, "/creer_evenement"),
       child: Container(
         padding: EdgeInsets.all(20),
-        margin: EdgeInsets.only(bottom: 50),
-        width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Couleurs.fondSecondaire,
+          color: Couleurs.violet,
         ),
-        child: Center(
-          child: Text(
-            "Créer un événement",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: Platform.isAndroid ? 20 : ecran.width * 0.01,
-            ),
+        child: Text(
+          "Créer un événement",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: Platform.isAndroid ? 20 : ecran.width * 0.015,
           ),
         ),
       ),

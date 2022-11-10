@@ -134,22 +134,24 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     IconData icone;
     Color texteCouleur;
 
+    bool vueProjet = !(route == "/rechercher" || route == "/jouer" || route == "/options");
+
     switch (iconeType) {
       case NavigationIconeType.maison:
         icone = Icons.home_rounded;
-        texteCouleur = route == "/" || route == "/accueil" ? Colors.white : Couleurs.texte;
+        texteCouleur = vueProjet ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.recherche:
         icone = Icons.search_rounded;
-        texteCouleur = route == "/rechercher" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/rechercher" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.jouer:
         icone = Icons.play_arrow_rounded;
-        texteCouleur = route == "/jouer" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/jouer" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;
-        texteCouleur = route == "/options" ? Colors.white : Couleurs.texte;
+        texteCouleur = route == "/options" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.deconnexion:
         icone = Icons.power_settings_new_rounded;
