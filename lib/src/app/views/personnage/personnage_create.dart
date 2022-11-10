@@ -59,7 +59,10 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
   }
 
   void leave() {
-    NavigationController.changerView(context, "/personnages");
+    setState(() {
+      ProjetController.actualiser(context);
+      NavigationController.changerView(context, "/personnages");
+    });
   }
 
   @override
