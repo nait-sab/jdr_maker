@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 // import 'package:flutter_quill/flutter_quill.dart';
@@ -65,23 +66,27 @@ class _PersonnageViewState extends State<PersonnageView> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: Flexible(
                         child: Column(
                           children: [
-                            Text(
+                            AutoSizeText(
                               projetController.personnage!.nomPersonnage,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Couleurs.texte,
-                                  fontSize: 50),
+                                fontWeight: FontWeight.bold,
+                                color: Couleurs.texte,
+                              ),
+                              minFontSize: 25,
+                              maxFontSize: 50,
                             ),
-                            Text(
+                            AutoSizeText(
                               projetController.personnage!.prenomPersonnage,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Couleurs.texte,
-                                  fontSize: 50),
+                                fontWeight: FontWeight.bold,
+                                color: Couleurs.texte,
+                              ),
+                              minFontSize: 25,
+                              maxFontSize: 50,
                             ),
                           ],
                         ),
@@ -91,7 +96,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Divider(
                   color: Couleurs.texte,
                 ),
@@ -154,7 +159,12 @@ class _PersonnageViewState extends State<PersonnageView> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: ElevatedButton(onPressed: leave, child: Text("Retour")),
+                child: ElevatedButton(
+                  onPressed: leave,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Couleurs.violet),
+                  child: Text("Retour"),
+                ),
               )
             ],
           ),

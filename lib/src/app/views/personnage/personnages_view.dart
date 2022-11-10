@@ -34,21 +34,22 @@ class _PersonnagesViewState extends State<PersonnagesView> {
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
 
-    return Scaffold(
-      floatingActionButton: ElevatedButton(
-        onPressed: ouvrirCreatePersonnage,
-        style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          padding: EdgeInsets.all(35),
-          backgroundColor: Colors.purple[500], // <-- Button color
-          foregroundColor: Colors.red, // <-- Splash color
-        ),
-        child: Icon(Icons.add, color: Colors.white),
-      ),
-      body: AppInterface(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: GridView.builder(
+    return AppInterface(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Scaffold(
+          backgroundColor: Couleurs.fondPrincipale,
+          floatingActionButton: ElevatedButton(
+            onPressed: ouvrirCreatePersonnage,
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(35),
+              backgroundColor:Couleurs.violet, // <-- Button color
+              foregroundColor: Colors.red, // <-- Splash color
+            ),
+            child: Icon(Icons.add, color: Colors.white),
+          ),
+          body: GridView.builder(
               shrinkWrap: true,
               itemCount: projetController.personnages?.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(

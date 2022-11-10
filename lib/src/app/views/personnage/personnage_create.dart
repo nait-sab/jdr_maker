@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
+import 'package:jdr_maker/src/app/widgets/champ.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
-
+import 'package:provider/provider.dart';
 
 class PersonnageCreate extends StatefulWidget {
   const PersonnageCreate({super.key});
@@ -23,6 +25,7 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
   late TextEditingController textEditingControllerDescription;
   late TextEditingController textEditingControllerHistoire;
   late String lienImage;
+  late ProjetController projetController;
 
   @override
   void initState() {
@@ -39,7 +42,7 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
     String idPersonnage = getRandomString(20);
     PersonnageModel newPersonnage = PersonnageModel(
         id: idPersonnage,
-        idProjet: idPersonnage,
+        idProjet: projetController.projet!.id,
         lienImage: lienImage,
         description: textEditingControllerDescription.text,
         histoire: textEditingControllerHistoire.text,
@@ -61,6 +64,7 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
 
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     Size ecran = MediaQuery.of(context).size;
     return AppInterface(
       child: SingleChildScrollView(
@@ -75,37 +79,21 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Nom:",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Couleurs.texte,
-                      fontSize: 30),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.all(8),
-                child: TextField(
+                child: Champ(
+                  typeChamp: TextInputType.text,
                   controller: textEditingControllerNom,
-                  style: TextStyle(color: Couleurs.texte),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  "Prénom:",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Couleurs.texte,
-                      fontSize: 30),
+                  nomChamp: "Nom du personnage",
+                  couleurTexte: Couleurs.texte,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: TextField(
+                child: Champ(
+                  typeChamp: TextInputType.text,
                   controller: textEditingControllerPrenom,
-                  style: TextStyle(color: Couleurs.texte),
+                  nomChamp: "Prénom du personnage",
+                  couleurTexte: Couleurs.texte,
                 ),
               ),
               Padding(
@@ -129,6 +117,8 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
                       ),
                       ElevatedButton(
                         onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Couleurs.violet),
                         child: Text("Ajouter une photo"),
                       )
                     ],
@@ -155,6 +145,11 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: TextField(
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Couleurs.violet),
+                        ),
+                      ),
                       controller: textEditingControllerDescription,
                       style: TextStyle(color: Couleurs.texte),
                       keyboardType: TextInputType.multiline,
@@ -183,6 +178,11 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: TextField(
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Couleurs.violet),
+                        ),
+                      ),
                       controller: textEditingControllerHistoire,
                       style: TextStyle(color: Couleurs.texte),
                       keyboardType: TextInputType.multiline,
@@ -191,11 +191,26 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                    onPressed: creationPersonnage,
-                    child: Text("Creer le personnage")),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      onPressed: leave,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Couleurs.violet),
+                      child: Text("Retour"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: ElevatedButton(
+                        onPressed: creationPersonnage,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Couleurs.violet),
+                        child: Text("Creer le personnage")),
+                  ),
+                ],
               )
             ]),
           ),
