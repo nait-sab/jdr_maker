@@ -49,44 +49,52 @@ class _PersonnageViewState extends State<PersonnageView> {
                       child: Container(
                         constraints: BoxConstraints(
                             minWidth: 100,
-                            maxWidth: 170,
-                            maxHeight: 170,
+                            maxWidth: 200,
+                            maxHeight: 200,
                             minHeight: 100),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                'https://picsum.photos/200/300',
+                                projetController.personnage!.lienImage != ""
+                                    ? projetController.personnage!.lienImage
+                                    : 'https://picsum.photos/200/300',
                               ),
                               fit: BoxFit.fill),
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: Column(
-                        children: [
-                          Text(
-                            projetController.personnage!.nomPersonnage,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                                fontSize: 50),
-                          ),
-                          Text(
-                            projetController.personnage!.prenomPersonnage,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                                fontSize: 50),
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Flexible(
+                        child: Column(
+                          children: [
+                            Text(
+                              projetController.personnage!.nomPersonnage,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Couleurs.texte,
+                                  fontSize: 50),
+                            ),
+                            Text(
+                              projetController.personnage!.prenomPersonnage,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Couleurs.texte,
+                                  fontSize: 50),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Divider(
-                color: Couleurs.texte,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(
+                  color: Couleurs.texte,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
