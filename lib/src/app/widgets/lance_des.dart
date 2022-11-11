@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jdr_maker/src/app/tools/get_random_nb.dart';
 import 'package:jdr_maker/src/app/widgets/champ.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:flutter/services.dart';
 
 class LanceDes extends StatefulWidget {
   const LanceDes({super.key});
@@ -12,7 +12,7 @@ class LanceDes extends StatefulWidget {
 }
 
 class _LanceDesState extends State<LanceDes> {
-  double turns = 0.0;
+  double turns = 0;
   late TextEditingController textEditingControllerNbMAX;
   late String nb;
   late bool premierlancer = true;
@@ -61,7 +61,7 @@ class _LanceDesState extends State<LanceDes> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Couleurs.violet),
             onPressed: _changeRotation,
