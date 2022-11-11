@@ -65,31 +65,28 @@ class _PersonnageViewState extends State<PersonnageView> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Flexible(
-                        child: Column(
-                          children: [
-                            AutoSizeText(
-                              projetController.personnage!.nomPersonnage,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                              ),
-                              minFontSize: 25,
-                              maxFontSize: 50,
+                    Flexible(
+                      child: Column(
+                        children: [
+                          AutoSizeText(
+                            projetController.personnage!.nomPersonnage,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Couleurs.texte,
                             ),
-                            AutoSizeText(
-                              projetController.personnage!.prenomPersonnage,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                              ),
-                              minFontSize: 25,
-                              maxFontSize: 50,
+                            minFontSize: 25,
+                            maxFontSize: 50,
+                          ),
+                          AutoSizeText(
+                            projetController.personnage!.prenomPersonnage,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Couleurs.texte,
                             ),
-                          ],
-                        ),
+                            minFontSize: 25,
+                            maxFontSize: 50,
+                          ),
+                        ],
                       ),
                     ),
                   ],

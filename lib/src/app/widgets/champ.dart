@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 /// Classe : Champ
@@ -15,16 +16,16 @@ class Champ extends StatefulWidget {
   final Color? couleurTexte;
   final bool? contenuCacher;
   final int? longueurMax;
-
-  Champ({
-    required this.typeChamp,
-    required this.controller,
-    this.nomChamp,
-    this.tailleTexte,
-    this.couleurTexte,
-    this.contenuCacher,
-    this.longueurMax,
-  });
+  final List<TextInputFormatter>? inputFormatters;
+  Champ(
+      {required this.typeChamp,
+      required this.controller,
+      this.nomChamp,
+      this.tailleTexte,
+      this.couleurTexte,
+      this.contenuCacher,
+      this.longueurMax,
+      this.inputFormatters});
 
   @override
   State<Champ> createState() => _ChampState();
@@ -55,6 +56,7 @@ class _ChampState extends State<Champ> {
         fontSize: widget.tailleTexte ?? 22,
         color: widget.couleurTexte ?? Colors.black,
       ),
+      inputFormatters: widget.inputFormatters,
     );
   }
 }
