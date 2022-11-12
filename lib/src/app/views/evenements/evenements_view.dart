@@ -58,6 +58,9 @@ class _EvenementsViewState extends State<EvenementsView> {
 
     for (int index = 0; index < evenements.length; index++) {
       liste.add(boutonEvenement(() {}, (index + 1).toString(), evenements[index]));
+      if (index != evenements.length - 1) {
+        liste.add(SizedBox(height: 20));
+      }
     }
 
     return liste;
@@ -91,7 +94,6 @@ class _EvenementsViewState extends State<EvenementsView> {
       onTap: () => choixEvenement(evenement.id),
       child: Container(
         padding: EdgeInsets.all(20),
-        margin: EdgeInsets.only(bottom: 20),
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
