@@ -30,6 +30,10 @@ class _PersonnagesViewState extends State<PersonnagesView> {
     NavigationController.changerView(context, "/creer_personnage");
   }
 
+  void leave() {
+    NavigationController.changerView(context, "/accueil");
+  }
+
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
@@ -39,18 +43,37 @@ class _PersonnagesViewState extends State<PersonnagesView> {
         padding: const EdgeInsets.all(8),
         child: Scaffold(
           backgroundColor: Couleurs.fondPrincipale,
-          floatingActionButton: ElevatedButton(
-            onPressed: ouvrirCreatePersonnage,
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(35),
-              backgroundColor:Couleurs.violet, // <-- Button color
-              foregroundColor: Colors.red, // <-- Splash color
+          floatingActionButton: Container(
+            width: 100,
+            decoration: BoxDecoration(
+                color: Couleurs.violet,
+                borderRadius: BorderRadius.all(Radius.circular(60))),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                      onPressed: leave,
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )),
+                  IconButton(
+                    onPressed: ouvrirCreatePersonnage,
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(35),
+                      backgroundColor: Couleurs.violet, // <-- Button color
+                      foregroundColor: Colors.red, // <-- Splash color
+                    ),
+                    icon: Icon(Icons.add, color: Colors.white),
+                  ),
+                ],
+              ),
             ),
-            child: Icon(Icons.add, color: Colors.white),
           ),
           body: GridView.builder(
-              shrinkWrap: true,
               itemCount: projetController.personnages?.length,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 300,
