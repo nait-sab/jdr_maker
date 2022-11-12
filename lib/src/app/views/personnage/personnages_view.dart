@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
@@ -38,24 +40,32 @@ class _PersonnagesViewState extends State<PersonnagesView> {
 
     return AppInterface(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+        padding: EdgeInsets.symmetric(
+            vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
         child: Column(
           children: [
-            EnteteApplication(routeRetour: "/accueil", titreFormulaire: "Personnages"),
+            EnteteApplication(
+                routeRetour: "/accueil", titreFormulaire: "Personnages"),
             Expanded(
               child: Stack(
                 children: [
                   GridView.builder(
                     itemCount: projetController.personnages?.length,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, crossAxisSpacing: 15, mainAxisSpacing: 15),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 300,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15),
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          ouvrirPersonnage(projetController.personnages![index]);
+                          ouvrirPersonnage(
+                              projetController.personnages![index]);
                         },
                         child: Container(
                           height: 14,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Couleurs.fondSecondaire),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Couleurs.fondSecondaire),
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Column(
@@ -63,7 +73,11 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                               children: [
                                 Flexible(
                                   child: Container(
-                                    constraints: BoxConstraints(minWidth: 100, maxWidth: 170, maxHeight: 170, minHeight: 100),
+                                    constraints: BoxConstraints(
+                                        minWidth: 100,
+                                        maxWidth: 170,
+                                        maxHeight: 170,
+                                        minHeight: 100),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
@@ -81,11 +95,13 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      projetController.personnages![index].nomPersonnage,
+                                      projetController
+                                          .personnages![index].nomPersonnage,
                                       style: TextStyle(color: Couleurs.texte),
                                     ),
                                     Text(
-                                      projetController.personnages![index].prenomPersonnage,
+                                      projetController
+                                          .personnages![index].prenomPersonnage,
                                       style: TextStyle(color: Couleurs.texte),
                                     ),
                                   ],
