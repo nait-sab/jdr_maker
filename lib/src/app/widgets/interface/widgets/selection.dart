@@ -35,11 +35,25 @@ class _AccueilSelectionState extends State<AccueilSelection> {
     return Container(
       width: Platform.isAndroid ? double.infinity : ecran.width / 4,
       color: Couleurs.fondSecondaire,
-      child: Wrap(children: liste(context)),
+      child: renduListe(),
     );
   }
 
-  List<Widget> liste(BuildContext context) {
+  Widget renduListe() {
+    if (widget.projets.length < 5) {
+      return Wrap(
+        children: liste(),
+      );
+    }
+
+    return Container(
+      height: 250,
+      decoration: BoxDecoration(border: Border.all()),
+      child: SingleChildScrollView(child: Column(children: liste())),
+    );
+  }
+
+  List<Widget> liste() {
     List<Widget> liste = [];
 
     if (widget.projets.isEmpty) {
