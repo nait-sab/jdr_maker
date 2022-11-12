@@ -12,6 +12,7 @@ import 'package:jdr_maker/src/app/views/personnage/personnage_create.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
+import 'package:jdr_maker/src/app/widgets/lance_des.dart';
 import 'package:provider/provider.dart';
 
 /// Liste des pages de l'application
@@ -87,6 +88,13 @@ List<Page> applicationRoutes(context) {
       break;
     case "/creer_personnage":
       liste.add(MaterialPage(child: PersonnageCreate()));
+      break;
+
+    // =======================================================
+    // Test de lancé de dés
+    // =======================================================
+    case "/lance":
+      liste.add(MaterialPage(child: LanceDes()));
       break;
   }
 

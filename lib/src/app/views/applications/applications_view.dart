@@ -66,6 +66,13 @@ class _ApplicationsViewState extends State<ApplicationsView> {
               "Objets",
               projetController.objets!.length.toString(),
             ),
+            boutonApplication(
+              ouvrirApplicationLanceDes,
+              Color.fromARGB(255, 153, 150, 74),
+              Icons.play_arrow,
+              "Lancé de dés",
+              0.toString(),
+            )
           ],
         ),
       ),
@@ -88,6 +95,10 @@ class _ApplicationsViewState extends State<ApplicationsView> {
     NavigationController.changerView(context, "/objets");
   }
 
+  void ouvrirApplicationLanceDes() {
+    NavigationController.changerView(context, "/lance");
+  }
+
   Widget renduMobile(BuildContext context) {
     return Center(
       child: Text(
@@ -99,7 +110,8 @@ class _ApplicationsViewState extends State<ApplicationsView> {
     );
   }
 
-  Widget boutonApplication(VoidCallback action, Color couleurFond, IconData icone, String titre, String total) {
+  Widget boutonApplication(VoidCallback action, Color couleurFond,
+      IconData icone, String titre, String total) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
       onTap: action,

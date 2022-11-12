@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jdr_maker/src/app/tools/get_random_nb.dart';
 import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/entete_application.dart';
+import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 class LanceDes extends StatefulWidget {
@@ -27,48 +29,76 @@ class _LanceDesState extends State<LanceDes> {
   }
 
   void getResultat() {
-    setState(() {
-      nb = next(int.parse(textEditingControllerNbMAX.text)).toString();
-      premierlancer = false;
-    });
+    if (textEditingControllerNbMAX.text.isNotEmpty) {
+      setState(() {
+        nb = next(int.parse(textEditingControllerNbMAX.text)).toString();
+        premierlancer = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        AnimatedRotation(
-            turns: turns,
-            duration: const Duration(seconds: 1),
-            onEnd: getResultat,
-            child: Icon(Icons.check_box_outline_blank,size: 50,color: Couleurs.violet,)),
-        if (!premierlancer)
-          Text(
-            nb,
-            style: TextStyle(color: Couleurs.texte, fontSize: 25),
+    return AppInterface(
+      child: Column(
+        children: [
+          EnteteApplication(
+              routeRetour: "/accueil", titreFormulaire: "Test lancé de dés"),
+          Container(
+            width: 200,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                color: Couleurs.fondSecondaire),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  AnimatedRotation(
+                      turns: turns,
+                      duration: const Duration(seconds: 1),
+                      onEnd: getResultat,
+                      child: Icon(
+                        Icons.check_box_outline_blank,
+                        size: 60,
+                        color: Couleurs.violet,
+                      )),
+                  if (!premierlancer)
+                    Text(
+                      nb,
+                      style: TextStyle(color: Couleurs.texte, fontSize: 25),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: 100,
+                      child: Champ(
+                        nomChamp: "Max",
+                        couleurTexte: Couleurs.texte,
+                        typeChamp: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        controller: textEditingControllerNbMAX,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Couleurs.violet),
+                      onPressed: _changeRotation,
+                      child: const Text('Lancer les dés'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        SizedBox(
-          width: 100,
-          child: Champ(
-            couleurTexte: Couleurs.texte,
-            typeChamp: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              FilteringTextInputFormatter.digitsOnly
-            ],
-            controller: textEditingControllerNbMAX,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Couleurs.violet),
-            onPressed: _changeRotation,
-            child: const Text('Lancer les dés'),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
