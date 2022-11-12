@@ -40,64 +40,66 @@ class _LanceDesState extends State<LanceDes> {
   @override
   Widget build(BuildContext context) {
     return AppInterface(
-      child: Column(
-        children: [
-          EnteteApplication(
-              routeRetour: "/accueil", titreFormulaire: "Test lancé de dés"),
-          Container(
-            width: 200,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: Couleurs.fondSecondaire),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+        child: Column(
+          children: [
+            EnteteApplication(routeRetour: "/accueil", titreFormulaire: "Test lancé de dés"),
+            Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AnimatedRotation(
-                      turns: turns,
-                      duration: const Duration(seconds: 1),
-                      onEnd: getResultat,
-                      child: Icon(
-                        Icons.check_box_outline_blank,
-                        size: 60,
-                        color: Couleurs.violet,
-                      )),
-                  if (!premierlancer)
-                    Text(
-                      nb,
-                      style: TextStyle(color: Couleurs.texte, fontSize: 25),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: SizedBox(
-                      width: 100,
-                      child: Champ(
-                        nomChamp: "Max",
-                        couleurTexte: Couleurs.texte,
-                        typeChamp: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        controller: textEditingControllerNbMAX,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Couleurs.violet),
-                      onPressed: _changeRotation,
-                      child: const Text('Lancer les dés'),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Couleurs.fondSecondaire),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        AnimatedRotation(
+                            turns: turns,
+                            duration: const Duration(seconds: 1),
+                            onEnd: getResultat,
+                            child: Icon(
+                              Icons.check_box_outline_blank,
+                              size: 60,
+                              color: Couleurs.violet,
+                            )),
+                        if (!premierlancer)
+                          Text(
+                            nb,
+                            style: TextStyle(color: Couleurs.texte, fontSize: 25),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: SizedBox(
+                            width: 100,
+                            child: Champ(
+                              nomChamp: "Max",
+                              couleurTexte: Couleurs.texte,
+                              typeChamp: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              controller: textEditingControllerNbMAX,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(backgroundColor: Couleurs.violet),
+                            onPressed: _changeRotation,
+                            child: const Text('Lancer les dés'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
