@@ -1,12 +1,14 @@
 import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_quill/flutter_quill.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:provider/provider.dart';
 
 class PersonnageView extends StatefulWidget {
@@ -18,11 +20,70 @@ class PersonnageView extends StatefulWidget {
 
 class _PersonnageViewState extends State<PersonnageView> {
   late ProjetController projetController;
-  // late QuillController _controller;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> deleteDialog() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Couleurs.fondSecondaire,
+            title: Text(
+              'Supprimer un personnage',
+              style: TextStyle(color: Couleurs.violet),
+            ),
+            content: RichText(
+              text: TextSpan(
+                text: 'Supprimer le personnage : ',
+                style: TextStyle(color: Couleurs.texte),
+                children: <TextSpan>[
+                  TextSpan(
+                    text:
+                        '${projetController.personnage!.prenomPersonnage} ${projetController.personnage!.nomPersonnage}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Couleurs.violet),
+                  ),
+                  TextSpan(text: ' ?'),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Annuler")),
+              TextButton(
+                  onPressed: () async {
+                    if (Platform.isWindows) {
+                      await FirebaseDesktopTool.supprimerDocument(
+                          PersonnageModel.nomCollection,
+                          projetController.personnage!.id);
+                    } else {
+                      await FirebaseAndroidTool.supprimerDocument(
+                          PersonnageModel.nomCollection,
+                          projetController.personnage!.id);
+                    }
+                    if (!mounted) {
+                      return;
+                    }
+                    Navigator.pop(context, true);
+                    setState(() {
+                      ProjetController.actualiser(context);
+                      NavigationController.changerView(context, "/personnages");
+                    });
+                  },
+                  child: Text(
+                    "Supprimer",
+                    style: TextStyle(color: Colors.redAccent),
+                  ))
+            ],
+          );
+        });
   }
 
   @override
@@ -167,6 +228,15 @@ class _PersonnageViewState extends State<PersonnageView> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: ElevatedButton(
+                            onPressed: deleteDialog,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.redAccent),
+                            child: Text("Supprimer le personnage"),
+                          ),
+                        )
                       ],
                     ),
                   ),
