@@ -1,3 +1,16 @@
+## [1.0.2]() (2022-11-01)
+
+### Moteur
+
+* Trouver les projets créer
+* Sélectionner un projet créer
+
+### Interface 
+
+* Ajout de l'accueil
+* Ajout d'une fenêtre de sélection pour les projets
+* Ajout d'un contenu central selon l'onglet dans l'accueil ou la sélection d'un projet
+
 ## [1.0.1]() (2022-10-21)
 
 ### Général

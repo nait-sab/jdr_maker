@@ -1,11 +1,7 @@
-import 'dart:io';
-
-import 'package:firedart/auth/user_gateway.dart';
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
-import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:provider/provider.dart';
+import 'package:jdr_maker/src/app/views/accueil/widgets/contenu.dart';
+import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 /// Classe Accueil
 ///
@@ -18,115 +14,11 @@ class AccueilView extends StatefulWidget {
 }
 
 class _AccueilViewState extends State<AccueilView> {
-  late bool isConnected;
-  late bool chargement;
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isAndroid) {
-      if (FirebaseAndroidTool.getUtilisateur() != null) {
-      } else {
-        NavigationController.changerView(context, "/connexion");
-      }
-
-      // print(FirebaseDesktopTool.getUtilisateur().toString());
-    }
-    // Affichage de l'interface selon les données user
-    // La gestion ne doit pas apparaître si aucun JDR est lié à l'user
-  }
-
-  void allerDebut() {
-    Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/creer_jdr");
-  }
-
-  void goInscription() {
-    Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/inscription");
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: allerDebut,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: BoxDecoration(
-                    color: Color(0xff81818f),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 15,
-                        blurRadius: 60,
-                        offset: Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Création JDR",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 0.035,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: goInscription,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: BoxDecoration(
-                    color: Color(0xff81818f),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 15,
-                        blurRadius: 60,
-                        offset: Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Inscription",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 0.035,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
+      backgroundColor: Couleurs.fondPrincipale,
+      body: AppInterface(child: AccueilContenu()),
     );
   }
 }
