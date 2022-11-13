@@ -16,10 +16,9 @@ class AccueilView extends StatefulWidget {
 class _AccueilViewState extends State<AccueilView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
-  }
-
-  Widget definirRendu(BuildContext context) {
-    return AppInterface(child: AccueilContenu());
+    return Scaffold(
+      backgroundColor: Couleurs.fondPrincipale,
+      body: AppInterface(child: AccueilContenu()),
+    );
   }
 }
