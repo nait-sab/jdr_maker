@@ -28,6 +28,7 @@ class EvenementCreateView extends StatefulWidget {
 class _EvenementCreateViewState extends State<EvenementCreateView> {
   late bool chargement;
   late TextEditingController champNom;
+  late TextEditingController champDescription;
   late ProjetController projetController;
 
   @override
@@ -35,6 +36,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
     super.initState();
     chargement = false;
     champNom = TextEditingController();
+    champDescription = TextEditingController();
   }
 
   Future creer() async {
@@ -47,11 +49,14 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
     });
 
     String idEvenement = getRandomString(20);
+    int numero = projetController.evenements!.length + 1;
     EvenementModel evenement = EvenementModel(
       id: idEvenement,
       idCreateur: getRandomString(20),
       idProjet: projetController.projet!.id,
-      nomEvenement: champNom.text,
+      numero: numero.toString(),
+      nom: champNom.text,
+      description: champDescription.text,
     );
 
     Platform.isAndroid
@@ -91,6 +96,13 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
                     typeChamp: TextInputType.text,
                     controller: champNom,
                     nomChamp: "Nom de l'événement",
+                    couleurTexte: Couleurs.texte,
+                  ),
+                  SizedBox(height: 20),
+                  Champ(
+                    typeChamp: TextInputType.multiline,
+                    controller: champDescription,
+                    nomChamp: "Description de l'événement",
                     couleurTexte: Couleurs.texte,
                   ),
                   Spacer(),

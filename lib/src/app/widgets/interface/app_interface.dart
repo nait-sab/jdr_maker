@@ -51,7 +51,7 @@ class _AppInterfaceState extends State<AppInterface> {
   @override
   void initState() {
     super.initState();
-    chargement = true;
+    chargement = false;
     rechercheProjetsTerminer = false;
     afficherProjets = false;
     projets = [];
@@ -77,6 +77,10 @@ class _AppInterfaceState extends State<AppInterface> {
 
   /// Récupérer la liste des projets
   Future recupererProjets() async {
+    setState(() {
+      chargement = true;
+    });
+
     await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
       projets.add(ProjetModel.fromMap(data));
     });
@@ -140,7 +144,7 @@ class _AppInterfaceState extends State<AppInterface> {
   Widget build(BuildContext context) {
     navigationController = Provider.of<NavigationController>(context);
     verifierUtilisateur();
-    if (!rechercheProjetsTerminer) {
+    if (!rechercheProjetsTerminer && (navigationController.currentRoute == "/" || navigationController.currentRoute == "/accueil")) {
       recupererProjets();
     }
     return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
