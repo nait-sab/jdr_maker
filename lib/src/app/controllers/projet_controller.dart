@@ -99,6 +99,15 @@ class ProjetController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future _actualiserLieu(String lieuID) async {
+    for (LieuModel li in lieux!) {
+      if (li.id == lieuID) {
+        lieu = li;
+      }
+    }
+    notifyListeners();
+  }
+
   static Future changerProjet(BuildContext context, ProjetModel projet) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
   }
@@ -115,5 +124,9 @@ class ProjetController extends ChangeNotifier {
 
   static Future changerPersonnage(BuildContext context, String personnageID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
+  }
+
+  static Future changerLieu(BuildContext context, String lieuID) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserLieu(lieuID);
   }
 }
