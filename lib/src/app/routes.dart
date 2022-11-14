@@ -9,6 +9,7 @@ import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/options/options_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_create.dart';
+import 'package:jdr_maker/src/app/views/personnage/personnage_edit.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
@@ -88,6 +89,9 @@ List<Page> applicationRoutes(context) {
       break;
     case "/creer_personnage":
       liste.add(MaterialPage(child: PersonnageCreate()));
+      break;
+    case "/modifier_personnage":
+      liste.add(MaterialPage(child: PersonnageEdit()));
       break;
 
     // =======================================================

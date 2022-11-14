@@ -21,11 +21,6 @@ class PersonnageView extends StatefulWidget {
 class _PersonnageViewState extends State<PersonnageView> {
   late ProjetController projetController;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> deleteDialog() async {
     await showDialog(
         context: context,
@@ -44,8 +39,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                   TextSpan(
                     text:
                         '${projetController.personnage!.prenomPersonnage} ${projetController.personnage!.nomPersonnage}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Couleurs.violet),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
                 ],
@@ -61,12 +55,10 @@ class _PersonnageViewState extends State<PersonnageView> {
                   onPressed: () async {
                     if (Platform.isWindows) {
                       await FirebaseDesktopTool.supprimerDocument(
-                          PersonnageModel.nomCollection,
-                          projetController.personnage!.id);
+                          PersonnageModel.nomCollection, projetController.personnage!.id);
                     } else {
                       await FirebaseAndroidTool.supprimerDocument(
-                          PersonnageModel.nomCollection,
-                          projetController.personnage!.id);
+                          PersonnageModel.nomCollection, projetController.personnage!.id);
                     }
                     if (!mounted) {
                       return;
@@ -79,11 +71,15 @@ class _PersonnageViewState extends State<PersonnageView> {
                   },
                   child: Text(
                     "Supprimer",
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.orange),
                   ))
             ],
           );
         });
+  }
+
+  void goToEdit() {
+    NavigationController.changerView(context, "/modifier_personnage");
   }
 
   @override
@@ -91,22 +87,17 @@ class _PersonnageViewState extends State<PersonnageView> {
     projetController = Provider.of<ProjetController>(context);
     return AppInterface(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
         child: Column(
           children: [
-            EnteteApplication(
-                routeRetour: "/personnages",
-                titreFormulaire: "Fiche de personnage"),
+            EnteteApplication(routeRetour: "/personnages", titreFormulaire: "Fiche de personnage"),
             Expanded(
               child: SingleChildScrollView(
                   child: Column(
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Couleurs.fondSecondaire),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondSecondaire),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -117,20 +108,14 @@ class _PersonnageViewState extends State<PersonnageView> {
                             children: [
                               Flexible(
                                 child: Container(
-                                  constraints: BoxConstraints(
-                                      minWidth: 100,
-                                      maxWidth: 200,
-                                      maxHeight: 200,
-                                      minHeight: 100),
+                                  constraints:
+                                      BoxConstraints(minWidth: 100, maxWidth: 200, maxHeight: 200, minHeight: 100),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                          projetController
-                                                      .personnage!.lienImage !=
-                                                  ""
-                                              ? projetController
-                                                  .personnage!.lienImage
+                                          projetController.personnage!.lienImage != ""
+                                              ? projetController.personnage!.lienImage
                                               : 'https://picsum.photos/200/300',
                                         ),
                                         fit: BoxFit.fill),
@@ -141,8 +126,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                 child: Column(
                                   children: [
                                     AutoSizeText(
-                                      projetController
-                                          .personnage!.nomPersonnage,
+                                      projetController.personnage!.nomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -151,8 +135,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                       maxFontSize: 50,
                                     ),
                                     AutoSizeText(
-                                      projetController
-                                          .personnage!.prenomPersonnage,
+                                      projetController.personnage!.prenomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -176,19 +159,15 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             "Description",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                                fontSize: 30),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.texte, fontSize: 30),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Couleurs.fondPrincipale),
+                            decoration:
+                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
@@ -204,19 +183,15 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             "Histoire",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Couleurs.texte,
-                                fontSize: 30),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.texte, fontSize: 30),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Couleurs.fondPrincipale),
+                            decoration:
+                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
@@ -228,14 +203,25 @@ class _PersonnageViewState extends State<PersonnageView> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: ElevatedButton(
-                            onPressed: deleteDialog,
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent),
-                            child: Text("Supprimer le personnage"),
-                          ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: ElevatedButton(
+                                onPressed: deleteDialog,
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                                child: Text("Supprimer le personnage"),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: ElevatedButton(
+                                onPressed: goToEdit,
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                                child: Text("Modifier le personnage"),
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),
