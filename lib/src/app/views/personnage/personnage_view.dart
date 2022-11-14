@@ -71,7 +71,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                   },
                   child: Text(
                     "Supprimer",
-                    style: TextStyle(color: Colors.orange),
+                    style: TextStyle(color: Colors.red),
                   ))
             ],
           );
@@ -126,7 +126,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                 child: Column(
                                   children: [
                                     AutoSizeText(
-                                      projetController.personnage!.nomPersonnage,
+                                      projetController.personnage!.prenomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -135,7 +135,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                       maxFontSize: 50,
                                     ),
                                     AutoSizeText(
-                                      projetController.personnage!.prenomPersonnage,
+                                      projetController.personnage!.nomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
