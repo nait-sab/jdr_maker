@@ -205,20 +205,24 @@ class _PersonnageViewState extends State<PersonnageView> {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: ElevatedButton(
-                                onPressed: deleteDialog,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-                                child: Text("Supprimer le personnage"),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: ElevatedButton(
+                                  onPressed: deleteDialog,
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                                  child: Text("Supprimer le personnage"),
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: ElevatedButton(
-                                onPressed: goToEdit,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                                child: Text("Modifier le personnage"),
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: ElevatedButton(
+                                  onPressed: goToEdit,
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                                  child: Text("Modifier le personnage"),
+                                ),
                               ),
                             ),
                           ],

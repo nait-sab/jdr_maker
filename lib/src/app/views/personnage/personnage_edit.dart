@@ -80,7 +80,7 @@ class _PersonnageEditState extends State<PersonnageEdit> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
         child: Column(
           children: [
-            EnteteApplication(routeRetour: "/personnages", titreFormulaire: "Création personnage"),
+            EnteteApplication(routeRetour: "/personnage", titreFormulaire: "Modification personnage"),
             Expanded(
               child: SingleChildScrollView(
                   child: Column(
