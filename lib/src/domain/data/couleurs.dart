@@ -14,4 +14,7 @@ class Couleurs {
 
   /// Couleur des textes
   static Color texte = Color(0xff81818F);
+
+  /// Couleur violet primaire
+  static Color violet = Color(0xffbb86fc);
 }

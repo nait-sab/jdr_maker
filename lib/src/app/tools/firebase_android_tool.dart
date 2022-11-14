@@ -28,6 +28,15 @@ class FirebaseAndroidTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer une collection vers une liste
+  static Future getListeCollection(String nomCollection, Function action) async {
+    var collection = await getCollection(nomCollection);
+    var liste = collection.docs.map((document) => document.data()).toList();
+    for (var data in liste) {
+      action(data);
+    }
+  }
+
   /// Ajouter un nouveau document à une [collection] contenant les données [json]
   static Future ajouterDocument(
     String collection,

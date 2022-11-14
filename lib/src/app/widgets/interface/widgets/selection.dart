@@ -34,18 +34,34 @@ class _AccueilSelectionState extends State<AccueilSelection> {
     Size ecran = MediaQuery.of(context).size;
     return Container(
       width: Platform.isAndroid ? double.infinity : ecran.width / 4,
-      color: Couleurs.fondSecondaire,
-      child: Wrap(children: liste(context)),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
+        color: Couleurs.fondSecondaire,
+      ),
+      child: renduListe(),
     );
   }
 
-  List<Widget> liste(BuildContext context) {
+  Widget renduListe() {
+    if (widget.projets.length < 5) {
+      return Wrap(
+        children: liste(),
+      );
+    }
+
+    return SizedBox(
+      height: 250,
+      child: SingleChildScrollView(child: Column(children: liste())),
+    );
+  }
+
+  List<Widget> liste() {
     List<Widget> liste = [];
 
     if (widget.projets.isEmpty) {
       liste.add(Container(
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(border: Border.all()),
         child: Center(
           child: Text(
             "Vous n'avez aucun projet",
@@ -63,7 +79,10 @@ class _AccueilSelectionState extends State<AccueilSelection> {
       onTap: rejoindreCreationProjet,
       child: Container(
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(border: Border.all()),
+        decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
+        ),
         child: Center(
           child: Text(
             "Créer un projet",

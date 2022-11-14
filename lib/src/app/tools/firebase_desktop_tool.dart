@@ -28,6 +28,14 @@ class FirebaseDesktopTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer une collection vers une liste
+  static Future getListeCollection(String nomCollection, Function action) async {
+    var collection = await getCollection(nomCollection);
+    for (var document in collection) {
+      action(document.map);
+    }
+  }
+
   /// Ajouter un nouveau document à une [collection] contenant les données [json]
   static Future ajouterDocument(
     String collection,
@@ -51,9 +59,7 @@ class FirebaseDesktopTool {
     String document,
     Map<String, dynamic> json,
   ) async {
-    return await _getInstanceCollection(collection)
-        .document(document)
-        .update(json);
+    return await _getInstanceCollection(collection).document(document).update(json);
   }
 
   /// Supprimer le [document] de la [collection]

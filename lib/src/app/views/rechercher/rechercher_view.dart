@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 
 /// Classe : Accueil - Rechercher
 ///
 /// Type : Page
 ///
 /// Contient la page de recherche (Mobile) de l'accueil
-class AccueilPageRechercher extends StatelessWidget {
+class RechercherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid ? renduMobile(context) : renduDesktop(context);
+    return AppInterface(
+      child: Platform.isAndroid ? renduMobile(context) : renduDesktop(context),
+    );
   }
 
   Widget renduDesktop(BuildContext context) {

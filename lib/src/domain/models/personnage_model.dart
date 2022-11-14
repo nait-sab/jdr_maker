@@ -1,34 +1,51 @@
+import 'package:flutter/material.dart';
+
 /// Classe : Personnage
 ///
 /// Type : Model
 ///
-/// Modèle des personnages
-class PersonnageModel {
+/// Contient les variables d'un personnage de jdr
+class PersonnageModel extends ChangeNotifier {
   static String nomCollection = "Personnages";
 
   String id;
-  String idCreateur;
+  String idProjet;
   String nomPersonnage;
+  String prenomPersonnage;
+  String lienImage;
+  String description;
+  String histoire;
 
   PersonnageModel({
     required this.id,
-    required this.idCreateur,
+    required this.idProjet,
     required this.nomPersonnage,
+    required this.prenomPersonnage,
+    required this.lienImage,
+    required this.description,
+    required this.histoire,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
-      "idCreateur": idCreateur,
+      "idProjet": idProjet,
       "nomPersonnage": nomPersonnage,
+      "prenomPersonnage": prenomPersonnage,
+      "lienImage": lienImage,
+      "description": description,
+      "histoire": histoire,
     };
   }
 
   static PersonnageModel fromMap(data) {
     return PersonnageModel(
-      id: data["id"],
-      idCreateur: data["idCreateur"],
-      nomPersonnage: data["nomPersonnage"],
-    );
+        id: data["id"],
+        idProjet: data["idProjet"],
+        nomPersonnage: data["nomPersonnage"],
+        prenomPersonnage: data["prenomPersonnage"],
+        lienImage: data["lienImage"],
+        description: data["description"],
+        histoire: data["histoire"]);
   }
 }
