@@ -1,5 +1,10 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/enums/navigation_icons_type.dart';
@@ -29,6 +34,10 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     return widget.isAndroid ? renduAndroid() : renduDesktop();
   }
 
+  void goConnexion() {
+    Provider.of<NavigationController>(context, listen: false).changerRoute("/connexion");
+  }
+
   /// Action du bouton Accueil
   void boutonAccueil() {
     String route = Provider.of<NavigationController>(context, listen: false).currentRoute;
@@ -53,7 +62,15 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
   }
 
   /// Action du bouton Déconnexion (Windows)
-  void boutonDeconnexion() {}
+  void boutonDeconnexion() {
+    log("deconnexion");
+    if (Platform.isAndroid) {
+      FirebaseAndroidTool.deconnexion();
+    } else {
+      FirebaseDesktopTool.deconnexion();
+    }
+    goConnexion();
+  }
 
   Widget renduDesktop() {
     return Container(

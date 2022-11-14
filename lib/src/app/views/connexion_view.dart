@@ -1,5 +1,10 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:provider/provider.dart';
 
 /// Classe Connexion
@@ -13,14 +18,42 @@ class ConnexionView extends StatefulWidget {
 }
 
 class _ConnexionViewState extends State<ConnexionView> {
+  late TextEditingController mailController;
+  late TextEditingController passController;
   @override
   void initState() {
     super.initState();
+    mailController = TextEditingController();
+    passController = TextEditingController();
+  }
+
+  void goAcceuil() {
+    setState(() {
+      NavigationController.changerView(context, "/");
+    });
   }
 
   void goInscription() {
-    Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/inscription");
+    setState(() {
+      NavigationController.changerView(context, "/inscription");
+    });
+    log("oui");
+  }
+
+  Future login() async {
+    String mailValue = mailController.text;
+    String passValue = passController.text;
+    String? userID = "";
+    if (Platform.isAndroid) {
+      await FirebaseAndroidTool.connexion(mailValue, passValue);
+      userID = FirebaseAndroidTool.getUtilisateur()?.uid;
+    } else {
+      await FirebaseDesktopTool.connexion(mailValue, passValue);
+      userID = FirebaseDesktopTool.getUtilisateurID();
+    }
+    if (userID!.isNotEmpty) {
+      goAcceuil();
+    }
   }
 
   @override
@@ -80,6 +113,7 @@ class _ConnexionViewState extends State<ConnexionView> {
                   ),
                   SizedBox(height: 15),
                   TextFormField(
+                    controller: mailController,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -116,6 +150,8 @@ class _ConnexionViewState extends State<ConnexionView> {
                   ),
                   SizedBox(height: 15),
                   TextFormField(
+                    controller: passController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -135,6 +171,7 @@ class _ConnexionViewState extends State<ConnexionView> {
           ),
           SizedBox(height: 50),
           InkWell(
+            onTap: login,
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xff36AC50),

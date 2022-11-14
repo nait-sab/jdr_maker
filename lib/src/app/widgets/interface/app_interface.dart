@@ -70,9 +70,9 @@ class _AppInterfaceState extends State<AppInterface> {
         : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
 
     // TODO - Commenter l'appel si besoin de modifier sans se connecter
-    // if (utilisateurConnecter == null) {
-    //   changerRoute("/inscription");
-    // }
+    if (utilisateurConnecter == null) {
+      changerRoute("/connexion");
+    }
   }
 
   /// Récupérer la liste des projets

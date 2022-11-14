@@ -29,12 +29,15 @@ class _InscriptionViewState extends State<InscriptionView> {
   }
 
   void goConnexion() {
-    Provider.of<NavigationController>(context, listen: false)
-        .changerRoute("/connexion");
+    setState(() {
+      NavigationController.changerView(context, "/connexion");
+    });
   }
 
   void goAcceuil() {
-    Provider.of<NavigationController>(context, listen: false).changerRoute("/");
+    setState(() {
+      NavigationController.changerView(context, "/");
+    });
   }
 
   Future createAccount() async {
@@ -42,10 +45,7 @@ class _InscriptionViewState extends State<InscriptionView> {
     String mailValue = mailController.text;
     String passValue = passController.text;
     String? userID = "";
-    Map<String, dynamic> userInfos = {
-      'mail': mailValue,
-      'username': usernameValue
-    };
+    Map<String, dynamic> userInfos = {'mail': mailValue, 'username': usernameValue};
     if (Platform.isAndroid) {
       await FirebaseAndroidTool.creerCompte(mailValue, passValue);
       userID = FirebaseAndroidTool.getUtilisateur()?.uid;
