@@ -17,4 +17,10 @@ class Couleurs {
 
   /// Couleur violet primaire
   static Color violet = Color(0xffbb86fc);
+
+  /// Couleur turqoise primaire
+  static Color turqoise = Color(0xff03dac5);
+
+  /// Couleur rouge primaire
+  static Color rouge = Color(0xffcf6679);
 }

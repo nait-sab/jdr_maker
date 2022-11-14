@@ -9,13 +9,17 @@ class EvenementModel {
   String id;
   String idCreateur;
   String idProjet;
-  String nomEvenement;
+  String numero;
+  String nom;
+  String description;
 
   EvenementModel({
     required this.id,
     required this.idCreateur,
     required this.idProjet,
-    required this.nomEvenement,
+    required this.numero,
+    required this.nom,
+    required this.description,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,7 +27,9 @@ class EvenementModel {
       "id": id,
       "idCreateur": idCreateur,
       "idProjet": idProjet,
-      "nomEvenement": nomEvenement,
+      "numero": numero,
+      "nom": nom,
+      "description": description,
     };
   }
 
@@ -32,7 +38,9 @@ class EvenementModel {
       id: data["id"],
       idCreateur: data["idCreateur"],
       idProjet: data["idProjet"],
-      nomEvenement: data["nomEvenement"],
+      numero: data["numero"],
+      nom: data["nom"],
+      description: data["description"],
     );
   }
 }
