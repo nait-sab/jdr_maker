@@ -91,6 +91,10 @@ class FirebaseDesktopTool {
     return _getAuthInstance().userId;
   }
 
+  static Future<void> changePass(String password) {
+    return _getAuthInstance().changePassword(password);
+  }
+
   /// Déconnecter l'utilisateur
   /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
   static void deconnexion() {

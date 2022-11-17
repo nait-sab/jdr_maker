@@ -28,16 +28,11 @@ class _ConnexionViewState extends State<ConnexionView> {
   }
 
   void goAcceuil() {
-    setState(() {
-      NavigationController.changerView(context, "/");
-    });
+    NavigationController.changerView(context, "/");
   }
 
   void goInscription() {
-    setState(() {
-      NavigationController.changerView(context, "/inscription");
-    });
-    log("oui");
+    NavigationController.changerView(context, "/inscription");
   }
 
   Future login() async {

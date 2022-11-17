@@ -9,14 +9,24 @@ class UtilisateurModel extends ChangeNotifier {
   // Contenu d'exemple pour RoRo
 
   String id;
+  String mail;
+  String username;
 
-  UtilisateurModel({
-    required this.id,
-  });
+  UtilisateurModel({required this.id, required this.mail, required this.username});
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
+      "mail": mail,
+      "username": username,
     };
+  }
+
+  static UtilisateurModel fromMap(data) {
+    return UtilisateurModel(
+      id: data["id"],
+      mail: data["mail"],
+      username: data["username"],
+    );
   }
 }

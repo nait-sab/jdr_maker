@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -70,7 +71,9 @@ class _AppInterfaceState extends State<AppInterface> {
         : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
 
     // TODO - Commenter l'appel si besoin de modifier sans se connecter
-    if (utilisateurConnecter == null) {
+    if (utilisateurConnecter == null &&
+        navigationController.currentRoute != "/connexion" &&
+        navigationController.currentRoute != "/inscription") {
       changerRoute("/connexion");
     }
   }

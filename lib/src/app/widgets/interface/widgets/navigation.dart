@@ -63,7 +63,6 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
 
   /// Action du bouton Déconnexion (Windows)
   void boutonDeconnexion() {
-    log("deconnexion");
     if (Platform.isAndroid) {
       FirebaseAndroidTool.deconnexion();
     } else {
