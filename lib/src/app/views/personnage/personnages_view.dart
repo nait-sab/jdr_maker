@@ -72,7 +72,7 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                            'https://picsum.photos/200/300',
+                                            projetController.personnages![index].lienImage,
                                           ),
                                           fit: BoxFit.fill),
                                     ),

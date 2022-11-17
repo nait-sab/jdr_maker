@@ -57,7 +57,7 @@ class _EvenementsViewState extends State<EvenementsView> {
     List<Widget> liste = [];
 
     for (int index = 0; index < evenements.length; index++) {
-      liste.add(boutonEvenement(() {}, (index + 1).toString(), evenements[index]));
+      liste.add(boutonEvenement(evenements[index]));
       if (index != evenements.length - 1) {
         liste.add(SizedBox(height: 20));
       }
@@ -88,7 +88,7 @@ class _EvenementsViewState extends State<EvenementsView> {
     );
   }
 
-  Widget boutonEvenement(VoidCallback action, String numero, EvenementModel evenement) {
+  Widget boutonEvenement(EvenementModel evenement) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
       onTap: () => choixEvenement(evenement.id),
@@ -102,7 +102,7 @@ class _EvenementsViewState extends State<EvenementsView> {
         child: Row(
           children: [
             Text(
-              "N°$numero",
+              "N°${evenement.numero}",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _EvenementsViewState extends State<EvenementsView> {
             ),
             SizedBox(width: 20),
             Text(
-              evenement.nomEvenement,
+              evenement.nom,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: Platform.isAndroid ? 20 : ecran.width * 0.01,

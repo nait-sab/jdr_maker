@@ -58,6 +58,10 @@ class ProjetController extends ChangeNotifier {
       }
     });
 
+    if (evenements!.isNotEmpty) {
+      evenements!.sort((event1, event2) => event1.numero.compareTo(event2.numero));
+    }
+
     await FirebaseGlobalTool.recupererListe(PersonnageModel.nomCollection, (data) {
       if (data["idProjet"] == projet!.id) {
         personnages!.add(PersonnageModel.fromMap(data));
@@ -86,10 +90,19 @@ class ProjetController extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future _actualiserPersonnage(String personnageID) async {
+  Future _actualiserPersonnage(String personnageID) async {
     for (PersonnageModel perso in personnages!) {
       if (perso.id == personnageID) {
         personnage = perso;
+      }
+    }
+    notifyListeners();
+  }
+
+  Future _actualiserLieu(String lieuID) async {
+    for (LieuModel li in lieux!) {
+      if (li.id == lieuID) {
+        lieu = li;
       }
     }
     notifyListeners();
@@ -109,8 +122,11 @@ class ProjetController extends ChangeNotifier {
     await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
   }
 
-
-    static Future changerPersonnage(BuildContext context, String personnageID) async {
+  static Future changerPersonnage(BuildContext context, String personnageID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
+  }
+
+  static Future changerLieu(BuildContext context, String lieuID) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserLieu(lieuID);
   }
 }

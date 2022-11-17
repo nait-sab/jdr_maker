@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
@@ -31,7 +30,6 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
   @override
   void initState() {
     super.initState();
-
     textEditingControllerNom = TextEditingController();
     textEditingControllerPrenom = TextEditingController();
     textEditingControllerDescription = TextEditingController();

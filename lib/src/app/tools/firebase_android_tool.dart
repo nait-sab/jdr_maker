@@ -92,4 +92,9 @@ class FirebaseAndroidTool {
   static Future deconnexion() async {
     await _getAuthInstance().signOut();
   }
+
+  /// Changer le mot de [passe] de l'utilisateur
+  static Future changerCompte(String passe) async {
+    await _getAuthInstance().currentUser!.updatePassword(passe);
+  }
 }

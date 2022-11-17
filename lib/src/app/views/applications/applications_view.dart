@@ -72,7 +72,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
               Icons.play_arrow,
               "Lancé de dés",
               0.toString(),
-            )
+            ),
           ],
         ),
       ),
@@ -110,8 +110,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
     );
   }
 
-  Widget boutonApplication(VoidCallback action, Color couleurFond,
-      IconData icone, String titre, String total) {
+  Widget boutonApplication(VoidCallback action, Color couleurFond, IconData icone, String titre, String total) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
       onTap: action,

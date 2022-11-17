@@ -1,3 +1,4 @@
+
 /// Classe : Lieu
 ///
 /// Type : Model
@@ -10,13 +11,16 @@ class LieuModel {
   String idCreateur;
   String idProjet;
   String nomLieu;
+  String lienImage;
+  String description;
 
-  LieuModel({
-    required this.id,
-    required this.idCreateur,
-    required this.idProjet,
-    required this.nomLieu,
-  });
+  LieuModel(
+      {required this.id,
+      required this.idCreateur,
+      required this.idProjet,
+      required this.nomLieu,
+      required this.lienImage,
+      required this.description});
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,15 +28,18 @@ class LieuModel {
       "idCreateur": idCreateur,
       "idProjet": idProjet,
       "nomLieu": nomLieu,
+      "lienImage": lienImage,
+      "description": description
     };
   }
 
   static LieuModel fromMap(data) {
     return LieuModel(
-      id: data["id"],
-      idCreateur: data["idCreateur"],
-      idProjet: data["idProjet"],
-      nomLieu: data["nomLieu"],
-    );
+        id: data["id"],
+        idCreateur: data["idCreateur"],
+        idProjet: data["idProjet"],
+        nomLieu: data["nomLieu"],
+        lienImage: data["lienImage"],
+        description: data["description"]);
   }
 }
