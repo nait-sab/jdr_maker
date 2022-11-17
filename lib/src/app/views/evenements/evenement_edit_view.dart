@@ -5,6 +5,7 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
+import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/champ.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
@@ -43,32 +44,16 @@ class _EvenementEditViewState extends State<EvenementEditView> {
       return;
     }
 
-    setState(() {
-      chargement = true;
-    });
+    setState(() => chargement = true);
 
     String id = projetController.evenement!.id;
-    EvenementModel evenement = EvenementModel(
-      id: id,
-      idCreateur: projetController.evenement!.idCreateur,
-      idProjet: projetController.evenement!.idProjet,
-      numero: projetController.evenement!.numero,
-      nom: champNom.text,
-      description: champDescription.text,
-    );
     EvenementModel evenement = projetController.evenement!;
     evenement.nom = champNom.text;
-    evenement.description = champDescription.text
-
-    Platform.isAndroid
-        ? await FirebaseAndroidTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap())
-        : await FirebaseDesktopTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
-
+    evenement.description = champDescription.text;
+    await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
     await actualiser();
 
-    setState(() {
-      NavigationController.changerView(context, "/evenement");
-    });
+    setState(() => NavigationController.changerView(context, "/evenement"));
   }
 
   Future actualiser() async => await ProjetController.actualiser(context);

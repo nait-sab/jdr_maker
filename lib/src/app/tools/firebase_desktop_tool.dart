@@ -28,6 +28,11 @@ class FirebaseDesktopTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getdocumentID(String nomCollection, String id) async {
+    return await _getInstanceCollection(nomCollection).document(id).get();
+  }
+
   /// Récupérer une collection vers une liste
   static Future getListeCollection(String nomCollection, Function action) async {
     var collection = await getCollection(nomCollection);

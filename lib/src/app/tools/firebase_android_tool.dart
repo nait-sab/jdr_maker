@@ -28,23 +28,17 @@ class FirebaseAndroidTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getdocumentID(String nomCollection, String id) async {
+    return await _getInstanceCollection(nomCollection).doc(id).get();
+  }
+
   /// Récupérer une collection vers une liste
   static Future getListeCollection(String nomCollection, Function action) async {
     var collection = await getCollection(nomCollection);
     var liste = collection.docs.map((document) => document.data()).toList();
     for (var data in liste) {
       action(data);
-    }
-  }
-
-  /// Récupérer le json d'un élément de collection par son ID
-  static Future getCollectionID(String nomCollection, String id) async {
-    var collection = await getCollection(nomCollection);
-    var liste = collection.docs.map((document) => document.data()).toList();
-    for (dynamic data in liste) {
-      if (data["id"] == id) {
-        return data;
-      }
     }
   }
 
