@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/entete.dart';
@@ -13,7 +10,6 @@ import 'package:jdr_maker/src/app/widgets/interface/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/selection.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Interface
@@ -33,20 +29,15 @@ class AppInterface extends StatefulWidget {
 }
 
 class _AppInterfaceState extends State<AppInterface> {
-  /// Controller de navigation
-  late NavigationController navigationController;
+  /// Controller des projets
+  late ProjetController projetController;
 
   /// Chargement de la page
   late bool chargement;
-
-  /// Vérouiller la recherche de projets une fois terminé
   late bool rechercheProjetsTerminer;
 
   /// Afficher ou non la sélection de projets
   late bool afficherProjets;
-
-  /// Liste des projets
-  late List<ProjetModel> projets;
 
   @override
   void initState() {
@@ -54,100 +45,37 @@ class _AppInterfaceState extends State<AppInterface> {
     chargement = false;
     rechercheProjetsTerminer = false;
     afficherProjets = false;
-    projets = [];
-  }
-
-  void changerRoute(String route) {
-    NavigationController.changerView(context, route);
-  }
-
-  /// Vérifier la connexion de l'utilisateur
-  Future verifierUtilisateur() async {
-    Object? utilisateurConnecter;
-
-    Platform.isAndroid
-        ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
-        : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
-
-    // TODO - Commenter l'appel si besoin de modifier sans se connecter
-    // if (utilisateurConnecter == null) {
-    //   changerRoute("/inscription");
-    // }
-  }
-
-  /// Récupérer la liste des projets
-  Future recupererProjets() async {
-    setState(() {
-      chargement = true;
-    });
-
-    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
-      projets.add(ProjetModel.fromMap(data));
-    });
-
-    setState(() {
-      rechercheProjetsTerminer = true;
-      chargement = false;
-    });
   }
 
   void modifierAffichageProjets() {
     setState(() => afficherProjets = !afficherProjets);
   }
 
-  Future changerProjet(String projetID) async {
-    ProjetModel? projetSelectionner;
-
-    setState(() {
-      chargement = true;
-    });
-
-    for (ProjetModel projet in projets) {
-      if (projetID == projet.id) {
-        projetSelectionner = projet;
-      }
-    }
-
-    await ProjetController.changerProjet(
-      context,
-      projetSelectionner!,
-    );
-
-    if (!(navigationController.currentRoute == "/" || navigationController.currentRoute == "/acceuil")) {
-      changerRoute("/accueil");
-    }
-
-    setState(() {
-      afficherProjets = false;
-      chargement = false;
-    });
+  Future chargerProjets() async {
+    setState(() => chargement = true);
+    await ProjetController.chargerProjets(context);
+    print("projets chargés");
+    setState(() => chargement = false);
   }
 
-  void rafraichir() {
-    setState(() {
-      chargement = true;
-      rechercheProjetsTerminer = false;
-      afficherProjets = false;
-      projets = [];
-    });
+  @override
+  Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
+    String route = Provider.of<NavigationController>(context).currentRoute;
+
+    // Récupération des projets depuis l'accueil
+    if (route == "/" || route == "/accueil") {
+      chargerProjets();
+    }
+
+    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
   Widget definirRendu(BuildContext context) {
     if (chargement) {
       return Chargement();
     }
-
     return Platform.isAndroid ? renduAndroid(context) : renduDesktop(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    navigationController = Provider.of<NavigationController>(context);
-    verifierUtilisateur();
-    if (!rechercheProjetsTerminer && (navigationController.currentRoute == "/" || navigationController.currentRoute == "/accueil")) {
-      recupererProjets();
-    }
-    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
   Widget renduDesktop(BuildContext context) {
@@ -162,12 +90,12 @@ class _AppInterfaceState extends State<AppInterface> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AccueilNavigation(isAndroid: false, rafraichir: rafraichir),
+                    AccueilNavigation(isAndroid: false),
                     // Zone
                     Expanded(child: widget.child),
                   ],
                 ),
-                if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
+                if (afficherProjets) AccueilSelection(),
               ],
             ),
           ),
@@ -191,11 +119,11 @@ class _AppInterfaceState extends State<AppInterface> {
               child: Stack(
                 children: [
                   widget.child,
-                  if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
+                  if (afficherProjets) AccueilSelection(),
                 ],
               ),
             ),
-            AccueilNavigation(isAndroid: true, rafraichir: rafraichir),
+            AccueilNavigation(isAndroid: true),
           ],
         ),
       ),

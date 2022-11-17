@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/enums/navigation_icons_type.dart';
@@ -12,11 +13,9 @@ import 'package:provider/provider.dart';
 /// Contient la barre de navigation
 class AccueilNavigation extends StatefulWidget {
   final bool isAndroid;
-  final VoidCallback rafraichir;
 
   AccueilNavigation({
     required this.isAndroid,
-    required this.rafraichir,
   });
 
   @override
@@ -24,33 +23,25 @@ class AccueilNavigation extends StatefulWidget {
 }
 
 class _AccueilNavigationState extends State<AccueilNavigation> {
+  late ProjetController projetController;
+
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     return widget.isAndroid ? renduAndroid() : renduDesktop();
   }
 
   /// Action du bouton Accueil
-  void boutonAccueil() {
-    String route = Provider.of<NavigationController>(context, listen: false).currentRoute;
-    if (route == "/" || route == "/accueil") {
-      widget.rafraichir();
-    } else {
-      NavigationController.changerView(context, "/accueil");
-    }
-  }
+  void boutonAccueil() => NavigationController.changerView(context, "/accueil");
 
   /// Action du bouton Rechercher (Mobile)
-  void boutonRechercher() {
-    NavigationController.changerView(context, "/rechercher");
-  }
+  void boutonRechercher() => NavigationController.changerView(context, "/rechercher");
 
   /// Action du bouton Jouer
   void boutonJouer() {}
 
   /// Action du bouton Options
-  void boutonOptions() {
-    NavigationController.changerView(context, "/options");
-  }
+  void boutonOptions() => NavigationController.changerView(context, "/options");
 
   /// Action du bouton Déconnexion (Windows)
   void boutonDeconnexion() {}
@@ -82,7 +73,6 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
             onTap: boutonOptions,
             child: icone(NavigationIconeType.options),
           ),
-          // TODO - Faire disparaître l'espacement et bouton deconnexion si l'utilisateur n'est pas connecté
           SizedBox(height: 10),
           Bouton(
             onTap: boutonDeconnexion,
