@@ -113,6 +113,7 @@ class _EvenementViewState extends State<EvenementView> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Bouton(
+                        onTap: () => NavigationController.changerView(context, "/modifier_evenement"),
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:jdr_maker/src/app/views/accueil/accueil_view.dart';
 import 'package:jdr_maker/src/app/views/connexion_view.dart';
 import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
+import 'package:jdr_maker/src/app/views/evenements/evenement_edit_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
@@ -80,6 +81,9 @@ List<Page> applicationRoutes(context) {
       break;
     case "/creer_evenement":
       liste.add(MaterialPage(child: EvenementCreateView()));
+      break;
+    case "/modifier_evenement":
+      liste.add(MaterialPage(child: EvenementEditView()));
       break;
 
     // =======================================================

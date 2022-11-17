@@ -37,6 +37,17 @@ class FirebaseAndroidTool {
     }
   }
 
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getCollectionID(String nomCollection, String id) async {
+    var collection = await getCollection(nomCollection);
+    var liste = collection.docs.map((document) => document.data()).toList();
+    for (dynamic data in liste) {
+      if (data["id"] == id) {
+        return data;
+      }
+    }
+  }
+
   /// Ajouter un nouveau document à une [collection] contenant les données [json]
   static Future ajouterDocument(
     String collection,
