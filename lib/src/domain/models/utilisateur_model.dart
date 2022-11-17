@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 /// Contient la route actuelle dans l'application
 class UtilisateurModel extends ChangeNotifier {
   // Contenu d'exemple pour RoRo
+  static String nomCollection = "Utilisateurs";
 
   String id;
   String mail;

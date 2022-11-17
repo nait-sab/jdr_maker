@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -70,7 +69,6 @@ class _AppInterfaceState extends State<AppInterface> {
         ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
         : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
 
-    // TODO - Commenter l'appel si besoin de modifier sans se connecter
     if (utilisateurConnecter == null &&
         navigationController.currentRoute != "/connexion" &&
         navigationController.currentRoute != "/inscription") {
@@ -147,7 +145,8 @@ class _AppInterfaceState extends State<AppInterface> {
   Widget build(BuildContext context) {
     navigationController = Provider.of<NavigationController>(context);
     verifierUtilisateur();
-    if (!rechercheProjetsTerminer && (navigationController.currentRoute == "/" || navigationController.currentRoute == "/accueil")) {
+    if (!rechercheProjetsTerminer &&
+        (navigationController.currentRoute == "/" || navigationController.currentRoute == "/accueil")) {
       recupererProjets();
     }
     return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));

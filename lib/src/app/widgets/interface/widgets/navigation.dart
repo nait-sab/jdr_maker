@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -98,7 +97,6 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
             onTap: boutonOptions,
             child: icone(NavigationIconeType.options),
           ),
-          // TODO - Faire disparaître l'espacement et bouton deconnexion si l'utilisateur n'est pas connecté
           SizedBox(height: 10),
           Bouton(
             onTap: boutonDeconnexion,
@@ -167,7 +165,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;
-        texteCouleur = route == "/options" ? Couleurs.violet : Couleurs.texte;
+        texteCouleur = route == "/options" || route == "/modifier_profil" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.deconnexion:
         icone = Icons.power_settings_new_rounded;

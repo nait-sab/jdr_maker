@@ -1,11 +1,11 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:provider/provider.dart';
+import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 
 /// Classe Connexion
 ///
@@ -35,18 +35,26 @@ class _ConnexionViewState extends State<ConnexionView> {
     NavigationController.changerView(context, "/inscription");
   }
 
+  void chargerUtilisateur(UtilisateurModel utilisateur) {
+    UtilisateurController.changerUtilisateur(context, utilisateur);
+  }
+
   Future login() async {
     String mailValue = mailController.text;
     String passValue = passController.text;
     String? userID = "";
+    dynamic userData;
     if (Platform.isAndroid) {
       await FirebaseAndroidTool.connexion(mailValue, passValue);
       userID = FirebaseAndroidTool.getUtilisateur()?.uid;
+      userData = await FirebaseAndroidTool.getCollectionById(UtilisateurModel.nomCollection, userID!);
     } else {
       await FirebaseDesktopTool.connexion(mailValue, passValue);
       userID = FirebaseDesktopTool.getUtilisateurID();
+      userData = await FirebaseDesktopTool.getCollectionById(UtilisateurModel.nomCollection, userID);
     }
-    if (userID!.isNotEmpty) {
+    chargerUtilisateur(UtilisateurModel.fromMap(userData));
+    if (userID.isNotEmpty) {
       goAcceuil();
     }
   }
