@@ -7,8 +7,13 @@ import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
 import 'package:jdr_maker/src/app/views/inscription_view.dart';
+import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
+import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
+import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
+import 'package:jdr_maker/src/app/views/lieux/lieux_view.dart';
 import 'package:jdr_maker/src/app/views/options/options_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_create.dart';
+import 'package:jdr_maker/src/app/views/personnage/personnage_edit.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
@@ -88,6 +93,25 @@ List<Page> applicationRoutes(context) {
       break;
     case "/creer_personnage":
       liste.add(MaterialPage(child: PersonnageCreate()));
+      break;
+    case "/modifier_personnage":
+      liste.add(MaterialPage(child: PersonnageEdit()));
+      break;
+
+    // =======================================================
+    // Routes de l'application lieu
+    // =======================================================
+    case "/lieux":
+      liste.add(MaterialPage(child: LieuxView()));
+      break;
+    case "/lieu":
+      liste.add(MaterialPage(child: LieuView()));
+      break;
+    case "/creer_lieu":
+      liste.add(MaterialPage(child: LieuCreate()));
+      break;
+    case "/modifier_lieu":
+      liste.add(MaterialPage(child: LieuEdit()));
       break;
 
     // =======================================================
