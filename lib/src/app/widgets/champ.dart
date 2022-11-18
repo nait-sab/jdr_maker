@@ -56,7 +56,7 @@ class _ChampState extends State<Champ> {
         fontSize: widget.tailleTexte ?? 22,
         color: widget.couleurTexte ?? Colors.black,
       ),
-      inputFormatters: widget.inputFormatters,
+      inputFormatters: widget.inputFormatters ?? [],
     );
   }
 }
