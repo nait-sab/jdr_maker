@@ -10,6 +10,7 @@ import 'package:jdr_maker/src/app/widgets/interface/widgets/navigation.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/selection.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Interface
@@ -34,7 +35,7 @@ class _AppInterfaceState extends State<AppInterface> {
 
   /// Chargement de la page
   late bool chargement;
-  late bool rechercheProjetsTerminer;
+  late bool recupererationProjets;
 
   /// Afficher ou non la sélection de projets
   late bool afficherProjets;
@@ -43,18 +44,25 @@ class _AppInterfaceState extends State<AppInterface> {
   void initState() {
     super.initState();
     chargement = false;
-    rechercheProjetsTerminer = false;
+    recupererationProjets = true;
     afficherProjets = false;
   }
 
-  void modifierAffichageProjets() {
-    setState(() => afficherProjets = !afficherProjets);
+  void changerSelection() => setState(() => afficherProjets = !afficherProjets);
+  void retourAccueil() => setState(() => NavigationController.changerView(context, "/accueil"));
+
+  Future changerProjet(ProjetModel projetModel) async {
+    setState(() => chargement = true);
+    await ProjetController.changerProjet(context, projetModel);
+    retourAccueil();
+    setState(() => {afficherProjets = false, chargement = false});
   }
 
   Future chargerProjets() async {
     setState(() => chargement = true);
     await ProjetController.chargerProjets(context);
-    print("projets chargés");
+    print("chargement des projets");
+    setState(() => recupererationProjets = false);
     setState(() => chargement = false);
   }
 
@@ -64,7 +72,7 @@ class _AppInterfaceState extends State<AppInterface> {
     String route = Provider.of<NavigationController>(context).currentRoute;
 
     // Récupération des projets depuis l'accueil
-    if (route == "/" || route == "/accueil") {
+    if ((route == "/" || route == "/accueil") && recupererationProjets) {
       chargerProjets();
     }
 
@@ -83,7 +91,7 @@ class _AppInterfaceState extends State<AppInterface> {
       color: Couleurs.fondPrincipale,
       child: Column(
         children: [
-          AccueilEntete(actionTitre: modifierAffichageProjets),
+          AccueilEntete(actionTitre: changerSelection),
           Expanded(
             child: Stack(
               children: [
@@ -95,7 +103,7 @@ class _AppInterfaceState extends State<AppInterface> {
                     Expanded(child: widget.child),
                   ],
                 ),
-                if (afficherProjets) AccueilSelection(),
+                if (afficherProjets) AccueilSelection(action: changerProjet),
               ],
             ),
           ),
@@ -112,14 +120,14 @@ class _AppInterfaceState extends State<AppInterface> {
         child: Column(
           children: [
             Bouton(
-              onTap: modifierAffichageProjets,
+              onTap: changerSelection,
               child: AccueilTitre(isAndroid: true),
             ),
             Expanded(
               child: Stack(
                 children: [
                   widget.child,
-                  if (afficherProjets) AccueilSelection(),
+                  if (afficherProjets) AccueilSelection(action: changerProjet),
                 ],
               ),
             ),

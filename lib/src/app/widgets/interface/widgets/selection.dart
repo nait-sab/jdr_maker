@@ -14,6 +14,12 @@ import 'package:provider/provider.dart';
 ///
 /// Contient la sélection de projet
 class AccueilSelection extends StatefulWidget {
+  final Function action;
+
+  AccueilSelection({
+    required this.action,
+  });
+
   @override
   State<AccueilSelection> createState() => _AccueilSelectionState();
 }
@@ -21,17 +27,18 @@ class AccueilSelection extends StatefulWidget {
 class _AccueilSelectionState extends State<AccueilSelection> {
   late ProjetController projetController;
 
-  void boutonCreation() => NavigationController.changerView(context, "/creer_jdr");
+  void boutonCreation() => changerRoute("/creer_jdr");
+
+  void changerRoute(String route) => NavigationController.changerView(context, route);
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
     Size ecran = MediaQuery.of(context).size;
     return Container(
-      width: Platform.isAndroid ? double.infinity : ecran.width / 4,
+      width: Platform.isAndroid ? double.infinity : ecran.width * 0.25,
       decoration: BoxDecoration(
         border: Border.all(),
-        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
         color: Couleurs.fondSecondaire,
       ),
       child: renduListe(),
@@ -39,7 +46,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   }
 
   Widget renduListe() {
-    if (projetController.projets!.length < 5) {
+    if (projetController.projets.length < 5) {
       return Wrap(
         children: liste(),
       );
@@ -54,7 +61,21 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   List<Widget> liste() {
     List<Widget> liste = [];
 
-    if (projetController.projets!.isEmpty) {
+    liste.add(Bouton(
+      onTap: boutonCreation,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(border: Border.all()),
+        child: Center(
+          child: Text(
+            "Créer un projet",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    ));
+
+    if (projetController.projets.isEmpty) {
       liste.add(Container(
         padding: EdgeInsets.all(10),
         child: Center(
@@ -65,34 +86,17 @@ class _AccueilSelectionState extends State<AccueilSelection> {
         ),
       ));
     } else {
-      for (ProjetModel projet in projetController.projets!) {
+      for (ProjetModel projet in projetController.projets) {
         liste.add(boutonProjet(projet));
       }
     }
-
-    liste.add(Bouton(
-      onTap: boutonCreation,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
-        ),
-        child: Center(
-          child: Text(
-            "Créer un projet",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
-    ));
 
     return liste;
   }
 
   Widget boutonProjet(ProjetModel projet) {
     return Bouton(
-      onTap: () {},
+      onTap: () => widget.action(projet),
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(border: Border.all()),

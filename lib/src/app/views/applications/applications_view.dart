@@ -5,7 +5,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Applications
@@ -14,12 +13,6 @@ import 'package:provider/provider.dart';
 ///
 /// Contient la page des applications du projet sélectionné de l'accueil
 class ApplicationsView extends StatefulWidget {
-  final ProjetModel projet;
-
-  ApplicationsView({
-    required this.projet,
-  });
-
   @override
   State<ApplicationsView> createState() => _ApplicationsViewState();
 }
@@ -102,7 +95,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   Widget renduMobile(BuildContext context) {
     return Center(
       child: Text(
-        "Project actuel : ${widget.projet.nomProjet}",
+        "Project actuel : ${projetController.projet!.nomProjet}",
         style: TextStyle(
           color: Colors.white,
         ),

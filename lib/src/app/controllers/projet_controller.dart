@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 /// Contient le projet actuel dans l'application
 class ProjetController extends ChangeNotifier {
   /// Projets
-  List<ProjetModel>? projets;
+  List<ProjetModel> projets = [];
   ProjetModel? projet;
 
   /// Événements
@@ -42,7 +42,7 @@ class ProjetController extends ChangeNotifier {
   Future _chargerProjets() async {
     projets = [];
     await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
-      projets!.add(ProjetModel.fromMap(data));
+      projets.add(ProjetModel.fromMap(data));
     });
     notifyListeners();
   }

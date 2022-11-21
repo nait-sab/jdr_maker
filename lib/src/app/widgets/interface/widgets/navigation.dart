@@ -43,6 +43,18 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
   /// Action du bouton Options
   void boutonOptions() => NavigationController.changerView(context, "/options");
 
+  /// Action du bouton Événements
+  void boutonEvenements() => NavigationController.changerView(context, "/evenements");
+
+  /// Action du bouton Personnages
+  void boutonPersonnages() => NavigationController.changerView(context, "/personnages");
+
+  /// Action du bouton Lieux
+  void boutonLieux() => NavigationController.changerView(context, "/lieux");
+
+  /// Action du bouton Objets
+  void boutonObjets() => NavigationController.changerView(context, "/objets");
+
   /// Action du bouton Déconnexion (Windows)
   void boutonDeconnexion() {}
 
@@ -68,6 +80,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
             onTap: boutonJouer,
             child: icone(NavigationIconeType.jouer),
           ),
+          Column(children: boutonsProjet()),
           Spacer(),
           Bouton(
             onTap: boutonOptions,
@@ -124,12 +137,10 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     IconData icone;
     Color texteCouleur;
 
-    bool vueProjet = !(route == "/rechercher" || route == "/jouer" || route == "/options");
-
     switch (iconeType) {
       case NavigationIconeType.maison:
         icone = Icons.home_rounded;
-        texteCouleur = vueProjet ? Couleurs.violet : Couleurs.texte;
+        texteCouleur = route == "/" || route == "/accueil" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.recherche:
         icone = Icons.search_rounded;
@@ -143,6 +154,22 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         icone = Icons.settings_rounded;
         texteCouleur = route == "/options" ? Couleurs.violet : Couleurs.texte;
         break;
+      case NavigationIconeType.evenements:
+        icone = Icons.menu_book_rounded;
+        texteCouleur = route == "/evenements" ? Couleurs.violet : Couleurs.texte;
+        break;
+      case NavigationIconeType.personnages:
+        icone = Icons.person_rounded;
+        texteCouleur = route == "/personnages" ? Couleurs.violet : Couleurs.texte;
+        break;
+      case NavigationIconeType.lieux:
+        icone = Icons.location_on_rounded;
+        texteCouleur = route == "/lieux" ? Couleurs.violet : Couleurs.texte;
+        break;
+      case NavigationIconeType.objets:
+        icone = Icons.diamond_rounded;
+        texteCouleur = route == "/objets" ? Couleurs.violet : Couleurs.texte;
+        break;
       case NavigationIconeType.deconnexion:
         icone = Icons.power_settings_new_rounded;
         texteCouleur = Couleurs.texte;
@@ -154,5 +181,44 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
       color: texteCouleur,
       size: widget.isAndroid ? ecran.width * 0.1 : ecran.width * 0.03,
     );
+  }
+
+  List<Widget> boutonsProjet() {
+    List<Widget> liste = [];
+
+    if (projetController.projet != null) {
+      liste.add(SizedBox(height: 20));
+      liste.add(Container(height: 1, width: 30, color: Couleurs.texte));
+      liste.add(SizedBox(height: 20));
+      liste.add(
+        Bouton(
+          onTap: boutonEvenements,
+          child: icone(NavigationIconeType.evenements),
+        ),
+      );
+      liste.add(SizedBox(height: 10));
+      liste.add(
+        Bouton(
+          onTap: boutonPersonnages,
+          child: icone(NavigationIconeType.personnages),
+        ),
+      );
+      liste.add(SizedBox(height: 10));
+      liste.add(
+        Bouton(
+          onTap: boutonLieux,
+          child: icone(NavigationIconeType.lieux),
+        ),
+      );
+      liste.add(SizedBox(height: 10));
+      liste.add(
+        Bouton(
+          onTap: boutonObjets,
+          child: icone(NavigationIconeType.objets),
+        ),
+      );
+    }
+
+    return liste;
   }
 }

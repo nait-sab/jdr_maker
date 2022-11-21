@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
@@ -36,4 +37,16 @@ Future main() async {
       child: App(),
     ),
   );
+
+  if (Platform.isWindows) {
+    doWhenWindowReady(() {
+      var fenetre = appWindow;
+      var tailleInitiale = Size(1400, 800);
+      fenetre.minSize = tailleInitiale;
+      fenetre.size = tailleInitiale;
+      fenetre.alignment = Alignment.center;
+      fenetre.title = "Dé part";
+      fenetre.show();
+    });
+  }
 }
