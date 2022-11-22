@@ -7,8 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///
 /// Contient les widgets utilisés par la view
 class DebutJDRWidgets {
-  static Widget rendu1(
-      BuildContext context, String bullet, VoidCallback gestionEtape) {
+  static Widget rendu1(BuildContext context, String bullet, VoidCallback gestionEtape) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -116,8 +115,8 @@ class DebutJDRWidgets {
     );
   }
 
-  static Widget rendu2(BuildContext context, VoidCallback gestionEtape,
-      TextEditingController nomJdrController, String nomJdr) {
+  static Widget rendu2(
+      BuildContext context, VoidCallback gestionEtape, TextEditingController nomJdrController, String nomJdr) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -125,9 +124,7 @@ class DebutJDRWidgets {
           Text(
             "Donnez un nom à votre JDR:",
             style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
+                fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           SizedBox(
             height: 40,
@@ -161,7 +158,7 @@ class DebutJDRWidgets {
             height: 80,
           ),
           InkWell(
-            onTap:  gestionEtape ,
+            onTap: gestionEtape,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width * 0.2,
@@ -201,9 +198,7 @@ class DebutJDRWidgets {
           Text(
             "Vous pourrez le changer plus tard.",
             style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width * 0.01,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey),
+                fontSize: MediaQuery.of(context).size.width * 0.01, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
         ],
       ),
@@ -219,9 +214,7 @@ class DebutJDRWidgets {
           Text(
             "Création de votre jeu de Rôle en cours...",
             style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
+                fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           SizedBox(
             height: 40,
@@ -243,9 +236,7 @@ class DebutJDRWidgets {
           Text(
             "Veuillez ne pas fermer la fenêtre pendant la création",
             style: GoogleFonts.poppins(
-                fontSize: MediaQuery.of(context).size.width * 0.01,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey),
+                fontSize: MediaQuery.of(context).size.width * 0.01, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
         ],
       ),
