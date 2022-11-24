@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
@@ -31,6 +33,10 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     return widget.isAndroid ? renduAndroid() : renduDesktop();
   }
 
+  void goConnexion() {
+    Provider.of<NavigationController>(context, listen: false).changerRoute("/connexion");
+  }
+
   /// Action du bouton Accueil
   void boutonAccueil() => NavigationController.changerView(context, "/accueil");
 
@@ -56,7 +62,14 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
   void boutonObjets() => NavigationController.changerView(context, "/objets");
 
   /// Action du bouton Déconnexion (Windows)
-  void boutonDeconnexion() {}
+  void boutonDeconnexion() {
+    if (Platform.isAndroid) {
+      FirebaseAndroidTool.deconnexion();
+    } else {
+      FirebaseDesktopTool.deconnexion();
+    }
+    goConnexion();
+  }
 
   Widget renduDesktop() {
     return Container(
@@ -152,7 +165,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
         break;
       case NavigationIconeType.options:
         icone = Icons.settings_rounded;
-        texteCouleur = route == "/options" ? Couleurs.violet : Couleurs.texte;
+        texteCouleur = route == "/options" || route == "/modifier_profil" ? Couleurs.violet : Couleurs.texte;
         break;
       case NavigationIconeType.evenements:
         icone = Icons.menu_book_rounded;

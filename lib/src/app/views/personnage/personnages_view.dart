@@ -37,7 +37,6 @@ class _PersonnagesViewState extends State<PersonnagesView> {
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
-
     return AppInterface(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),

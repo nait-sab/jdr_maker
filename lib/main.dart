@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/app.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/domain/data/config.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ Future main() async {
       providers: [
         ListenableProvider<NavigationController>(create: (_) => NavigationController()),
         ListenableProvider<ProjetController>(create: (_) => ProjetController()),
+        ListenableProvider<UtilisateurController>(create: (_) => UtilisateurController()),
       ],
       child: App(),
     ),

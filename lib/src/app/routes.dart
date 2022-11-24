@@ -12,11 +12,16 @@ import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieux_view.dart';
+import 'package:jdr_maker/src/app/views/objets/objet_create.dart';
+import 'package:jdr_maker/src/app/views/objets/objet_edit.dart';
+import 'package:jdr_maker/src/app/views/objets/objet_view.dart';
+import 'package:jdr_maker/src/app/views/objets/objets_view.dart';
 import 'package:jdr_maker/src/app/views/options/options_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_create.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_edit.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
+import 'package:jdr_maker/src/app/views/profil/profil_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +54,9 @@ List<Page> applicationRoutes(context) {
       break;
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
+      break;
+    case "/modifier_profil":
+      liste.add(MaterialPage(child: EditProfileView()));
       break;
 
     // =======================================================
@@ -100,6 +108,22 @@ List<Page> applicationRoutes(context) {
       break;
     case "/modifier_personnage":
       liste.add(MaterialPage(child: PersonnageEdit()));
+      break;
+
+    // =======================================================
+    // Routes de l'application objet
+    // =======================================================
+    case "/objets":
+      liste.add(MaterialPage(child: ObjetsView()));
+      break;
+    case "/objet":
+      liste.add(MaterialPage(child: ObjetView()));
+      break;
+    case "/creer_objet":
+      liste.add(MaterialPage(child: ObjetCreate()));
+      break;
+    case "/modifier_objet":
+      liste.add(MaterialPage(child: ObjetEdit()));
       break;
 
     // =======================================================

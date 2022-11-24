@@ -64,6 +64,19 @@ class _AppInterfaceState extends State<AppInterface> {
     print("chargement des projets");
     setState(() => recupererationProjets = false);
     setState(() => chargement = false);
+  /// Vérifier la connexion de l'utilisateur
+  Future verifierUtilisateur() async {
+    Object? utilisateurConnecter;
+
+    Platform.isAndroid
+        ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
+        : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
+
+    if (utilisateurConnecter == null &&
+        navigationController.currentRoute != "/connexion" &&
+        navigationController.currentRoute != "/inscription") {
+      changerRoute("/connexion");
+    }
   }
 
   @override
