@@ -1,3 +1,16 @@
+## [1.0.4]() (2022-11-24)
+
+### Moteur
+
+* Modification du compilateur Windows
+* Connexion à l'application
+
+### Interface
+
+* Nouvelle fenêtre sur windows
+* Ajout des interfaces de l'applications objets
+* Ajout des icônes des applications dans la navigation après le chargement d'un projet
+
 ## [1.0.3]() (2022-11-18)
 
 ### Moteur

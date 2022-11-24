@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/enums/navigation_icons_type.dart';
@@ -63,11 +62,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
 
   /// Action du bouton Déconnexion (Windows)
   void boutonDeconnexion() {
-    if (Platform.isAndroid) {
-      FirebaseAndroidTool.deconnexion();
-    } else {
-      FirebaseDesktopTool.deconnexion();
-    }
+    FirebaseDesktopTool.deconnexion();
     goConnexion();
   }
 

@@ -7,7 +7,6 @@ import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:provider/provider.dart';
 

@@ -27,9 +27,7 @@ class _ConnexionViewState extends State<ConnexionView> {
     passController = TextEditingController();
   }
 
-  void goAcceuil() {
-    NavigationController.changerView(context, "/");
-  }
+  void allerAccueil() => NavigationController.changerView(context, "/accueil");
 
   void goInscription() {
     NavigationController.changerView(context, "/inscription");
@@ -42,20 +40,20 @@ class _ConnexionViewState extends State<ConnexionView> {
   Future login() async {
     String mailValue = mailController.text;
     String passValue = passController.text;
-    String? userID = "";
+    String userID = "";
     dynamic userData;
     if (Platform.isAndroid) {
       await FirebaseAndroidTool.connexion(mailValue, passValue);
-      userID = FirebaseAndroidTool.getUtilisateur()?.uid;
-      userData = await FirebaseAndroidTool.getCollectionById(UtilisateurModel.nomCollection, userID!);
+      userID = FirebaseAndroidTool.getUtilisateur()!.uid;
+      userData = await FirebaseAndroidTool.getdocumentID(UtilisateurModel.nomCollection, userID);
     } else {
       await FirebaseDesktopTool.connexion(mailValue, passValue);
       userID = FirebaseDesktopTool.getUtilisateurID();
-      userData = await FirebaseDesktopTool.getCollectionById(UtilisateurModel.nomCollection, userID);
+      userData = await FirebaseDesktopTool.getdocumentID(UtilisateurModel.nomCollection, userID);
     }
     chargerUtilisateur(UtilisateurModel.fromMap(userData));
-    if (userID.isNotEmpty) {
-      goAcceuil();
+    if (userID != "") {
+      allerAccueil();
     }
   }
 

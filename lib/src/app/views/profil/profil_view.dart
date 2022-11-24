@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
-import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
@@ -47,7 +44,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     String usernameValue = userController.text;
     String firstPassValue = firstPassController.text;
     String secondPassValue = secondPassController.text;
-    String mailValue = mailController.text;
     UtilisateurModel userInfos = UtilisateurModel(
         id: utilisateurController.utilisateur!.id,
         mail: utilisateurController.utilisateur!.mail,

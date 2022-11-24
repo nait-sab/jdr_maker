@@ -9,7 +9,6 @@ import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
-import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:provider/provider.dart';
 
 class ObjetView extends StatefulWidget {
@@ -110,7 +109,7 @@ class _ObjetViewState extends State<ObjetView> {
                       padding: const EdgeInsets.all(8),
                       child: Column(
                         children: [
-                          EnteteApplication(routeRetour: "/objets", titreFormulaire: "Fiche de l\'objet"),
+                          EnteteApplication(routeRetour: "/objets", titreFormulaire: "Fiche de l'objet"),
                           AutoSizeText(
                             projetController.objet!.nomObjet,
                             style: TextStyle(
@@ -160,7 +159,7 @@ class _ObjetViewState extends State<ObjetView> {
                         child: ElevatedButton(
                           onPressed: deleteDialog,
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-                          child: Text("Supprimer l\'objet"),
+                          child: Text("Supprimer l'objet"),
                         ),
                       ),
                     ),
