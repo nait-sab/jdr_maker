@@ -11,6 +11,10 @@
 * Ajout des interfaces de l'applications objets
 * Ajout des icônes des applications dans la navigation après le chargement d'un projet
 
+## Applications
+
+* L'application objets permet de créer des objets liés à l'histoire
+
 ## [1.0.3]() (2022-11-18)
 
 ### Moteur
