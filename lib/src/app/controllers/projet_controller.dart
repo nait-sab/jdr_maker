@@ -13,40 +13,41 @@ import 'package:provider/provider.dart';
 ///
 /// Contient le projet actuel dans l'application
 class ProjetController extends ChangeNotifier {
-  /// Projet sélectionné
+  /// Projets
+  List<ProjetModel> projets = [];
   ProjetModel? projet;
 
-  /// Liste des événements du projet
+  /// Événements
   List<EvenementModel>? evenements;
-
-  /// Liste des personnages du projet
-  List<PersonnageModel>? personnages;
-
-  /// Liste des lieux du projet
-  List<LieuModel>? lieux;
-
-  /// Liste des objets du projet
-  List<ObjetModel>? objets;
-
-  /// Événement sélectionné
   EvenementModel? evenement;
 
-  /// Personnage sélectionné
+  /// Personnages
+  List<PersonnageModel>? personnages;
   PersonnageModel? personnage;
 
-  /// Lieux sélectionné
+  /// Lieux
+  List<LieuModel>? lieux;
   LieuModel? lieu;
 
-  /// Objet sélectionné
+  /// Objets
+  List<ObjetModel>? objets;
   ObjetModel? objet;
 
   Future _actualiserProjet(ProjetModel projet) async {
     this.projet = projet;
-    await _actualiserListe();
+    await _actualiserApplications();
     notifyListeners();
   }
 
-  Future _actualiserListe() async {
+  Future _chargerProjets() async {
+    projets = [];
+    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
+      projets.add(ProjetModel.fromMap(data));
+    });
+    notifyListeners();
+  }
+
+  Future _actualiserApplications() async {
     evenements = [];
     personnages = [];
     lieux = [];
@@ -57,6 +58,10 @@ class ProjetController extends ChangeNotifier {
         evenements!.add(EvenementModel.fromMap(data));
       }
     });
+
+    if (evenements!.isNotEmpty) {
+      evenements!.sort((event1, event2) => event1.numero.compareTo(event2.numero));
+    }
 
     await FirebaseGlobalTool.recupererListe(PersonnageModel.nomCollection, (data) {
       if (data["idProjet"] == projet!.id) {
@@ -86,10 +91,28 @@ class ProjetController extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future _actualiserPersonnage(String personnageID) async {
+  Future _actualiserPersonnage(String personnageID) async {
     for (PersonnageModel perso in personnages!) {
       if (perso.id == personnageID) {
         personnage = perso;
+      }
+    }
+    notifyListeners();
+  }
+
+  Future _actualiserLieu(String lieuID) async {
+    for (LieuModel li in lieux!) {
+      if (li.id == lieuID) {
+        lieu = li;
+      }
+    }
+    notifyListeners();
+  }
+
+  Future _actualiserObjet(String objetID) async {
+    for (ObjetModel ob in objets!) {
+      if (ob.id == objetID) {
+        objet = ob;
       }
     }
     notifyListeners();
@@ -105,12 +128,23 @@ class ProjetController extends ChangeNotifier {
     );
   }
 
+  static Future chargerProjets(BuildContext context) async {
+    await Provider.of<ProjetController>(context, listen: false)._chargerProjets();
+  }
+
   static Future changerEvenement(BuildContext context, String evenementID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
   }
 
-
-    static Future changerPersonnage(BuildContext context, String personnageID) async {
+  static Future changerPersonnage(BuildContext context, String personnageID) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
+  }
+
+  static Future changerLieu(BuildContext context, String lieuID) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserLieu(lieuID);
+  }
+
+  static Future changerObjet(BuildContext context, String objetID) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiserObjet(objetID);
   }
 }

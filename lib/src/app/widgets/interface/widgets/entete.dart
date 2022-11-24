@@ -1,3 +1,4 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/recherche.dart';
@@ -27,15 +28,38 @@ class AccueilEntete extends StatelessWidget {
           BoxShadow(blurRadius: 20, offset: Offset(0, 10)),
         ],
       ),
-      child: Row(
-        children: [
-          Bouton(
-            onTap: actionTitre,
-            child: AccueilTitre(isAndroid: false),
-          ),
-          AccueilRecherche(),
-        ],
+      child: MoveWindow(
+        child: Row(
+          children: [
+            Bouton(
+              onTap: actionTitre,
+              child: AccueilTitre(isAndroid: false),
+            ),
+            AccueilRecherche(),
+            Container(
+              width: 1,
+              decoration: BoxDecoration(border: Border(right: BorderSide())),
+            ),
+            Row(
+              children: [
+                MinimizeWindowButton(colors: couleurBoutonWindow()),
+                MaximizeWindowButton(colors: couleurBoutonWindow()),
+                CloseWindowButton(colors: couleurBoutonWindow()),
+              ],
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  WindowButtonColors couleurBoutonWindow() {
+    return WindowButtonColors(
+      mouseOver: Couleurs.fondPrincipale,
+      mouseDown: Couleurs.fondPrincipale,
+      iconNormal: Couleurs.violet,
+      iconMouseDown: Couleurs.violet,
+      iconMouseOver: Couleurs.violet,
     );
   }
 }

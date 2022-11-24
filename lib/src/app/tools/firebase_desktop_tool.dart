@@ -28,11 +28,26 @@ class FirebaseDesktopTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getdocumentID(String nomCollection, String id) async {
+    return await _getInstanceCollection(nomCollection).document(id).get();
+  }
+
   /// Récupérer une collection vers une liste
   static Future getListeCollection(String nomCollection, Function action) async {
     var collection = await getCollection(nomCollection);
     for (var document in collection) {
       action(document.map);
+    }
+  }
+
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getCollectionID(String nomCollection, String id) async {
+    var collection = await getCollection(nomCollection);
+    for (dynamic document in collection) {
+      if (document["id"] == id) {
+        return document;
+      }
     }
   }
 
@@ -91,9 +106,18 @@ class FirebaseDesktopTool {
     return _getAuthInstance().userId;
   }
 
+  static Future<void> changePass(String password) {
+    return _getAuthInstance().changePassword(password);
+  }
+
   /// Déconnecter l'utilisateur
   /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
   static void deconnexion() {
     _getAuthInstance().signOut();
+  }
+
+  /// Changer le mot de [passe] de l'utilisateur
+  static Future changerCompte(String passe) async {
+    await _getAuthInstance().changePassword(passe);
   }
 }

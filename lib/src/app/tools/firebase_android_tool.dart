@@ -28,6 +28,11 @@ class FirebaseAndroidTool {
     return await _getInstanceCollection(nom).get();
   }
 
+  /// Récupérer le json d'un élément de collection par son ID
+  static Future getdocumentID(String nomCollection, String id) async {
+    return await _getInstanceCollection(nomCollection).doc(id).get();
+  }
+
   /// Récupérer une collection vers une liste
   static Future getListeCollection(String nomCollection, Function action) async {
     var collection = await getCollection(nomCollection);
@@ -91,5 +96,10 @@ class FirebaseAndroidTool {
   /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
   static Future deconnexion() async {
     await _getAuthInstance().signOut();
+  }
+
+  /// Changer le mot de [passe] de l'utilisateur
+  static Future changerCompte(String passe) async {
+    await _getAuthInstance().currentUser!.updatePassword(passe);
   }
 }

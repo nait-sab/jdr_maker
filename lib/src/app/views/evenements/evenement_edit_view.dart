@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/tools/get_random_string.dart';
+import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/champ.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
@@ -19,13 +17,13 @@ import 'package:provider/provider.dart';
 ///
 /// Type : View
 ///
-/// Afficher la création d'un nouvel événement
-class EvenementCreateView extends StatefulWidget {
+/// Afficher l'édition d'un événement
+class EvenementEditView extends StatefulWidget {
   @override
-  State<EvenementCreateView> createState() => _EvenementCreateViewState();
+  State<EvenementEditView> createState() => _EvenementEditViewState();
 }
 
-class _EvenementCreateViewState extends State<EvenementCreateView> {
+class _EvenementEditViewState extends State<EvenementEditView> {
   late bool chargement;
   late TextEditingController champNom;
   late TextEditingController champDescription;
@@ -39,39 +37,31 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
     champDescription = TextEditingController();
   }
 
-  Future creer() async {
+  Future modifier() async {
     if (champNom.text.isEmpty) {
       return;
     }
 
-    setState(() {
-      chargement = true;
-    });
+    setState(() => chargement = true);
 
-    String idEvenement = getRandomString(20);
-    int numero = projetController.evenements!.length + 1;
-    EvenementModel evenement = EvenementModel(
-      id: idEvenement,
-      idCreateur: getRandomString(20),
-      idProjet: projetController.projet!.id,
-      numero: numero.toString(),
-      nom: champNom.text,
-      description: champDescription.text,
-    );
+    String id = projetController.evenement!.id;
+    EvenementModel evenement = projetController.evenement!;
+    evenement.nom = champNom.text;
+    evenement.description = champDescription.text;
+    await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
+    await actualiser();
 
-    Platform.isAndroid
-        ? await FirebaseAndroidTool.ajouterDocumentID(EvenementModel.nomCollection, idEvenement, evenement.toMap())
-        : await FirebaseDesktopTool.ajouterDocumentID(EvenementModel.nomCollection, idEvenement, evenement.toMap());
-
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/evenements");
-    });
+    setState(() => NavigationController.changerView(context, "/evenement"));
   }
+
+  Future actualiser() async => await ProjetController.actualiser(context);
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
+    champNom.text = projetController.evenement!.nom;
+    champDescription.text = projetController.evenement!.description;
+
     return AppInterface(child: chargement ? Chargement() : renduFormulaire());
   }
 
@@ -81,7 +71,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(
         children: [
-          EnteteApplication(routeRetour: "/evenements", titreFormulaire: "Créer un événement"),
+          EnteteApplication(routeRetour: "/evenement", titreFormulaire: "Modifier un événement"),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -107,7 +97,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
                   ),
                   Spacer(),
                   Bouton(
-                    onTap: creer,
+                    onTap: modifier,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -115,7 +105,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
                       ),
                       padding: EdgeInsets.all(20),
                       child: Text(
-                        "Créer",
+                        "Modifier",
                         style: TextStyle(
                           fontSize: Platform.isAndroid ? 22 : ecran.width * 0.015,
                           color: Colors.white,

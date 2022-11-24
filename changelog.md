@@ -1,3 +1,41 @@
+## [1.0.4]() (2022-11-24)
+
+### Moteur
+
+* Modification du compilateur Windows
+* Connexion à l'application
+
+### Interface
+
+* Nouvelle fenêtre sur windows
+* Ajout des interfaces de l'applications objets
+* Ajout des icônes des applications dans la navigation après le chargement d'un projet
+
+## Applications
+
+* L'application objets permet de créer des objets liés à l'histoire
+
+## [1.0.3]() (2022-11-18)
+
+### Moteur
+
+* Récupération des données liés aux projets lors de leur sélection
+* Gestion des données par projet 
+* Gestion de son profil
+
+# Interface
+
+* Ajout des applications dans l'accueil en sélectionnant un projet
+* Ajout des interfaces (listes, vues, éditions et créations) des événements, personnages et lieux
+* Ajout de la modification de son profil dans les options
+* Mise en couleur de la navigation selon la position dans l'application
+
+## Applications
+
+* L'application événement permet de listé chronologiquement l'histoire
+* L'application personnage permet de créer des personnages liés à l'histoire
+* L'application lieux permet de créer des lieux liés à l'histoire
+
 ## [1.0.2]() (2022-11-01)
 
 ### Moteur

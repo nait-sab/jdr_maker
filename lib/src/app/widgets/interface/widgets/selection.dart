@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
+import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Sélection
 ///
@@ -12,12 +14,10 @@ import 'package:jdr_maker/src/domain/models/projet_model.dart';
 ///
 /// Contient la sélection de projet
 class AccueilSelection extends StatefulWidget {
-  final List<ProjetModel> projets;
-  final Function(String) changerProjet;
+  final Function action;
 
   AccueilSelection({
-    required this.projets,
-    required this.changerProjet,
+    required this.action,
   });
 
   @override
@@ -25,18 +25,20 @@ class AccueilSelection extends StatefulWidget {
 }
 
 class _AccueilSelectionState extends State<AccueilSelection> {
-  void rejoindreCreationProjet() {
-    NavigationController.changerView(context, "/creer_jdr");
-  }
+  late ProjetController projetController;
+
+  void boutonCreation() => changerRoute("/creer_jdr");
+
+  void changerRoute(String route) => NavigationController.changerView(context, route);
 
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     Size ecran = MediaQuery.of(context).size;
     return Container(
-      width: Platform.isAndroid ? double.infinity : ecran.width / 4,
+      width: Platform.isAndroid ? double.infinity : ecran.width * 0.25,
       decoration: BoxDecoration(
         border: Border.all(),
-        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
         color: Couleurs.fondSecondaire,
       ),
       child: renduListe(),
@@ -44,7 +46,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   }
 
   Widget renduListe() {
-    if (widget.projets.length < 5) {
+    if (projetController.projets.length < 5) {
       return Wrap(
         children: liste(),
       );
@@ -59,7 +61,21 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   List<Widget> liste() {
     List<Widget> liste = [];
 
-    if (widget.projets.isEmpty) {
+    liste.add(Bouton(
+      onTap: boutonCreation,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(border: Border.all()),
+        child: Center(
+          child: Text(
+            "Créer un projet",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    ));
+
+    if (projetController.projets.isEmpty) {
       liste.add(Container(
         padding: EdgeInsets.all(10),
         child: Center(
@@ -70,34 +86,17 @@ class _AccueilSelectionState extends State<AccueilSelection> {
         ),
       ));
     } else {
-      for (ProjetModel projet in widget.projets) {
+      for (ProjetModel projet in projetController.projets) {
         liste.add(boutonProjet(projet));
       }
     }
-
-    liste.add(Bouton(
-      onTap: rejoindreCreationProjet,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
-        ),
-        child: Center(
-          child: Text(
-            "Créer un projet",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
-    ));
 
     return liste;
   }
 
   Widget boutonProjet(ProjetModel projet) {
     return Bouton(
-      onTap: () => widget.changerProjet(projet.id),
+      onTap: () => widget.action(projet),
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(border: Border.all()),

@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/entete.dart';
@@ -33,117 +31,79 @@ class AppInterface extends StatefulWidget {
 }
 
 class _AppInterfaceState extends State<AppInterface> {
-  /// Controller de navigation
+  /// Controllers
+  late ProjetController projetController;
   late NavigationController navigationController;
 
   /// Chargement de la page
   late bool chargement;
-
-  /// Vérouiller la recherche de projets une fois terminé
-  late bool rechercheProjetsTerminer;
+  late bool recupererationProjets;
+  late bool recupererationUtilisateur;
 
   /// Afficher ou non la sélection de projets
   late bool afficherProjets;
 
-  /// Liste des projets
-  late List<ProjetModel> projets;
-
   @override
   void initState() {
     super.initState();
-    chargement = true;
-    rechercheProjetsTerminer = false;
+    chargement = false;
+    recupererationProjets = true;
+    recupererationUtilisateur = true;
     afficherProjets = false;
-    projets = [];
   }
 
-  void changerRoute(String route) {
-    NavigationController.changerView(context, route);
+  void changerSelection() => setState(() => afficherProjets = !afficherProjets);
+  void retourAccueil() => setState(() => NavigationController.changerView(context, "/accueil"));
+  void allerConnexion() => setState(() => NavigationController.changerView(context, "/connexion"));
+
+  Future changerProjet(ProjetModel projetModel) async {
+    setState(() => chargement = true);
+    await ProjetController.changerProjet(context, projetModel);
+    retourAccueil();
+    setState(() => {afficherProjets = false, chargement = false});
   }
 
-  /// Vérifier la connexion de l'utilisateur
-  Future verifierUtilisateur() async {
-    Object? utilisateurConnecter;
-
-    Platform.isAndroid
-        ? utilisateurConnecter = FirebaseAndroidTool.getUtilisateur()
-        : utilisateurConnecter = await FirebaseDesktopTool.getUtilisateur();
-
-    // TODO - Commenter l'appel si besoin de modifier sans se connecter
-    // if (utilisateurConnecter == null) {
-    //   changerRoute("/inscription");
-    // }
+  Future chargerProjets() async {
+    setState(() => chargement = true);
+    await ProjetController.chargerProjets(context);
+    print("chargement des projets");
+    setState(() => recupererationProjets = false);
+    setState(() => chargement = false);
   }
 
-  /// Récupérer la liste des projets
-  Future recupererProjets() async {
-    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
-      projets.add(ProjetModel.fromMap(data));
-    });
-
-    setState(() {
-      rechercheProjetsTerminer = true;
-      chargement = false;
-    });
+  Future chargerUtilisateur(String routeActuelle) async {
+    setState(() => chargement = true);
+    bool connecter = await UtilisateurController.verifierUtilisateur();
+    if (!connecter && routeActuelle != "/connexion" && routeActuelle != "/inscription") {
+      allerConnexion();
+    }
+    setState(() => recupererationUtilisateur = false);
+    setState(() => chargement = false);
   }
 
-  void modifierAffichageProjets() {
-    setState(() => afficherProjets = !afficherProjets);
-  }
+  @override
+  Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
+    navigationController = Provider.of<NavigationController>(context);
+    String route = Provider.of<NavigationController>(context).currentRoute;
 
-  Future changerProjet(String projetID) async {
-    ProjetModel? projetSelectionner;
-
-    setState(() {
-      chargement = true;
-    });
-
-    for (ProjetModel projet in projets) {
-      if (projetID == projet.id) {
-        projetSelectionner = projet;
-      }
+    if (recupererationUtilisateur) {
+      chargerUtilisateur(route);
     }
 
-    await ProjetController.changerProjet(
-      context,
-      projetSelectionner!,
-    );
-
-    if (!(navigationController.currentRoute == "/" || navigationController.currentRoute == "/acceuil")) {
-      changerRoute("/accueil");
+    // Récupération des projets depuis l'accueil
+    if ((route == "/" || route == "/accueil") && recupererationProjets) {
+      chargerProjets();
     }
 
-    setState(() {
-      afficherProjets = false;
-      chargement = false;
-    });
-  }
-
-  void rafraichir() {
-    setState(() {
-      chargement = true;
-      rechercheProjetsTerminer = false;
-      afficherProjets = false;
-      projets = [];
-    });
+    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
   Widget definirRendu(BuildContext context) {
     if (chargement) {
       return Chargement();
     }
-
     return Platform.isAndroid ? renduAndroid(context) : renduDesktop(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    navigationController = Provider.of<NavigationController>(context);
-    verifierUtilisateur();
-    if (!rechercheProjetsTerminer) {
-      recupererProjets();
-    }
-    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
   }
 
   Widget renduDesktop(BuildContext context) {
@@ -151,19 +111,19 @@ class _AppInterfaceState extends State<AppInterface> {
       color: Couleurs.fondPrincipale,
       child: Column(
         children: [
-          AccueilEntete(actionTitre: modifierAffichageProjets),
+          AccueilEntete(actionTitre: changerSelection),
           Expanded(
             child: Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AccueilNavigation(isAndroid: false, rafraichir: rafraichir),
+                    AccueilNavigation(isAndroid: false),
                     // Zone
                     Expanded(child: widget.child),
                   ],
                 ),
-                if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
+                if (afficherProjets) AccueilSelection(action: changerProjet),
               ],
             ),
           ),
@@ -180,18 +140,18 @@ class _AppInterfaceState extends State<AppInterface> {
         child: Column(
           children: [
             Bouton(
-              onTap: modifierAffichageProjets,
+              onTap: changerSelection,
               child: AccueilTitre(isAndroid: true),
             ),
             Expanded(
               child: Stack(
                 children: [
                   widget.child,
-                  if (afficherProjets) AccueilSelection(projets: projets, changerProjet: changerProjet),
+                  if (afficherProjets) AccueilSelection(action: changerProjet),
                 ],
               ),
             ),
-            AccueilNavigation(isAndroid: true, rafraichir: rafraichir),
+            AccueilNavigation(isAndroid: true),
           ],
         ),
       ),
