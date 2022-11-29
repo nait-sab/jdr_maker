@@ -87,7 +87,7 @@ class _AppInterfaceState extends State<AppInterface> {
     navigationController = Provider.of<NavigationController>(context);
     String route = Provider.of<NavigationController>(context).currentRoute;
 
-    if (recupererationUtilisateur) {
+    if ((route == "/" || route == "/accueil") && recupererationUtilisateur) {
       chargerUtilisateur(route);
     }
 
