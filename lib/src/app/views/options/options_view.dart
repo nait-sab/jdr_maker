@@ -44,38 +44,12 @@ class _OptionsViewState extends State<OptionsView> {
               children: [
                 GridView.count(
                   crossAxisCount: 7,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
                   children: [
-                    InkWell(
-                      onTap: goChangeAccount,
-                      child: Container(
-                        height: 14,
-                        decoration:
-                            BoxDecoration(borderRadius: BorderRadius.circular(20), color: Couleurs.fondSecondaire),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Flexible(
-                                  child: Icon(
-                                Icons.edit,
-                                size: 100,
-                                color: Couleurs.violet,
-                              )),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Modifier son profil",
-                                    style: TextStyle(color: Couleurs.texte, fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
+                    optionBoutonDesktop("Modifier son profil", Icons.person_rounded, action: goChangeAccount),
+                    optionBoutonDesktop("Modifier le projet", Icons.layers_rounded),
+                    optionBoutonDesktop("Membres du projet", Icons.manage_accounts_rounded),
                   ],
                 ),
               ],
@@ -92,14 +66,14 @@ class _OptionsViewState extends State<OptionsView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            optionBouton("Déconnexion", action: boutonDeconnexion),
+            optionBoutonMobile("Déconnexion", action: boutonDeconnexion),
           ],
         ),
       ),
     );
   }
 
-  Widget optionBouton(String texte, {VoidCallback? action}) {
+  Widget optionBoutonMobile(String texte, {VoidCallback? action}) {
     return Bouton(
       onTap: action ?? (() {}),
       child: Container(
@@ -113,6 +87,39 @@ class _OptionsViewState extends State<OptionsView> {
         child: Text(
           texte,
           style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget optionBoutonDesktop(String texte, IconData icone, {VoidCallback? action}) {
+    Size ecran = MediaQuery.of(context).size;
+    return Bouton(
+      onTap: action ?? (() {}),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Couleurs.fondSecondaire,
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                icone,
+                color: Couleurs.violet,
+                size: ecran.width * 0.04,
+              ),
+              Text(
+                texte,
+                style: TextStyle(
+                  color: Couleurs.texte,
+                  fontSize: ecran.width * 0.01,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
