@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil_view.dart';
-import 'package:jdr_maker/src/app/views/connexion_view.dart';
+import 'package:jdr_maker/src/app/views/connexion/connexion_view.dart';
+import 'package:jdr_maker/src/app/views/connexion/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_edit_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
-import 'package:jdr_maker/src/app/views/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
@@ -41,7 +41,7 @@ List<Page> applicationRoutes(context) {
   List<Page> liste = [];
 
   // Route par défaut
-  liste.add(MaterialPage(child: AccueilView()));
+  liste.add(MaterialPage(child: ConnexionView()));
 
   // Routing
   // Toujours un / en début de route

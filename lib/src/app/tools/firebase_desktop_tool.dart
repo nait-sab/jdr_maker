@@ -97,8 +97,7 @@ class FirebaseDesktopTool {
 
   /// Récupérer l'utilisateur connecter actuellement
   static Future<User?> getUtilisateur() async {
-    bool connexionActive = _getAuthInstance().isSignedIn;
-    return connexionActive ? _getAuthInstance().getUser() : null;
+    return await _getAuthInstance().getUser();
   }
 
   /// Récupérer l'utilisateur connecter actuellement

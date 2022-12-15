@@ -76,7 +76,6 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
   }
 
   Widget renduFormulaire() {
-    Size ecran = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(

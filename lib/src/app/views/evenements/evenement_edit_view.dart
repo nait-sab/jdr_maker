@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
@@ -66,7 +64,6 @@ class _EvenementEditViewState extends State<EvenementEditView> {
   }
 
   Widget renduFormulaire() {
-    Size ecran = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(

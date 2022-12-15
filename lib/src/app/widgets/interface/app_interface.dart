@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/entete.dart';
@@ -38,7 +37,6 @@ class _AppInterfaceState extends State<AppInterface> {
   /// Chargement de la page
   late bool chargement;
   late bool recupererationProjets;
-  late bool recupererationUtilisateur;
 
   /// Afficher ou non la sélection de projets
   late bool afficherProjets;
@@ -48,13 +46,11 @@ class _AppInterfaceState extends State<AppInterface> {
     super.initState();
     chargement = false;
     recupererationProjets = true;
-    recupererationUtilisateur = true;
     afficherProjets = false;
   }
 
   void changerSelection() => setState(() => afficherProjets = !afficherProjets);
   void retourAccueil() => setState(() => NavigationController.changerView(context, "/accueil"));
-  void allerConnexion() => setState(() => NavigationController.changerView(context, "/connexion"));
 
   Future changerProjet(ProjetModel projetModel) async {
     setState(() => chargement = true);
@@ -66,18 +62,7 @@ class _AppInterfaceState extends State<AppInterface> {
   Future chargerProjets() async {
     setState(() => chargement = true);
     await ProjetController.chargerProjets(context);
-    print("chargement des projets");
     setState(() => recupererationProjets = false);
-    setState(() => chargement = false);
-  }
-
-  Future chargerUtilisateur(String routeActuelle) async {
-    setState(() => chargement = true);
-    bool connecter = await UtilisateurController.verifierUtilisateur();
-    if (!connecter && routeActuelle != "/connexion" && routeActuelle != "/inscription") {
-      allerConnexion();
-    }
-    setState(() => recupererationUtilisateur = false);
     setState(() => chargement = false);
   }
 
@@ -86,10 +71,6 @@ class _AppInterfaceState extends State<AppInterface> {
     projetController = Provider.of<ProjetController>(context);
     navigationController = Provider.of<NavigationController>(context);
     String route = Provider.of<NavigationController>(context).currentRoute;
-
-    if ((route == "/" || route == "/accueil") && recupererationUtilisateur) {
-      chargerUtilisateur(route);
-    }
 
     // Récupération des projets depuis l'accueil
     if ((route == "/" || route == "/accueil") && recupererationProjets) {
