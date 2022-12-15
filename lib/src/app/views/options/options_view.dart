@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:provider/provider.dart';
 
 /// Classe Options
 ///
@@ -18,19 +20,16 @@ class OptionsView extends StatefulWidget {
 }
 
 class _OptionsViewState extends State<OptionsView> {
+  late ProjetController projetController;
+
+  void changerRoute(String route) => NavigationController.changerView(context, route);
+
   @override
   Widget build(BuildContext context) {
+    projetController = Provider.of<ProjetController>(context);
     return AppInterface(
       child: Platform.isAndroid ? renduMobile(context) : renduDesktop(context),
     );
-  }
-
-  void boutonDeconnexion() {
-    NavigationController.changerView(context, "/accueil");
-  }
-
-  void goChangeAccount() {
-    NavigationController.changerView(context, "/modifier_profil");
   }
 
   Widget renduDesktop(BuildContext context) {
@@ -46,11 +45,7 @@ class _OptionsViewState extends State<OptionsView> {
                   crossAxisCount: 7,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20,
-                  children: [
-                    optionBoutonDesktop("Modifier son profil", Icons.person_rounded, action: goChangeAccount),
-                    optionBoutonDesktop("Modifier le projet", Icons.layers_rounded),
-                    optionBoutonDesktop("Membres du projet", Icons.manage_accounts_rounded),
-                  ],
+                  children: listeOptions(),
                 ),
               ],
             ),
@@ -65,12 +60,40 @@ class _OptionsViewState extends State<OptionsView> {
       padding: EdgeInsets.all(20),
       child: SingleChildScrollView(
         child: Column(
-          children: [
-            optionBoutonMobile("Déconnexion", action: boutonDeconnexion),
-          ],
+          children: listeOptions(),
         ),
       ),
     );
+  }
+
+  List<Widget> listeOptions() {
+    List<Widget> liste = [];
+
+    bool projetCharger = projetController.projet != null;
+
+    if (Platform.isAndroid) {
+      liste.add(optionBoutonMobile("Déconnexion", action: () => changerRoute("/connexion")));
+    } else {
+      liste.add(optionBoutonDesktop(
+        "Modifier son profil",
+        Icons.person_rounded,
+        action: () => changerRoute("/modifier_profil"),
+      ));
+
+      if (projetCharger) {
+        liste.add(optionBoutonDesktop(
+          "Modifier le projet",
+          Icons.layers_rounded,
+          action: () => changerRoute("/modifier_projet"),
+        ));
+        liste.add(optionBoutonDesktop(
+          "Membres du projet",
+          Icons.manage_accounts_rounded,
+        ));
+      }
+    }
+
+    return liste;
   }
 
   Widget optionBoutonMobile(String texte, {VoidCallback? action}) {

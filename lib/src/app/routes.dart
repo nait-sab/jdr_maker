@@ -12,6 +12,7 @@ import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieux_view.dart';
+import 'package:jdr_maker/src/app/views/modifier_projet/modifier_projet_view.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_create.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_edit.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_view.dart';
@@ -147,6 +148,13 @@ List<Page> applicationRoutes(context) {
     // =======================================================
     case "/lance":
       liste.add(MaterialPage(child: LanceDes()));
+      break;
+
+    // =======================================================
+    // Routes liés aux options
+    // =======================================================
+    case "/modifier_projet":
+      liste.add(MaterialPage(child: ModifierProjetView()));
       break;
   }
 
