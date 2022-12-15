@@ -49,8 +49,6 @@ class _ConnexionViewState extends State<ConnexionView> {
       print("Mot de passe trop court");
     }
 
-    UtilisateurModel? utilisateurModel;
-
     if (Platform.isAndroid) {
       await FirebaseAndroidTool.connexion(mail, passe);
     }
