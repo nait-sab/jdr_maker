@@ -44,9 +44,11 @@ class _DebutJDRState extends State<DebutJDR> {
   Future<void> creationJDR() async {
     String idProjet = getRandomString(20);
     ProjetModel newProjet = ProjetModel(
-        id: idProjet,
-        idCreateur: "wi3eEPNOwmecmOy9nuVzETg19oP2", //Brut Pour le moment
-        nomProjet: nomJdrController.text);
+      id: idProjet,
+      idCreateur: "wi3eEPNOwmecmOy9nuVzETg19oP2", //Brut Pour le moment
+      nomProjet: nomJdrController.text,
+      isPublic: false,
+    );
     if (Platform.isWindows) {
       await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
     } else {
