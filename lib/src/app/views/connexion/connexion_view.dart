@@ -7,6 +7,8 @@ import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_boutons.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_champ.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_entete.dart';
+import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_formulaire.dart';
+import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 
@@ -21,14 +23,29 @@ class ConnexionView extends StatefulWidget {
 }
 
 class _ConnexionViewState extends State<ConnexionView> {
+  // Controllers formulaire
   late TextEditingController mailController;
   late TextEditingController passeController;
+
+  // Contenu du formulaire
+  late List<Widget> formulaire;
+
+  // Variables
+  late bool chargement;
 
   @override
   void initState() {
     super.initState();
+
     mailController = TextEditingController();
     passeController = TextEditingController();
+
+    chargement = false;
+    formulaire = [
+      ConnexionChamp(nom: "Adresse email", controller: mailController),
+      SizedBox(height: 10),
+      ConnexionChamp(nom: "Mot de passe", controller: passeController, secret: true),
+    ];
   }
 
   void changerRoute(String route) => NavigationController.changerView(context, route);
@@ -58,13 +75,20 @@ class _ConnexionViewState extends State<ConnexionView> {
       var utilisateur = await FirebaseDesktopTool.getUtilisateur();
       var userInfos = await FirebaseDesktopTool.getCollectionID(UtilisateurModel.nomCollection, utilisateur!.id);
       chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
+    }
+
+    if (await UtilisateurController.verifierUtilisateur()) {
       changerRoute("/accueil");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid ? renduAndroid(context) : renduDesktop(context);
+    return chargement
+        ? Chargement()
+        : Platform.isAndroid
+            ? renduAndroid(context)
+            : renduDesktop(context);
   }
 
   Widget renduAndroid(BuildContext context) {
@@ -72,49 +96,29 @@ class _ConnexionViewState extends State<ConnexionView> {
   }
 
   Widget renduDesktop(BuildContext context) {
-    Size ecran = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Couleurs.fondPrincipale,
-      body: Container(
-        color: Couleurs.fondPrincipale,
-        child: Column(
-          children: [
-            ConnexionEntete(),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(50),
-                child: Column(
-                  children: [
-                    Spacer(),
-                    Container(
-                      width: ecran.width * 0.5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Couleurs.fondSecondaire,
-                      ),
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          ConnexionChamp(nom: "Adresse email", controller: mailController),
-                          SizedBox(height: 10),
-                          ConnexionChamp(nom: "Mot de passe", controller: passeController, secret: true),
-                        ],
-                      ),
-                    ),
-                    Spacer(),
-                    ConnexionBoutons(
-                      boutonDroite: true,
-                      actionBoutonPrincipal: login,
-                      actionBoutonChanger: () => changerRoute("/inscription"),
-                      texteBoutonPrincipal: "Connexion",
-                      texteBoutonChanger: "Inscription >",
-                    ),
-                  ],
-                ),
+      body: Column(
+        children: [
+          ConnexionEntete(),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(50),
+              child: Column(
+                children: [
+                  ConnexionFormulaire(contenu: formulaire),
+                  ConnexionBoutons(
+                    boutonDroite: true,
+                    actionBoutonPrincipal: login,
+                    actionBoutonChanger: () => changerRoute("/inscription"),
+                    texteBoutonPrincipal: "Connexion",
+                    texteBoutonChanger: "Inscription >",
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

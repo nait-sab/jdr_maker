@@ -13,7 +13,7 @@
 - Windows (EXE)
 - Android >= 5  (APK)
 
-## Version actuelle : 1.0.4
+## Version actuelle : 1.0.5
 Historique des modifications : __changelog.md__
 
 ## Langages
