@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 
 /// Classe : Accueil - Barre de recherche
 ///
@@ -11,6 +12,15 @@ class AccueilRecherche extends StatefulWidget {
 }
 
 class _AccueilRechercheState extends State<AccueilRecherche> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void goRecherche() {
+    NavigationController.changerView(context, "/rechercher");
+  }
+
   @override
   Widget build(BuildContext context) {
     Size ecran = MediaQuery.of(context).size;
@@ -28,10 +38,13 @@ class _AccueilRechercheState extends State<AccueilRecherche> {
                 ),
               ),
             ),
-            Icon(
-              Icons.search_rounded,
-              color: Color(0xff81818F),
-            ),
+            InkWell(
+              onTap: goRecherche,
+              child: Icon(
+                Icons.search_rounded,
+                color: Color(0xff81818F),
+              ),
+            )
           ],
         ),
       ),

@@ -46,7 +46,8 @@ class _DebutJDRState extends State<DebutJDR> {
     ProjetModel newProjet = ProjetModel(
         id: idProjet,
         idCreateur: "wi3eEPNOwmecmOy9nuVzETg19oP2", //Brut Pour le moment
-        nomProjet: nomJdrController.text);
+        nomProjet: nomJdrController.text,
+        isPublic: true);
     if (Platform.isWindows) {
       await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
     } else {
