@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
+import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
@@ -14,41 +15,69 @@ import 'package:provider/provider.dart';
 ///
 /// Type : Page
 ///
-/// Contient la page de recherche (Mobile) de l'accueil
+/// Contient la page de recherche de l'accueil
 class RechercherView extends StatefulWidget {
   @override
   State<RechercherView> createState() => _RechercherViewState();
 }
 
 class _RechercherViewState extends State<RechercherView> {
+  // Controller
   late ProjetController projetController;
-  late UtilisateurController utilisateurController;
+
+  // Listes
   late List<ProjetModel> projetsPublic;
-  late List<String> utilisateurCreateur;
+  late List<String> utilisateursCreateur;
+
+  // Chargement et Lock
   late bool chargement;
+  late bool lock;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialisations des variables
+    chargement = false;
+    lock = false;
+    projetsPublic = [];
+    utilisateursCreateur = [];
   }
 
-  Future getListeProjetsPublics(ProjetController projetController) async {
-    projetsPublic = [];
-    utilisateurCreateur = [];
-    for (var projet in projetController.projets) {
+  Future getProjetsPublics() async {
+    setState(() => chargement = true);
+
+    for (ProjetModel projet in projetController.projets) {
       if (projet.isPublic) {
-        var user = await FirebaseDesktopTool.getCollectionID("Utilisateurs", projet.idCreateur);
-        utilisateurCreateur.add(user['username']);
         projetsPublic.add(projet);
+        utilisateursCreateur.add(UtilisateurModel.fromMap(
+          await FirebaseDesktopTool.getCollectionID(
+            UtilisateurModel.nomCollection,
+            projet.idCreateur,
+          ),
+        ).username);
       }
     }
+
+    lock = true;
+    setState(() => chargement = false);
   }
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
-    getListeProjetsPublics(projetController);
-    return AppInterface(child: Platform.isAndroid ? renduMobile(context) : renduDesktop(context));
+
+    if (!lock) {
+      getProjetsPublics();
+    }
+
+    return AppInterface(
+      child: chargement
+          ? Chargement()
+          : Platform.isAndroid
+              ? renduMobile(context)
+              : renduDesktop(context),
+    );
   }
 
   Widget renduDesktop(BuildContext context) {
@@ -78,7 +107,7 @@ class _RechercherViewState extends State<RechercherView> {
                             style: TextStyle(color: Colors.white),
                           ),
                           Text(
-                            utilisateurCreateur[index],
+                            utilisateursCreateur[index],
                             style: TextStyle(color: Colors.white),
                           ),
                           Text(

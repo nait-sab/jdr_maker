@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 /// Classe : Projet
 ///
 /// Type : Model
@@ -13,7 +11,12 @@ class ProjetModel {
   String nomProjet;
   bool isPublic;
 
-  ProjetModel({required this.id, required this.idCreateur, required this.nomProjet, required this.isPublic});
+  ProjetModel({
+    required this.id,
+    required this.idCreateur,
+    required this.nomProjet,
+    required this.isPublic,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +29,10 @@ class ProjetModel {
 
   static ProjetModel fromMap(data) {
     return ProjetModel(
-        id: data["id"], idCreateur: data["idCreateur"], nomProjet: data["nomProjet"], isPublic: data["isPublic"]);
+      id: data["id"],
+      idCreateur: data["idCreateur"],
+      nomProjet: data["nomProjet"],
+      isPublic: data["isPublic"],
+    );
   }
 }
