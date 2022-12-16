@@ -92,6 +92,10 @@ class FirebaseAndroidTool {
     return _getAuthInstance().currentUser;
   }
 
+  static Stream<User?> getChangementAuthentification() {
+    return _getAuthInstance().authStateChanges();
+  }
+
   /// Déconnecter l'utilisateur
   /// Si besoin de modifier la page dû au changement, éffectuer un await de getUtilisateur()
   static Future deconnexion() async {

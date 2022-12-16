@@ -9,11 +9,13 @@ class ProjetModel {
   String id;
   String idCreateur;
   String nomProjet;
+  bool isPublic;
 
   ProjetModel({
     required this.id,
     required this.idCreateur,
     required this.nomProjet,
+    required this.isPublic,
   });
 
   Map<String, dynamic> toMap() {
@@ -21,6 +23,7 @@ class ProjetModel {
       "id": id,
       "idCreateur": idCreateur,
       "nomProjet": nomProjet,
+      "isPublic": isPublic,
     };
   }
 
@@ -29,6 +32,7 @@ class ProjetModel {
       id: data["id"],
       idCreateur: data["idCreateur"],
       nomProjet: data["nomProjet"],
+      isPublic: data["isPublic"],
     );
   }
 }

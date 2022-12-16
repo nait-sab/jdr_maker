@@ -76,7 +76,6 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
   }
 
   Widget renduFormulaire() {
-    Size ecran = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(
@@ -89,36 +88,40 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
                 color: Couleurs.fondSecondaire,
               ),
               padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Stack(
                 children: [
-                  Champ(
-                    typeChamp: TextInputType.text,
-                    controller: champNom,
-                    nomChamp: "Nom de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  SizedBox(height: 20),
-                  Champ(
-                    typeChamp: TextInputType.multiline,
-                    controller: champDescription,
-                    nomChamp: "Description de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  Spacer(),
-                  Bouton(
-                    onTap: creer,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Couleurs.violet,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Champ(
+                        typeChamp: TextInputType.text,
+                        controller: champNom,
+                        nomChamp: "Nom de l'événement",
+                        couleurTexte: Couleurs.texte,
                       ),
-                      padding: EdgeInsets.all(20),
-                      child: Text(
-                        "Créer",
-                        style: TextStyle(
-                          fontSize: Platform.isAndroid ? 22 : ecran.width * 0.015,
+                      SizedBox(height: 20),
+                      Champ(
+                        typeChamp: TextInputType.multiline,
+                        controller: champDescription,
+                        nomChamp: "Description de l'événement",
+                        couleurTexte: Couleurs.texte,
+                      ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Bouton(
+                      onTap: creer,
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Couleurs.violet,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Icon(
+                          Icons.done_rounded,
                           color: Colors.white,
+                          size: 30,
                         ),
                       ),
                     ),

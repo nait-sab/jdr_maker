@@ -34,13 +34,34 @@ class _EvenementsViewState extends State<EvenementsView> {
           children: [
             EnteteApplication(routeRetour: "/accueil", titreFormulaire: "Événements"),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: getListe(),
-                ),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      children: getListe(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Bouton(
+                      onTap: () => NavigationController.changerView(context, "/creer_evenement"),
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Couleurs.violet,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Icon(
+                          Icons.add_rounded,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            boutonNouveauEvenement(),
           ],
         ),
       ),
@@ -64,28 +85,6 @@ class _EvenementsViewState extends State<EvenementsView> {
     }
 
     return liste;
-  }
-
-  Widget boutonNouveauEvenement() {
-    Size ecran = MediaQuery.of(context).size;
-    return Bouton(
-      onTap: () => NavigationController.changerView(context, "/creer_evenement"),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Couleurs.violet,
-        ),
-        child: Text(
-          "Créer un événement",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: Platform.isAndroid ? 20 : ecran.width * 0.015,
-          ),
-        ),
-      ),
-    );
   }
 
   Widget boutonEvenement(EvenementModel evenement) {

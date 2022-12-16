@@ -1,3 +1,15 @@
+## [1.0.5]() (2022-12-16)
+
+### Moteur
+
+* Amélioration du système de connexion et d'inscription
+* Amélioration des projets pour les rendre public
+
+### Interface
+
+* Ajout d'une option pour modifier le projet actuel
+* Ajout de la recherche de projet public
+
 ## [1.0.4]() (2022-11-24)
 
 ### Moteur

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
@@ -8,48 +10,48 @@ import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/models/evenement_model.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
-/// Classe : Événement
+/// Classe : Modifier Projet
 ///
 /// Type : View
 ///
-/// Afficher l'édition d'un événement
-class EvenementEditView extends StatefulWidget {
+/// Contient la page de modification du projet actuel
+class ModifierProjetView extends StatefulWidget {
   @override
-  State<EvenementEditView> createState() => _EvenementEditViewState();
+  State<ModifierProjetView> createState() => _ModifierProjetViewState();
 }
 
-class _EvenementEditViewState extends State<EvenementEditView> {
+class _ModifierProjetViewState extends State<ModifierProjetView> {
   late bool chargement;
-  late TextEditingController champNom;
-  late TextEditingController champDescription;
   late ProjetController projetController;
+  late TextEditingController nomProjet;
 
   @override
   void initState() {
     super.initState();
     chargement = false;
-    champNom = TextEditingController();
-    champDescription = TextEditingController();
+    nomProjet = TextEditingController();
   }
 
-  Future modifier() async {
-    if (champNom.text.isEmpty) {
+  Future modifierProjet() async {
+    if (nomProjet.text.isEmpty) {
       return;
     }
 
-    setState(() => chargement = true);
+    if (nomProjet.text != projetController.projet!.nomProjet) {
+      setState(() => chargement = true);
 
-    String id = projetController.evenement!.id;
-    EvenementModel evenement = projetController.evenement!;
-    evenement.nom = champNom.text;
-    evenement.description = champDescription.text;
-    await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
-    await actualiser();
+      String id = projetController.projet!.id;
+      ProjetModel projet = projetController.projet!;
+      projet.nomProjet = nomProjet.text;
 
-    setState(() => NavigationController.changerView(context, "/evenement"));
+      await FirebaseGlobalTool.modifierDocument(ProjetModel.nomCollection, id, projet.toMap());
+      await actualiser();
+
+      setState(() => NavigationController.changerView(context, "/options"));
+    }
   }
 
   Future actualiser() async => await ProjetController.actualiser(context);
@@ -57,18 +59,24 @@ class _EvenementEditViewState extends State<EvenementEditView> {
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
-    champNom.text = projetController.evenement!.nom;
-    champDescription.text = projetController.evenement!.description;
+    nomProjet.text = projetController.projet!.nomProjet;
 
-    return AppInterface(child: chargement ? Chargement() : renduFormulaire());
+    return AppInterface(
+      child: chargement
+          ? Chargement()
+          : Platform.isAndroid
+              ? renduMobile(context)
+              : renduDesktop(context),
+    );
   }
 
-  Widget renduFormulaire() {
+  Widget renduDesktop(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          EnteteApplication(routeRetour: "/evenement", titreFormulaire: "Modifier un événement"),
+          EnteteApplication(routeRetour: "/options", titreFormulaire: "Modifier le projet"),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -78,28 +86,22 @@ class _EvenementEditViewState extends State<EvenementEditView> {
               padding: EdgeInsets.all(20),
               child: Stack(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Champ(
-                        typeChamp: TextInputType.text,
-                        controller: champNom,
-                        nomChamp: "Nom de l'événement",
-                        couleurTexte: Couleurs.texte,
-                      ),
-                      SizedBox(height: 20),
-                      Champ(
-                        typeChamp: TextInputType.multiline,
-                        controller: champDescription,
-                        nomChamp: "Description de l'événement",
-                        couleurTexte: Couleurs.texte,
-                      ),
-                    ],
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Champ(
+                          typeChamp: TextInputType.text,
+                          controller: nomProjet,
+                          nomChamp: "Nom du projet",
+                          couleurTexte: Couleurs.texte,
+                        ),
+                      ],
+                    ),
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Bouton(
-                      onTap: modifier,
+                      onTap: modifierProjet,
                       child: Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -119,6 +121,17 @@ class _EvenementEditViewState extends State<EvenementEditView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget renduMobile(BuildContext context) {
+    return Center(
+      child: Text(
+        "Rechercher",
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
     );
   }

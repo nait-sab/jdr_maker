@@ -17,15 +17,17 @@ class Champ extends StatefulWidget {
   final bool? contenuCacher;
   final int? longueurMax;
   final List<TextInputFormatter>? inputFormatters;
-  Champ(
-      {required this.typeChamp,
-      required this.controller,
-      this.nomChamp,
-      this.tailleTexte,
-      this.couleurTexte,
-      this.contenuCacher,
-      this.longueurMax,
-      this.inputFormatters});
+
+  Champ({
+    required this.typeChamp,
+    required this.controller,
+    this.nomChamp,
+    this.tailleTexte,
+    this.couleurTexte,
+    this.contenuCacher,
+    this.longueurMax,
+    this.inputFormatters,
+  });
 
   @override
   State<Champ> createState() => _ChampState();

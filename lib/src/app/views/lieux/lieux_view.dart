@@ -25,7 +25,6 @@ class _LieuxViewState extends State<LieuxView> {
 
   void ouvrirLieu(LieuModel lieu) {
     projetController.lieu = lieu;
-
     ProjetController.changerLieu(context, lieu.id);
     NavigationController.changerView(context, "/lieu");
   }
