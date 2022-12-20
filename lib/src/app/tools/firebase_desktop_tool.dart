@@ -1,3 +1,4 @@
+import 'package:firedart/auth/exceptions.dart';
 import 'package:firedart/auth/user_gateway.dart';
 import 'package:firedart/firedart.dart';
 
@@ -41,16 +42,6 @@ class FirebaseDesktopTool {
     }
   }
 
-  /// Récupérer le json d'un élément de collection par son ID
-  static Future getCollectionID(String nomCollection, String id) async {
-    var collection = await getCollection(nomCollection);
-    for (dynamic document in collection) {
-      if (document["id"] == id) {
-        return document;
-      }
-    }
-  }
-
   /// Ajouter un nouveau document à une [collection] contenant les données [json]
   static Future ajouterDocument(
     String collection,
@@ -86,13 +77,23 @@ class FirebaseDesktopTool {
   // Fonctions Auth
   // =============================================================
   /// Créer un nouveau compte à partir d'un [mail] et d'un [passe]
-  static Future creerCompte(String mail, String passe) async {
-    await _getAuthInstance().signUp(mail, passe);
+  static Future<bool> creerCompte(String mail, String passe) async {
+    try {
+      await _getAuthInstance().signUp(mail, passe);
+      return true;
+    } on AuthException {
+      return false;
+    }
   }
 
   /// Se connecter à un compte à partir d'un [mail] et d'un [passe]
-  static Future connexion(String mail, String passe) async {
-    await _getAuthInstance().signIn(mail, passe);
+  static Future<bool> connexion(String mail, String passe) async {
+    try {
+      await _getAuthInstance().signIn(mail, passe);
+      return true;
+    } on AuthException {
+      return false;
+    }
   }
 
   /// Récupérer l'utilisateur connecter actuellement

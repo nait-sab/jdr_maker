@@ -8,6 +8,7 @@ import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_boutons.dart
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_champ.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_entete.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_formulaire.dart';
+import 'package:jdr_maker/src/app/widgets/alerte.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
@@ -49,6 +50,7 @@ class _ConnexionViewState extends State<ConnexionView> {
   }
 
   void changerRoute(String route) => NavigationController.changerView(context, route);
+  void afficherMessage(String texte) => Alerte.message(context, "Tentative de connexion", texte);
 
   void chargerUtilisateur(UtilisateurModel utilisateur) {
     UtilisateurController.changerUtilisateur(context, utilisateur);
@@ -59,22 +61,33 @@ class _ConnexionViewState extends State<ConnexionView> {
     String passe = passeController.text;
 
     if (mail.isEmpty) {
-      print("Aucun email");
+      return afficherMessage("Aucun email renseigné");
     }
 
-    if (passe.length < 6) {
-      print("Mot de passe trop court");
+    if (passe.isEmpty) {
+      return afficherMessage("Aucun mot de passe renseigné");
     }
 
     if (Platform.isAndroid) {
-      await FirebaseAndroidTool.connexion(mail, passe);
+      bool connexionReussi = await FirebaseAndroidTool.connexion(mail, passe);
+      if (connexionReussi) {
+        var utilisateur = FirebaseAndroidTool.getUtilisateur();
+        var userInfos = await FirebaseAndroidTool.getdocumentID(UtilisateurModel.nomCollection, utilisateur!.uid);
+        chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
+      } else {
+        return afficherMessage("Compte introuvable");
+      }
     }
 
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.connexion(mail, passe);
-      var utilisateur = await FirebaseDesktopTool.getUtilisateur();
-      var userInfos = await FirebaseDesktopTool.getCollectionID(UtilisateurModel.nomCollection, utilisateur!.id);
-      chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
+      bool connexionReussi = await FirebaseDesktopTool.connexion(mail, passe);
+      if (connexionReussi) {
+        var utilisateur = await FirebaseDesktopTool.getUtilisateur();
+        var userInfos = await FirebaseDesktopTool.getdocumentID(UtilisateurModel.nomCollection, utilisateur!.id);
+        chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
+      } else {
+        return afficherMessage("Compte introuvable");
+      }
     }
 
     if (await UtilisateurController.verifierUtilisateur()) {
@@ -92,7 +105,40 @@ class _ConnexionViewState extends State<ConnexionView> {
   }
 
   Widget renduAndroid(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Couleurs.fondPrincipale,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              "Projet JDR",
+              style: TextStyle(
+                color: Couleurs.texte,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(50),
+                child: Column(
+                  children: [
+                    ConnexionFormulaire(contenu: formulaire),
+                    ConnexionBoutons(
+                      boutonDroite: true,
+                      actionBoutonPrincipal: login,
+                      actionBoutonChanger: () => changerRoute("/inscription"),
+                      texteBoutonPrincipal: "Connexion",
+                      texteBoutonChanger: "Inscription >",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget renduDesktop(BuildContext context) {

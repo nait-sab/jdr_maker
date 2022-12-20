@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ConnexionChamp extends StatelessWidget {
@@ -20,7 +22,10 @@ class ConnexionChamp extends StatelessWidget {
           padding: EdgeInsets.only(left: 10),
           child: Text(
             nom,
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(
+              fontSize: Platform.isAndroid ? 16 : 20,
+              color: Colors.white,
+            ),
           ),
         ),
         SizedBox(height: 10),
@@ -34,6 +39,8 @@ class ConnexionChamp extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
             ),
+            labelStyle: TextStyle(fontSize: Platform.isAndroid ? 16 : 20),
+            hintStyle: TextStyle(fontSize: Platform.isAndroid ? 16 : 20),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide(color: Colors.white),
