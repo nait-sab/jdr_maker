@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
@@ -19,7 +20,7 @@ class PersonnageView extends StatefulWidget {
 }
 
 class _PersonnageViewState extends State<PersonnageView> {
-  late ProjetController projetController;
+  late PersonnageController personnageController;
 
   Future<void> deleteDialog() async {
     await showDialog(
@@ -38,7 +39,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        '${projetController.personnage!.prenomPersonnage} ${projetController.personnage!.nomPersonnage}',
+                        '${personnageController.personnage!.prenomPersonnage} ${personnageController.personnage!.nomPersonnage}',
                     style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
@@ -55,10 +56,10 @@ class _PersonnageViewState extends State<PersonnageView> {
                   onPressed: () async {
                     if (Platform.isWindows) {
                       await FirebaseDesktopTool.supprimerDocument(
-                          PersonnageModel.nomCollection, projetController.personnage!.id);
+                          PersonnageModel.nomCollection, personnageController.personnage!.id);
                     } else {
                       await FirebaseAndroidTool.supprimerDocument(
-                          PersonnageModel.nomCollection, projetController.personnage!.id);
+                          PersonnageModel.nomCollection, personnageController.personnage!.id);
                     }
                     if (!mounted) {
                       return;
@@ -84,7 +85,7 @@ class _PersonnageViewState extends State<PersonnageView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    personnageController = Provider.of<PersonnageController>(context);
     return AppInterface(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
@@ -114,8 +115,8 @@ class _PersonnageViewState extends State<PersonnageView> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                          projetController.personnage!.lienImage != ""
-                                              ? projetController.personnage!.lienImage
+                                          personnageController.personnage!.lienImage != ""
+                                              ? personnageController.personnage!.lienImage
                                               : 'https://picsum.photos/200/300',
                                         ),
                                         fit: BoxFit.fill),
@@ -126,7 +127,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                 child: Column(
                                   children: [
                                     AutoSizeText(
-                                      projetController.personnage!.prenomPersonnage,
+                                      personnageController.personnage!.prenomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -135,7 +136,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                       maxFontSize: 50,
                                     ),
                                     AutoSizeText(
-                                      projetController.personnage!.nomPersonnage,
+                                      personnageController.personnage!.nomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -171,7 +172,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                projetController.personnage!.description,
+                                personnageController.personnage!.description,
                                 style: TextStyle(
                                   color: Couleurs.texte,
                                 ),
@@ -195,7 +196,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                projetController.personnage!.histoire,
+                                personnageController.personnage!.histoire,
                                 style: TextStyle(
                                   color: Couleurs.texte,
                                 ),

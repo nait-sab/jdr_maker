@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
@@ -22,7 +23,7 @@ class _LieuEditState extends State<LieuEdit> {
   late TextEditingController textEditingControllerNomLieu;
   late TextEditingController textEditingControllerDescription;
   late String lienImage;
-  late ProjetController projetController;
+  late LieuController lieuController;
 
   @override
   void initState() {
@@ -34,17 +35,13 @@ class _LieuEditState extends State<LieuEdit> {
   }
 
   Future modifierLieu() async {
-    LieuModel newLieu = LieuModel(
-        id: projetController.lieu!.id,
-        idProjet: projetController.projet!.id,
-        lienImage: lienImage,
-        description: textEditingControllerDescription.text,
-        idCreateur: projetController.lieu!.idCreateur,
-        nomLieu: textEditingControllerNomLieu.text);
+    LieuModel lieu = lieuController.lieu!;
+    lieu.description = textEditingControllerDescription.text;
+    lieu.nomLieu = textEditingControllerNomLieu.text;
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.modifierDocument(LieuModel.nomCollection, projetController.lieu!.id, newLieu.toMap());
+      await FirebaseDesktopTool.modifierDocument(LieuModel.nomCollection, lieu.id, lieu.toMap());
     } else {
-      await FirebaseAndroidTool.modifierDocument(LieuModel.nomCollection, projetController.lieu!.id, newLieu.toMap());
+      await FirebaseAndroidTool.modifierDocument(LieuModel.nomCollection, lieu.id, lieu.toMap());
     }
     leave();
   }
@@ -57,14 +54,13 @@ class _LieuEditState extends State<LieuEdit> {
   }
 
   void chargerPersonnage() {
-    textEditingControllerNomLieu.text = projetController.lieu!.nomLieu;
-
-    textEditingControllerDescription.text = projetController.lieu!.description;
+    textEditingControllerNomLieu.text = lieuController.lieu!.nomLieu;
+    textEditingControllerDescription.text = lieuController.lieu!.description;
   }
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    lieuController = Provider.of<LieuController>(context);
     chargerPersonnage();
     Size ecran = MediaQuery.of(context).size;
     return AppInterface(

@@ -13,25 +13,15 @@ import 'package:provider/provider.dart';
 ///
 /// Contient le projet actuel dans l'application
 class ProjetController extends ChangeNotifier {
-  /// Projets
+  /// Liste des projets
   List<ProjetModel> projets = [];
+
+  /// Données du projet actuel
   ProjetModel? projet;
-
-  /// Événements
   List<EvenementModel>? evenements;
-  EvenementModel? evenement;
-
-  /// Personnages
   List<PersonnageModel>? personnages;
-  PersonnageModel? personnage;
-
-  /// Lieux
   List<LieuModel>? lieux;
-  LieuModel? lieu;
-
-  /// Objets
   List<ObjetModel>? objets;
-  ObjetModel? objet;
 
   Future _actualiserProjet(ProjetModel projet) async {
     this.projet = projet;
@@ -82,42 +72,6 @@ class ProjetController extends ChangeNotifier {
     });
   }
 
-  Future _actualiserEvenement(String evenementID) async {
-    for (EvenementModel event in evenements!) {
-      if (event.id == evenementID) {
-        evenement = event;
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _actualiserPersonnage(String personnageID) async {
-    for (PersonnageModel perso in personnages!) {
-      if (perso.id == personnageID) {
-        personnage = perso;
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _actualiserLieu(String lieuID) async {
-    for (LieuModel li in lieux!) {
-      if (li.id == lieuID) {
-        lieu = li;
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _actualiserObjet(String objetID) async {
-    for (ObjetModel ob in objets!) {
-      if (ob.id == objetID) {
-        objet = ob;
-      }
-    }
-    notifyListeners();
-  }
-
   static Future changerProjet(BuildContext context, ProjetModel projet) async {
     await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
   }
@@ -130,21 +84,5 @@ class ProjetController extends ChangeNotifier {
 
   static Future chargerProjets(BuildContext context) async {
     await Provider.of<ProjetController>(context, listen: false)._chargerProjets();
-  }
-
-  static Future changerEvenement(BuildContext context, String evenementID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
-  }
-
-  static Future changerPersonnage(BuildContext context, String personnageID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
-  }
-
-  static Future changerLieu(BuildContext context, String lieuID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserLieu(lieuID);
-  }
-
-  static Future changerObjet(BuildContext context, String objetID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserObjet(objetID);
   }
 }

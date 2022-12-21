@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
@@ -68,8 +69,8 @@ class _EvenementsViewState extends State<EvenementsView> {
     );
   }
 
-  void choixEvenement(String evenementID) {
-    ProjetController.changerEvenement(context, evenementID);
+  void choixEvenement(EvenementModel evenement) {
+    EvenementController.changerEvenement(context, evenement);
     NavigationController.changerView(context, "/evenement");
   }
 
@@ -90,7 +91,7 @@ class _EvenementsViewState extends State<EvenementsView> {
   Widget boutonEvenement(EvenementModel evenement) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
-      onTap: () => choixEvenement(evenement.id),
+      onTap: () => choixEvenement(evenement),
       child: Container(
         padding: EdgeInsets.all(20),
         width: double.infinity,

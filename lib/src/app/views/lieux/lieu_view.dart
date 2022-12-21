@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
@@ -12,14 +13,12 @@ import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:provider/provider.dart';
 
 class LieuView extends StatefulWidget {
-  const LieuView({super.key});
-
   @override
   State<LieuView> createState() => _LieuViewState();
 }
 
 class _LieuViewState extends State<LieuView> {
-  late ProjetController projetController;
+  late LieuController lieuController;
 
   Future<void> deleteDialog() async {
     await showDialog(
@@ -37,7 +36,7 @@ class _LieuViewState extends State<LieuView> {
                 style: TextStyle(color: Couleurs.texte),
                 children: <TextSpan>[
                   TextSpan(
-                    text: projetController.lieu!.nomLieu,
+                    text: lieuController.lieu!.nomLieu,
                     style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
@@ -53,9 +52,9 @@ class _LieuViewState extends State<LieuView> {
               TextButton(
                   onPressed: () async {
                     if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(LieuModel.nomCollection, projetController.lieu!.id);
+                      await FirebaseDesktopTool.supprimerDocument(LieuModel.nomCollection, lieuController.lieu!.id);
                     } else {
-                      await FirebaseAndroidTool.supprimerDocument(LieuModel.nomCollection, projetController.lieu!.id);
+                      await FirebaseAndroidTool.supprimerDocument(LieuModel.nomCollection, lieuController.lieu!.id);
                     }
                     if (!mounted) {
                       return;
@@ -81,7 +80,7 @@ class _LieuViewState extends State<LieuView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    lieuController = Provider.of<LieuController>(context);
     return AppInterface(
       child: SingleChildScrollView(
         child: Padding(
@@ -101,7 +100,7 @@ class _LieuViewState extends State<LieuView> {
                       ),
                       image: DecorationImage(
                         colorFilter: ColorFilter.mode(Couleurs.fondPrincipale.withOpacity(0.2), BlendMode.dstIn),
-                        image: NetworkImage(projetController.lieu!.lienImage),
+                        image: NetworkImage(lieuController.lieu!.lienImage),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,7 +110,7 @@ class _LieuViewState extends State<LieuView> {
                         children: [
                           EnteteApplication(routeRetour: "/lieux", titreFormulaire: "Fiche du lieu"),
                           AutoSizeText(
-                            projetController.lieu!.nomLieu,
+                            lieuController.lieu!.nomLieu,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -142,7 +141,7 @@ class _LieuViewState extends State<LieuView> {
                       padding: const EdgeInsets.all(8),
                       child: SingleChildScrollView(
                         child: Text(
-                          projetController.lieu!.description,
+                          lieuController.lieu!.description,
                           style: TextStyle(
                             color: Couleurs.texte,
                           ),

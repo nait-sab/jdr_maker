@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
@@ -22,7 +23,7 @@ class _ObjetEditState extends State<ObjetEdit> {
   late TextEditingController textEditingControllerNomObjet;
   late TextEditingController textEditingControllerDescription;
   late String lienImage;
-  late ProjetController projetController;
+  late ObjetController objetController;
 
   @override
   void initState() {
@@ -34,19 +35,13 @@ class _ObjetEditState extends State<ObjetEdit> {
   }
 
   Future modifierObjet() async {
-    ObjetModel newObjet = ObjetModel(
-        id: projetController.objet!.id,
-        idProjet: projetController.projet!.id,
-        lienImage: lienImage,
-        description: textEditingControllerDescription.text,
-        idCreateur: projetController.objet!.idCreateur,
-        nomObjet: textEditingControllerNomObjet.text);
+    ObjetModel objet = objetController.objet!;
+    objet.description = textEditingControllerDescription.text;
+    objet.nomObjet = textEditingControllerNomObjet.text;
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.modifierDocument(
-          ObjetModel.nomCollection, projetController.objet!.id, newObjet.toMap());
+      await FirebaseDesktopTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     } else {
-      await FirebaseAndroidTool.modifierDocument(
-          ObjetModel.nomCollection, projetController.objet!.id, newObjet.toMap());
+      await FirebaseAndroidTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     }
     leave();
   }
@@ -59,14 +54,14 @@ class _ObjetEditState extends State<ObjetEdit> {
   }
 
   void chargerObjet() {
-    textEditingControllerNomObjet.text = projetController.objet!.nomObjet;
+    textEditingControllerNomObjet.text = objetController.objet!.nomObjet;
 
-    textEditingControllerDescription.text = projetController.objet!.description;
+    textEditingControllerDescription.text = objetController.objet!.description;
   }
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    objetController = Provider.of<ObjetController>(context);
     chargerObjet();
     Size ecran = MediaQuery.of(context).size;
     return AppInterface(

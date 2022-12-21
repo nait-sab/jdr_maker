@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
@@ -24,7 +25,7 @@ class _PersonnageEditState extends State<PersonnageEdit> {
   late TextEditingController textEditingControllerDescription;
   late TextEditingController textEditingControllerHistoire;
   late String lienImage;
-  late ProjetController projetController;
+  late PersonnageController personnageController;
 
   @override
   void initState() {
@@ -38,20 +39,14 @@ class _PersonnageEditState extends State<PersonnageEdit> {
   }
 
   Future modifierPersonnage() async {
-    PersonnageModel newPersonnage = PersonnageModel(
-        id: projetController.personnage!.id,
-        idProjet: projetController.projet!.id,
-        lienImage: lienImage,
-        description: textEditingControllerDescription.text,
-        histoire: textEditingControllerHistoire.text,
-        nomPersonnage: textEditingControllerNom.text,
-        prenomPersonnage: textEditingControllerPrenom.text);
+    PersonnageModel personnage = personnageController.personnage!;
+    personnage.description = textEditingControllerDescription.text;
+    personnage.histoire = textEditingControllerHistoire.text;
+    personnage.nomPersonnage = textEditingControllerNom.text;
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.modifierDocument(
-          PersonnageModel.nomCollection, projetController.personnage!.id, newPersonnage.toMap());
+      await FirebaseDesktopTool.modifierDocument(PersonnageModel.nomCollection, personnage.id, personnage.toMap());
     } else {
-      await FirebaseAndroidTool.modifierDocument(
-          PersonnageModel.nomCollection, projetController.personnage!.id, newPersonnage.toMap());
+      await FirebaseAndroidTool.modifierDocument(PersonnageModel.nomCollection, personnage.id, personnage.toMap());
     }
     leave();
   }
@@ -64,15 +59,15 @@ class _PersonnageEditState extends State<PersonnageEdit> {
   }
 
   void chargerPersonnage() {
-    textEditingControllerNom.text = projetController.personnage!.nomPersonnage;
-    textEditingControllerPrenom.text = projetController.personnage!.prenomPersonnage;
-    textEditingControllerDescription.text = projetController.personnage!.description;
-    textEditingControllerHistoire.text = projetController.personnage!.description;
+    textEditingControllerNom.text = personnageController.personnage!.nomPersonnage;
+    textEditingControllerPrenom.text = personnageController.personnage!.prenomPersonnage;
+    textEditingControllerDescription.text = personnageController.personnage!.description;
+    textEditingControllerHistoire.text = personnageController.personnage!.description;
   }
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    personnageController = Provider.of<PersonnageController>(context);
     chargerPersonnage();
     Size ecran = MediaQuery.of(context).size;
     return AppInterface(

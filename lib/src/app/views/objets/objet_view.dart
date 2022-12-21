@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
@@ -19,7 +20,7 @@ class ObjetView extends StatefulWidget {
 }
 
 class _ObjetViewState extends State<ObjetView> {
-  late ProjetController projetController;
+  late ObjetController objetController;
 
   Future<void> deleteDialog() async {
     await showDialog(
@@ -37,7 +38,7 @@ class _ObjetViewState extends State<ObjetView> {
                 style: TextStyle(color: Couleurs.texte),
                 children: <TextSpan>[
                   TextSpan(
-                    text: projetController.objet!.nomObjet,
+                    text: objetController.objet!.nomObjet,
                     style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
@@ -53,9 +54,9 @@ class _ObjetViewState extends State<ObjetView> {
               TextButton(
                   onPressed: () async {
                     if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, projetController.objet!.id);
+                      await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
                     } else {
-                      await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, projetController.objet!.id);
+                      await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
                     }
                     if (!mounted) {
                       return;
@@ -81,7 +82,7 @@ class _ObjetViewState extends State<ObjetView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    objetController = Provider.of<ObjetController>(context);
     return AppInterface(
       child: SingleChildScrollView(
         child: Padding(
@@ -101,7 +102,7 @@ class _ObjetViewState extends State<ObjetView> {
                       ),
                       image: DecorationImage(
                         colorFilter: ColorFilter.mode(Couleurs.fondPrincipale.withOpacity(0.2), BlendMode.dstIn),
-                        image: NetworkImage(projetController.objet!.lienImage),
+                        image: NetworkImage(objetController.objet!.lienImage),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,7 +112,7 @@ class _ObjetViewState extends State<ObjetView> {
                         children: [
                           EnteteApplication(routeRetour: "/objets", titreFormulaire: "Fiche de l'objet"),
                           AutoSizeText(
-                            projetController.objet!.nomObjet,
+                            objetController.objet!.nomObjet,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -142,7 +143,7 @@ class _ObjetViewState extends State<ObjetView> {
                       padding: const EdgeInsets.all(8),
                       child: SingleChildScrollView(
                         child: Text(
-                          projetController.objet!.description,
+                          objetController.objet!.description,
                           style: TextStyle(
                             color: Couleurs.texte,
                           ),

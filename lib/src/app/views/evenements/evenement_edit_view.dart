@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
@@ -25,7 +26,7 @@ class _EvenementEditViewState extends State<EvenementEditView> {
   late bool chargement;
   late TextEditingController champNom;
   late TextEditingController champDescription;
-  late ProjetController projetController;
+  late EvenementController evenementController;
 
   @override
   void initState() {
@@ -42,8 +43,8 @@ class _EvenementEditViewState extends State<EvenementEditView> {
 
     setState(() => chargement = true);
 
-    String id = projetController.evenement!.id;
-    EvenementModel evenement = projetController.evenement!;
+    EvenementModel evenement = evenementController.evenement!;
+    String id = evenement.id;
     evenement.nom = champNom.text;
     evenement.description = champDescription.text;
     await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
@@ -56,9 +57,9 @@ class _EvenementEditViewState extends State<EvenementEditView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
-    champNom.text = projetController.evenement!.nom;
-    champDescription.text = projetController.evenement!.description;
+    evenementController = Provider.of<EvenementController>(context);
+    champNom.text = evenementController.evenement!.nom;
+    champDescription.text = evenementController.evenement!.description;
 
     return AppInterface(child: chargement ? Chargement() : renduFormulaire());
   }

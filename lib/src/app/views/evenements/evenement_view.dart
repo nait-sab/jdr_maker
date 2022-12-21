@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
@@ -64,7 +65,7 @@ class _EvenementViewState extends State<EvenementView> {
 
   @override
   Widget build(BuildContext context) {
-    evenement = Provider.of<ProjetController>(context).evenement!;
+    evenement = Provider.of<EvenementController>(context).evenement!;
 
     if (chargement) {
       return AppInterface(child: Chargement());
