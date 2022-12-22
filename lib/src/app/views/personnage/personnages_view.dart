@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
@@ -24,14 +25,12 @@ class _PersonnagesViewState extends State<PersonnagesView> {
   }
 
   void ouvrirPersonnage(PersonnageModel personnage) {
-    projetController.personnage = personnage;
-
-    ProjetController.changerPersonnage(context, personnage.id);
-    NavigationController.changerView(context, "/personnage");
+    PersonnageController.changerPersonnage(context, personnage);
+    NavigationController.changerRoute(context, "/personnage");
   }
 
   void ouvrirCreatePersonnage() {
-    NavigationController.changerView(context, "/creer_personnage");
+    NavigationController.changerRoute(context, "/creer_personnage");
   }
 
   @override

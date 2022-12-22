@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
@@ -57,14 +58,14 @@ class _EvenementViewState extends State<EvenementView> {
   }
 
   Future supprimer() async {
-    await ProjetController.actualiser(context);
+    await ProjetController.actualiserProjet(context);
   }
 
-  void retour() => NavigationController.changerView(context, "/evenements");
+  void retour() => NavigationController.changerRoute(context, "/evenements");
 
   @override
   Widget build(BuildContext context) {
-    evenement = Provider.of<ProjetController>(context).evenement!;
+    evenement = Provider.of<EvenementController>(context).evenement!;
 
     if (chargement) {
       return AppInterface(child: Chargement());
@@ -113,7 +114,7 @@ class _EvenementViewState extends State<EvenementView> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Bouton(
-                        onTap: () => NavigationController.changerView(context, "/modifier_evenement"),
+                        onTap: () => NavigationController.changerRoute(context, "/modifier_evenement"),
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(

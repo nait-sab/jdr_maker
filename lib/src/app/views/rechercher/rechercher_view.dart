@@ -51,7 +51,7 @@ class _RechercherViewState extends State<RechercherView> {
       if (projet.isPublic) {
         projetsPublic.add(projet);
         utilisateursCreateur.add(UtilisateurModel.fromMap(
-          await FirebaseDesktopTool.getCollectionID(
+          await FirebaseDesktopTool.getdocumentID(
             UtilisateurModel.nomCollection,
             projet.idCreateur,
           ),

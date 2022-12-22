@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
@@ -24,13 +25,12 @@ class _LieuxViewState extends State<LieuxView> {
   }
 
   void ouvrirLieu(LieuModel lieu) {
-    projetController.lieu = lieu;
-    ProjetController.changerLieu(context, lieu.id);
-    NavigationController.changerView(context, "/lieu");
+    LieuController.changerLieu(context, lieu);
+    NavigationController.changerRoute(context, "/lieu");
   }
 
   void ouvrirCreateLieu() {
-    NavigationController.changerView(context, "/creer_lieu");
+    NavigationController.changerRoute(context, "/creer_lieu");
   }
 
   @override

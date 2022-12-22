@@ -24,6 +24,10 @@ class UtilisateurController extends ChangeNotifier {
     Provider.of<UtilisateurController>(context, listen: false).actualiser(utilisateur);
   }
 
+  static UtilisateurModel getUtilisateur(BuildContext context) {
+    return Provider.of<UtilisateurController>(context, listen: false).utilisateur!;
+  }
+
   static Future<bool> verifierUtilisateur() async {
     return Platform.isAndroid
         ? FirebaseAndroidTool.getUtilisateur() != null

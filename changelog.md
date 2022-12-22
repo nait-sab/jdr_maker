@@ -1,3 +1,17 @@
+## [1.0.6]() (2022-12-22)
+
+### Moteur
+
+* Optimisation du chargement des projets
+* Optimisation de l'interface de l'app
+* Création des projets via l'id de l'utilisateur
+* Récupération des projets avec le même id que l'utilisateur
+* Séparation des données des applications de la structure principale pour préparer les liaisons entre elles
+
+### Interface
+
+* Ajout d'un chargement visible pendant les vérifications lors du login
+
 ## [1.0.5]() (2022-12-16)
 
 ### Moteur

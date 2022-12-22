@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
@@ -9,6 +10,7 @@ import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_boutons.dart
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_champ.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_entete.dart';
 import 'package:jdr_maker/src/app/views/connexion/widgets/connexion_formulaire.dart';
+import 'package:jdr_maker/src/app/widgets/alerte.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 
@@ -51,7 +53,8 @@ class _InscriptionViewState extends State<InscriptionView> {
     ];
   }
 
-  void changerRoute(String route) => NavigationController.changerView(context, route);
+  void changerRoute(String route) => NavigationController.changerRoute(context, route);
+  void afficherMessage(String texte) => Alerte.message(context, "Tentative d'inscription", texte);
 
   void chargerUtilisateur(UtilisateurModel utilisateurModel) {
     UtilisateurController.changerUtilisateur(context, utilisateurModel);
@@ -65,40 +68,69 @@ class _InscriptionViewState extends State<InscriptionView> {
 
     // Vérification problème
     if (nom.isEmpty) {
-      print("Aucun nom renseigné");
+      return afficherMessage("Aucun nom renseigné");
     }
 
     if (mail.isEmpty) {
-      print("Aucun email renseigné");
+      return afficherMessage("Aucun email renseigné");
+    }
+
+    if (!EmailValidator.validate(mail)) {
+      return afficherMessage("Email invalide");
+    }
+
+    if (passe.isEmpty) {
+      return afficherMessage("Aucun mot de passe renseigné");
     }
 
     if (passe.length < 6) {
-      print("Mot de passe trop court");
+      return afficherMessage("Votre mot de passe doit contenir au moins 6 caractères");
     }
 
     UtilisateurModel? utilisateurModel;
 
     // Créer le compte sur Android
     if (Platform.isAndroid) {
-      await FirebaseAndroidTool.creerCompte(mail, passe);
+      bool connexionReussi = await FirebaseAndroidTool.creerCompte(mail, passe);
+      if (connexionReussi) {
+        var utilisateur = FirebaseAndroidTool.getUtilisateur();
+
+        utilisateurModel = UtilisateurModel(
+          id: utilisateur!.uid,
+          mail: mail,
+          username: nom,
+        );
+
+        await FirebaseAndroidTool.ajouterDocumentID(
+          UtilisateurModel.nomCollection,
+          utilisateur.uid,
+          utilisateurModel.toMap(),
+        );
+      } else {
+        return afficherMessage("Impossible de créer ce compte");
+      }
     }
 
     // Créer le compte sur Desktop
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.creerCompte(mail, passe);
-      var utilisateur = await FirebaseDesktopTool.getUtilisateur();
+      bool connexionReussi = await FirebaseDesktopTool.creerCompte(mail, passe);
+      if (connexionReussi) {
+        var utilisateur = await FirebaseDesktopTool.getUtilisateur();
 
-      utilisateurModel = UtilisateurModel(
-        id: utilisateur!.id,
-        mail: mail,
-        username: nom,
-      );
+        utilisateurModel = UtilisateurModel(
+          id: utilisateur!.id,
+          mail: mail,
+          username: nom,
+        );
 
-      await FirebaseDesktopTool.ajouterDocumentID(
-        UtilisateurModel.nomCollection,
-        utilisateur.id,
-        utilisateurModel.toMap(),
-      );
+        await FirebaseDesktopTool.ajouterDocumentID(
+          UtilisateurModel.nomCollection,
+          utilisateur.id,
+          utilisateurModel.toMap(),
+        );
+      } else {
+        return afficherMessage("Impossible de créer ce compte");
+      }
     }
 
     chargerUtilisateur(utilisateurModel!);
@@ -111,7 +143,40 @@ class _InscriptionViewState extends State<InscriptionView> {
   }
 
   Widget renduAndroid(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Couleurs.fondPrincipale,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              "Projet JDR",
+              style: TextStyle(
+                color: Couleurs.texte,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(50),
+                child: Column(
+                  children: [
+                    ConnexionFormulaire(contenu: formulaire),
+                    ConnexionBoutons(
+                      boutonDroite: false,
+                      actionBoutonPrincipal: creerCompte,
+                      actionBoutonChanger: () => changerRoute("/connexion"),
+                      texteBoutonPrincipal: "Inscription",
+                      texteBoutonChanger: "< Connexion",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget renduDesktop(BuildContext context) {

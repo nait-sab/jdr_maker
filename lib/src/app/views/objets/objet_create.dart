@@ -50,15 +50,11 @@ class _ObjetCreateState extends State<ObjetCreate> {
     } else {
       await FirebaseAndroidTool.ajouterDocumentID(ObjetModel.nomCollection, idObjet, newObjet.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerRoute(context, "/objets"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/objets");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   @override
   Widget build(BuildContext context) {

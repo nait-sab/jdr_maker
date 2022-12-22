@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
@@ -19,12 +21,20 @@ class ConnexionBoutons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Alignment alignment;
     Size ecran = MediaQuery.of(context).size;
+    if (Platform.isAndroid) {
+      alignment = boutonDroite ? Alignment.centerLeft : Alignment.centerRight;
+    } else {
+      alignment = Alignment.center;
+    }
+
     return SizedBox(
       width: double.infinity,
       child: Stack(
         children: [
           Align(
+            alignment: alignment,
             child: Bouton(
               onTap: actionBoutonPrincipal,
               child: Container(
@@ -37,7 +47,7 @@ class ConnexionBoutons extends StatelessWidget {
                   texteBoutonPrincipal,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: ecran.width * 0.015,
+                    fontSize: Platform.isAndroid ? 14 : ecran.width * 0.015,
                   ),
                 ),
               ),
@@ -53,7 +63,7 @@ class ConnexionBoutons extends StatelessWidget {
                   texteBoutonChanger,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: ecran.width * 0.015,
+                    fontSize: Platform.isAndroid ? 14 : ecran.width * 0.015,
                   ),
                 ),
               ),

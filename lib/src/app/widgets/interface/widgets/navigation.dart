@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/enums/navigation_icons_type.dart';
-import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Navigation
 ///
@@ -14,9 +16,13 @@ import 'package:provider/provider.dart';
 /// Contient la barre de navigation
 class AccueilNavigation extends StatefulWidget {
   final bool isAndroid;
+  final ProjetController projetController;
+  final VoidCallback switchChargement;
 
   AccueilNavigation({
     required this.isAndroid,
+    required this.projetController,
+    required this.switchChargement,
   });
 
   @override
@@ -24,46 +30,52 @@ class AccueilNavigation extends StatefulWidget {
 }
 
 class _AccueilNavigationState extends State<AccueilNavigation> {
-  late ProjetController projetController;
-
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
     return widget.isAndroid ? renduAndroid() : renduDesktop();
   }
 
-  void goConnexion() {
-    Provider.of<NavigationController>(context, listen: false).changerRoute("/connexion");
-  }
+  void changerRoute(String route) => NavigationController.changerRoute(context, route);
 
   /// Action du bouton Accueil
-  void boutonAccueil() => NavigationController.changerView(context, "/accueil");
+  Future boutonAccueil() async {
+    if (NavigationController.getRoute(context) != "/accueil") {
+      widget.switchChargement();
+      await ProjetController.actualiserProjet(context);
+      widget.switchChargement();
+      changerRoute("/accueil");
+    }
+  }
 
   /// Action du bouton Rechercher (Mobile)
-  void boutonRechercher() => NavigationController.changerView(context, "/rechercher");
+  void boutonRechercher() => changerRoute("/rechercher");
 
   /// Action du bouton Jouer
   void boutonJouer() {}
 
   /// Action du bouton Options
-  void boutonOptions() => NavigationController.changerView(context, "/options");
+  void boutonOptions() => changerRoute("/options");
 
   /// Action du bouton Événements
-  void boutonEvenements() => NavigationController.changerView(context, "/evenements");
+  void boutonEvenements() => changerRoute("/evenements");
 
   /// Action du bouton Personnages
-  void boutonPersonnages() => NavigationController.changerView(context, "/personnages");
+  void boutonPersonnages() => changerRoute("/personnages");
 
   /// Action du bouton Lieux
-  void boutonLieux() => NavigationController.changerView(context, "/lieux");
+  void boutonLieux() => changerRoute("/lieux");
 
   /// Action du bouton Objets
-  void boutonObjets() => NavigationController.changerView(context, "/objets");
+  void boutonObjets() => changerRoute("/objets");
 
   /// Action du bouton Déconnexion (Windows)
-  void boutonDeconnexion() {
-    FirebaseDesktopTool.deconnexion();
-    goConnexion();
+  Future boutonDeconnexion() async {
+    if (Platform.isAndroid) {
+      await FirebaseAndroidTool.deconnexion();
+    } else {
+      FirebaseDesktopTool.deconnexion();
+    }
+    changerRoute("/connexion");
   }
 
   Widget renduDesktop() {
@@ -141,7 +153,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
 
   Widget icone(NavigationIconeType iconeType) {
     Size ecran = MediaQuery.of(context).size;
-    String route = Provider.of<NavigationController>(context, listen: false).currentRoute;
+    String route = NavigationController.getRoute(context);
     IconData icone;
     Color texteCouleur;
 
@@ -194,7 +206,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
   List<Widget> boutonsProjet() {
     List<Widget> liste = [];
 
-    if (projetController.projet != null) {
+    if (widget.projetController.projet != null) {
       liste.add(SizedBox(height: 20));
       liste.add(Container(height: 1, width: 30, color: Couleurs.texte));
       liste.add(SizedBox(height: 20));

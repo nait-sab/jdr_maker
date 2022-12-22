@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/entete.dart';
@@ -30,61 +31,48 @@ class AppInterface extends StatefulWidget {
 }
 
 class _AppInterfaceState extends State<AppInterface> {
-  /// Controllers
+  // Controllers
   late ProjetController projetController;
+  late UtilisateurController utilisateurController;
   late NavigationController navigationController;
 
-  /// Chargement de la page
-  late bool chargement;
-  late bool recupererationProjets;
-
   /// Afficher ou non la sélection de projets
-  late bool afficherProjets;
+  late bool selectionVisible;
+
+  // Chargement de l'interface
+  late bool chargement;
 
   @override
   void initState() {
     super.initState();
     chargement = false;
-    recupererationProjets = true;
-    afficherProjets = false;
+    selectionVisible = false;
   }
 
-  void changerSelection() => setState(() => afficherProjets = !afficherProjets);
-  void retourAccueil() => setState(() => NavigationController.changerView(context, "/accueil"));
-
-  Future changerProjet(ProjetModel projetModel) async {
-    setState(() => chargement = true);
-    await ProjetController.changerProjet(context, projetModel);
-    retourAccueil();
-    setState(() => {afficherProjets = false, chargement = false});
+  Future chargerProjet(ProjetModel projet) async {
+    if (projetController.projet != projet) {
+      switchChargement();
+      await ProjetController.chargerProjet(context, projet);
+      switchChargement();
+    } else {
+      changerSelection();
+    }
   }
 
-  Future chargerProjets() async {
-    setState(() => chargement = true);
-    await ProjetController.chargerProjets(context);
-    setState(() => recupererationProjets = false);
-    setState(() => chargement = false);
-  }
+  void switchChargement() => setState(() => chargement = !chargement);
+  void changerSelection() => setState(() => selectionVisible = !selectionVisible);
+  void retourAccueil() => setState(() => NavigationController.changerRoute(context, "/accueil"));
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
+    utilisateurController = Provider.of<UtilisateurController>(context);
     navigationController = Provider.of<NavigationController>(context);
-    String route = Provider.of<NavigationController>(context).currentRoute;
 
-    // Récupération des projets depuis l'accueil
-    if ((route == "/" || route == "/accueil") && recupererationProjets) {
-      chargerProjets();
-    }
-
-    return Scaffold(backgroundColor: Couleurs.fondPrincipale, body: definirRendu(context));
-  }
-
-  Widget definirRendu(BuildContext context) {
-    if (chargement) {
-      return Chargement();
-    }
-    return Platform.isAndroid ? renduAndroid(context) : renduDesktop(context);
+    return Scaffold(
+      backgroundColor: Couleurs.fondPrincipale,
+      body: Platform.isAndroid ? renduAndroid(context) : renduDesktop(context),
+    );
   }
 
   Widget renduDesktop(BuildContext context) {
@@ -92,19 +80,23 @@ class _AppInterfaceState extends State<AppInterface> {
       color: Couleurs.fondPrincipale,
       child: Column(
         children: [
-          AccueilEntete(actionTitre: changerSelection),
+          AccueilEntete(actionTitre: changerSelection, projet: projetController.projet),
           Expanded(
             child: Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AccueilNavigation(isAndroid: false),
+                    AccueilNavigation(
+                      isAndroid: false,
+                      projetController: projetController,
+                      switchChargement: switchChargement,
+                    ),
                     // Zone
-                    Expanded(child: widget.child),
+                    afficherContenu(),
                   ],
                 ),
-                if (afficherProjets) AccueilSelection(action: changerProjet),
+                afficherSelection(),
               ],
             ),
           ),
@@ -122,20 +114,41 @@ class _AppInterfaceState extends State<AppInterface> {
           children: [
             Bouton(
               onTap: changerSelection,
-              child: AccueilTitre(isAndroid: true),
+              child: AccueilTitre(isAndroid: true, projet: projetController.projet),
             ),
             Expanded(
               child: Stack(
                 children: [
-                  widget.child,
-                  if (afficherProjets) AccueilSelection(action: changerProjet),
+                  afficherContenu(),
+                  afficherSelection(),
                 ],
               ),
             ),
-            AccueilNavigation(isAndroid: true),
+            AccueilNavigation(
+              isAndroid: true,
+              projetController: projetController,
+              switchChargement: switchChargement,
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget afficherContenu() {
+    if (chargement) {
+      return Platform.isAndroid ? Chargement() : Expanded(child: Chargement());
+    }
+    return Platform.isAndroid ? widget.child : Expanded(child: widget.child);
+  }
+
+  Widget afficherSelection() {
+    if (!selectionVisible) {
+      return Container();
+    }
+    return AccueilSelection(
+      projets: projetController.projets,
+      action: chargerProjet,
     );
   }
 }

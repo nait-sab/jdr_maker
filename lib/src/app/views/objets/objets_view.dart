@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
@@ -24,14 +25,12 @@ class _ObjetsViewState extends State<ObjetsView> {
   }
 
   void ouvrirObjet(ObjetModel objet) {
-    projetController.objet = objet;
-
-    ProjetController.changerObjet(context, objet.id);
-    NavigationController.changerView(context, "/objet");
+    ObjetController.changerObjet(context, objet);
+    NavigationController.changerRoute(context, "/objet");
   }
 
   void ouvrirCreateObjet() {
-    NavigationController.changerView(context, "/creer_objet");
+    NavigationController.changerRoute(context, "/creer_objet");
   }
 
   @override

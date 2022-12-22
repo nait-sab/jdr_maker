@@ -5,7 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/app.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/domain/data/config.dart';
@@ -35,6 +39,12 @@ Future main() async {
         ListenableProvider<NavigationController>(create: (_) => NavigationController()),
         ListenableProvider<ProjetController>(create: (_) => ProjetController()),
         ListenableProvider<UtilisateurController>(create: (_) => UtilisateurController()),
+
+        // Chargement des applications
+        ListenableProvider<EvenementController>(create: (_) => EvenementController()),
+        ListenableProvider<PersonnageController>(create: (_) => PersonnageController()),
+        ListenableProvider<LieuController>(create: (_) => LieuController()),
+        ListenableProvider<ObjetController>(create: (_) => ObjetController()),
       ],
       child: App(),
     ),
