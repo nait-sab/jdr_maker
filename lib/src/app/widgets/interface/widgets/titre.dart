@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:provider/provider.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
 /// Classe : Accueil - Titre
 ///
@@ -10,9 +9,11 @@ import 'package:provider/provider.dart';
 /// Contient le titre ou le projet sélectionné dans l'accueil
 class AccueilTitre extends StatefulWidget {
   final bool isAndroid;
+  final ProjetModel? projet;
 
   AccueilTitre({
     required this.isAndroid,
+    required this.projet,
   });
 
   @override
@@ -20,15 +21,12 @@ class AccueilTitre extends StatefulWidget {
 }
 
 class _AccueilTitreState extends State<AccueilTitre> {
-  late ProjetController projetController;
-
   String nomProjet() {
-    return projetController.projet == null ? "Projet JDR" : projetController.projet!.nomProjet;
+    return widget.projet == null ? "Projet JDR" : widget.projet!.nomProjet;
   }
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
     return widget.isAndroid ? renduAndroid(context) : renduDesktop(context);
   }
 

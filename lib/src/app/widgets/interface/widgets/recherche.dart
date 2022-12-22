@@ -18,7 +18,7 @@ class _AccueilRechercheState extends State<AccueilRecherche> {
   }
 
   void goRecherche() {
-    NavigationController.changerView(context, "/rechercher");
+    NavigationController.changerRoute(context, "/rechercher");
   }
 
   @override

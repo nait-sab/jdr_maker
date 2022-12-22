@@ -33,7 +33,7 @@ class _EnteteApplicationState extends State<EnteteApplication> {
           Align(
             alignment: Alignment.centerLeft,
             child: Bouton(
-              onTap: () => NavigationController.changerView(context, widget.routeRetour),
+              onTap: () => NavigationController.changerRoute(context, widget.routeRetour),
               child: Text(
                 Platform.isAndroid ? "<" : "< Retour",
                 style: TextStyle(

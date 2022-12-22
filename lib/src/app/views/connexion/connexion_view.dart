@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
@@ -49,7 +50,7 @@ class _ConnexionViewState extends State<ConnexionView> {
     ];
   }
 
-  void changerRoute(String route) => NavigationController.changerView(context, route);
+  void changerRoute(String route) => NavigationController.changerRoute(context, route);
   void afficherMessage(String texte) => Alerte.message(context, "Tentative de connexion", texte);
 
   void chargerUtilisateur(UtilisateurModel utilisateur) {
@@ -68,6 +69,7 @@ class _ConnexionViewState extends State<ConnexionView> {
       return afficherMessage("Aucun mot de passe renseigné");
     }
 
+    setState(() => chargement = true);
     if (Platform.isAndroid) {
       bool connexionReussi = await FirebaseAndroidTool.connexion(mail, passe);
       if (connexionReussi) {
@@ -75,6 +77,7 @@ class _ConnexionViewState extends State<ConnexionView> {
         var userInfos = await FirebaseAndroidTool.getdocumentID(UtilisateurModel.nomCollection, utilisateur!.uid);
         chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
       } else {
+        setState(() => chargement = false);
         return afficherMessage("Compte introuvable");
       }
     }
@@ -86,25 +89,48 @@ class _ConnexionViewState extends State<ConnexionView> {
         var userInfos = await FirebaseDesktopTool.getdocumentID(UtilisateurModel.nomCollection, utilisateur!.id);
         chargerUtilisateur(UtilisateurModel.fromMap(userInfos));
       } else {
+        setState(() => chargement = false);
         return afficherMessage("Compte introuvable");
       }
     }
 
     if (await UtilisateurController.verifierUtilisateur()) {
+      await chargerProjets();
+      setState(() => chargement = false);
       changerRoute("/accueil");
     }
   }
 
+  Future chargerProjets() async => await ProjetController.chargerProjets(context);
+
   @override
   Widget build(BuildContext context) {
-    return chargement
-        ? Chargement()
-        : Platform.isAndroid
-            ? renduAndroid(context)
-            : renduDesktop(context);
+    if (chargement) {
+      return Scaffold(
+        backgroundColor: Couleurs.fondPrincipale,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Chargement de votre compte en cours...",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
+              ),
+              SizedBox(height: 20),
+              Chargement(),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Platform.isAndroid ? renduAndroid() : renduDesktop();
   }
 
-  Widget renduAndroid(BuildContext context) {
+  Widget renduAndroid() {
     return Scaffold(
       backgroundColor: Couleurs.fondPrincipale,
       body: SafeArea(
@@ -141,7 +167,7 @@ class _ConnexionViewState extends State<ConnexionView> {
     );
   }
 
-  Widget renduDesktop(BuildContext context) {
+  Widget renduDesktop() {
     return Scaffold(
       backgroundColor: Couleurs.fondPrincipale,
       body: Column(

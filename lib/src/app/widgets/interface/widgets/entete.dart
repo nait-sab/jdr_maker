@@ -4,6 +4,7 @@ import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/recherche.dart';
 import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 
 /// Classe : Accueil - Entête
 ///
@@ -12,9 +13,11 @@ import 'package:jdr_maker/src/domain/data/couleurs.dart';
 /// Contient l'entête de l'accueil
 class AccueilEntete extends StatelessWidget {
   final VoidCallback actionTitre;
+  final ProjetModel? projet;
 
   AccueilEntete({
     required this.actionTitre,
+    required this.projet,
   });
 
   @override
@@ -33,7 +36,7 @@ class AccueilEntete extends StatelessWidget {
           children: [
             Bouton(
               onTap: actionTitre,
-              child: AccueilTitre(isAndroid: false),
+              child: AccueilTitre(isAndroid: false, projet: projet),
             ),
             AccueilRecherche(),
             Container(

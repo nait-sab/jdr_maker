@@ -24,60 +24,61 @@ class _ObjetViewState extends State<ObjetView> {
 
   Future<void> deleteDialog() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Couleurs.fondSecondaire,
-            title: Text(
-              'Supprimer un objet',
-              style: TextStyle(color: Couleurs.violet),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Couleurs.fondSecondaire,
+          title: Text(
+            'Supprimer un objet',
+            style: TextStyle(color: Couleurs.violet),
+          ),
+          content: RichText(
+            text: TextSpan(
+              text: 'Supprimer l\'objet : ',
+              style: TextStyle(color: Couleurs.texte),
+              children: <TextSpan>[
+                TextSpan(
+                  text: objetController.objet!.nomObjet,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
+                ),
+                TextSpan(text: ' ?'),
+              ],
             ),
-            content: RichText(
-              text: TextSpan(
-                text: 'Supprimer l\'objet : ',
-                style: TextStyle(color: Couleurs.texte),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: objetController.objet!.nomObjet,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
-                  ),
-                  TextSpan(text: ' ?'),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Annuler")),
-              TextButton(
-                  onPressed: () async {
-                    if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
-                    } else {
-                      await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
-                    }
-                    if (!mounted) {
-                      return;
-                    }
-                    Navigator.pop(context, true);
-                    setState(() {
-                      ProjetController.actualiser(context);
-                      NavigationController.changerView(context, "/objets");
-                    });
-                  },
-                  child: Text(
-                    "Supprimer",
-                    style: TextStyle(color: Colors.red),
-                  ))
-            ],
-          );
-        });
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Annuler")),
+            TextButton(
+                onPressed: () async {
+                  if (Platform.isWindows) {
+                    await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
+                  } else {
+                    await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
+                  }
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pop(context, true);
+                  await actualiser();
+                  setState(() => NavigationController.changerRoute(context, "/objets"));
+                },
+                child: Text(
+                  "Supprimer",
+                  style: TextStyle(color: Colors.red),
+                ))
+          ],
+        );
+      },
+    );
   }
 
+  Future actualiser() async => ProjetController.actualiserProjet(context);
+
   void goToEdit() {
-    NavigationController.changerView(context, "/modifier_objet");
+    NavigationController.changerRoute(context, "/modifier_objet");
   }
 
   @override

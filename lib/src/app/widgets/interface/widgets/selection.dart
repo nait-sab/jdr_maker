@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
-import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
-import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Sélection
 ///
@@ -14,9 +12,11 @@ import 'package:provider/provider.dart';
 ///
 /// Contient la sélection de projet
 class AccueilSelection extends StatefulWidget {
+  final List<ProjetModel> projets;
   final Function action;
 
   AccueilSelection({
+    required this.projets,
     required this.action,
   });
 
@@ -25,15 +25,11 @@ class AccueilSelection extends StatefulWidget {
 }
 
 class _AccueilSelectionState extends State<AccueilSelection> {
-  late ProjetController projetController;
-
-  void boutonCreation() => changerRoute("/creer_jdr");
-
-  void changerRoute(String route) => NavigationController.changerView(context, route);
+  void boutonCreation() => changerRoute("/creer_projet");
+  void changerRoute(String route) => NavigationController.changerRoute(context, route);
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
     Size ecran = MediaQuery.of(context).size;
     return Container(
       width: Platform.isAndroid ? double.infinity : ecran.width * 0.25,
@@ -46,7 +42,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
   }
 
   Widget renduListe() {
-    if (projetController.projets.length < 5) {
+    if (widget.projets.length < 5) {
       return Wrap(
         children: liste(),
       );
@@ -75,7 +71,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
       ),
     ));
 
-    if (projetController.projets.isEmpty) {
+    if (widget.projets.isEmpty) {
       liste.add(Container(
         padding: EdgeInsets.all(10),
         child: Center(
@@ -86,7 +82,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
         ),
       ));
     } else {
-      for (ProjetModel projet in projetController.projets) {
+      for (ProjetModel projet in widget.projets) {
         liste.add(boutonProjet(projet));
       }
     }

@@ -3,7 +3,6 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil_view.dart';
 import 'package:jdr_maker/src/app/views/connexion/connexion_view.dart';
 import 'package:jdr_maker/src/app/views/connexion/inscription_view.dart';
-import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_edit_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
@@ -12,7 +11,6 @@ import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieux_view.dart';
-import 'package:jdr_maker/src/app/views/modifier_projet/modifier_projet_view.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_create.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_edit.dart';
 import 'package:jdr_maker/src/app/views/objets/objet_view.dart';
@@ -23,9 +21,10 @@ import 'package:jdr_maker/src/app/views/personnage/personnage_edit.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/profil/profil_view.dart';
+import 'package:jdr_maker/src/app/views/projet/creer_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/modifier_projet_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
-import 'package:provider/provider.dart';
 
 /// Liste des pages de l'application
 ///
@@ -38,7 +37,6 @@ import 'package:provider/provider.dart';
 /// - /connexion
 /// - /inscription
 List<Page> applicationRoutes(context) {
-  NavigationController navigation = Provider.of<NavigationController>(context);
   List<Page> liste = [];
 
   // Route par défaut
@@ -46,7 +44,7 @@ List<Page> applicationRoutes(context) {
 
   // Routing
   // Toujours un / en début de route
-  switch (navigation.currentRoute) {
+  switch (NavigationController.getRoute(context)) {
     // =======================================================
     // Routes Connexion / Inscription
     // =======================================================
@@ -72,8 +70,8 @@ List<Page> applicationRoutes(context) {
     case "/options":
       liste.add(MaterialPage(child: OptionsView()));
       break;
-    case "/creer_jdr":
-      liste.add(MaterialPage(child: DebutJDR()));
+    case "/creer_projet":
+      liste.add(MaterialPage(child: CreerProjetView()));
       break;
     case "/jouer":
       //liste.add(MaterialPage(child: ));

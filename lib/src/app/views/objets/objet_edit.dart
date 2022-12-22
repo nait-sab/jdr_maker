@@ -30,7 +30,6 @@ class _ObjetEditState extends State<ObjetEdit> {
     super.initState();
     textEditingControllerNomObjet = TextEditingController();
     textEditingControllerDescription = TextEditingController();
-
     lienImage = 'https://picsum.photos/1920/1080';
   }
 
@@ -43,15 +42,11 @@ class _ObjetEditState extends State<ObjetEdit> {
     } else {
       await FirebaseAndroidTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerRoute(context, "/objets"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/objets");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void chargerObjet() {
     textEditingControllerNomObjet.text = objetController.objet!.nomObjet;

@@ -3,7 +3,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
-import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
@@ -66,8 +65,8 @@ class _PersonnageViewState extends State<PersonnageView> {
                     }
                     Navigator.pop(context, true);
                     setState(() {
-                      ProjetController.actualiser(context);
-                      NavigationController.changerView(context, "/personnages");
+                      //ProjetController.actualiser(context);
+                      NavigationController.changerRoute(context, "/personnages");
                     });
                   },
                   child: Text(
@@ -80,7 +79,7 @@ class _PersonnageViewState extends State<PersonnageView> {
   }
 
   void goToEdit() {
-    NavigationController.changerView(context, "/modifier_personnage");
+    NavigationController.changerRoute(context, "/modifier_personnage");
   }
 
   @override

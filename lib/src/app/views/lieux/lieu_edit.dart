@@ -30,7 +30,6 @@ class _LieuEditState extends State<LieuEdit> {
     super.initState();
     textEditingControllerNomLieu = TextEditingController();
     textEditingControllerDescription = TextEditingController();
-
     lienImage = 'https://picsum.photos/1920/1080';
   }
 
@@ -43,15 +42,11 @@ class _LieuEditState extends State<LieuEdit> {
     } else {
       await FirebaseAndroidTool.modifierDocument(LieuModel.nomCollection, lieu.id, lieu.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerRoute(context, "/lieux"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/lieux");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void chargerPersonnage() {
     textEditingControllerNomLieu.text = lieuController.lieu!.nomLieu;

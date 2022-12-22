@@ -34,7 +34,6 @@ class _PersonnageEditState extends State<PersonnageEdit> {
     textEditingControllerPrenom = TextEditingController();
     textEditingControllerDescription = TextEditingController();
     textEditingControllerHistoire = TextEditingController();
-
     lienImage = 'https://picsum.photos/200/300';
   }
 
@@ -48,15 +47,11 @@ class _PersonnageEditState extends State<PersonnageEdit> {
     } else {
       await FirebaseAndroidTool.modifierDocument(PersonnageModel.nomCollection, personnage.id, personnage.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerRoute(context, "/personnages"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/personnages");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void chargerPersonnage() {
     textEditingControllerNom.text = personnageController.personnage!.nomPersonnage;

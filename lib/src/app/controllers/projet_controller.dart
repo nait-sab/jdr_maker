@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
+import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Projet
@@ -23,66 +25,122 @@ class ProjetController extends ChangeNotifier {
   List<LieuModel>? lieux;
   List<ObjetModel>? objets;
 
-  Future _actualiserProjet(ProjetModel projet) async {
-    this.projet = projet;
-    await _actualiserApplications();
-    notifyListeners();
-  }
-
-  Future _chargerProjets() async {
-    projets = [];
-    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
-      projets.add(ProjetModel.fromMap(data));
-    });
-    notifyListeners();
-  }
-
-  Future _actualiserApplications() async {
-    evenements = [];
-    personnages = [];
-    lieux = [];
-    objets = [];
-
-    await FirebaseGlobalTool.recupererListe(EvenementModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        evenements!.add(EvenementModel.fromMap(data));
-      }
-    });
-
-    if (evenements!.isNotEmpty) {
-      evenements!.sort((event1, event2) => event1.numero.compareTo(event2.numero));
+  // =========================================================
+  // Actualiser le projet
+  // =========================================================
+  Future _actualiser() async {
+    // Changer le projet actuel et réinitialiser les applications liées
+    if (projet == null) {
+      return;
     }
+    evenements = await _chargerEvenements(projet!);
+    personnages = await _chargerPersonnages(projet!);
+    lieux = await _chargerLieux(projet!);
+    objets = await _chargerObjets(projet!);
+    print("actualisation terminé");
+    notifyListeners();
+  }
 
+  /// Actualiser le [projet] actuel
+  static Future actualiserProjet(BuildContext context) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiser();
+  }
+
+  // =========================================================
+  // Changer de projet
+  // =========================================================
+  Future _chargerProjet(ProjetModel projet) async {
+    // Changer le projet actuel et réinitialiser les applications liées
+    this.projet = projet;
+    evenements = await _chargerEvenements(projet);
+    personnages = await _chargerPersonnages(projet);
+    lieux = await _chargerLieux(projet);
+    objets = await _chargerObjets(projet);
+    print("chargement terminé");
+    notifyListeners();
+  }
+
+  /// Charger les evenements du [projet]
+  Future<List<EvenementModel>> _chargerEvenements(ProjetModel projet) async {
+    List<EvenementModel> liste = [];
+    await FirebaseGlobalTool.recupererListe(EvenementModel.nomCollection, (data) {
+      EvenementModel evenement = EvenementModel.fromMap(data);
+      if (evenement.idProjet == projet.id) {
+        liste.add(evenement);
+      }
+    });
+    return liste;
+  }
+
+  /// Charger les personnages du [projet]
+  Future<List<PersonnageModel>> _chargerPersonnages(ProjetModel projet) async {
+    List<PersonnageModel> liste = [];
     await FirebaseGlobalTool.recupererListe(PersonnageModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        personnages!.add(PersonnageModel.fromMap(data));
+      PersonnageModel personnage = PersonnageModel.fromMap(data);
+      if (personnage.idProjet == projet.id) {
+        liste.add(personnage);
       }
     });
+    return liste;
+  }
 
+  /// Charger les lieux du [projet]
+  Future<List<LieuModel>> _chargerLieux(ProjetModel projet) async {
+    List<LieuModel> liste = [];
     await FirebaseGlobalTool.recupererListe(LieuModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        lieux!.add(LieuModel.fromMap(data));
+      LieuModel lieu = LieuModel.fromMap(data);
+      if (lieu.idProjet == projet.id) {
+        liste.add(lieu);
       }
     });
+    return liste;
+  }
 
+  /// Charger les objets du [projet]
+  Future<List<ObjetModel>> _chargerObjets(ProjetModel projet) async {
+    List<ObjetModel> liste = [];
     await FirebaseGlobalTool.recupererListe(ObjetModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        objets!.add(ObjetModel.fromMap(data));
+      ObjetModel objet = ObjetModel.fromMap(data);
+      if (objet.idProjet == projet.id) {
+        liste.add(objet);
       }
     });
+    return liste;
   }
 
-  static Future changerProjet(BuildContext context, ProjetModel projet) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
+  /// Charger ou changer le [projet] actuel
+  static Future chargerProjet(BuildContext context, ProjetModel projet) async {
+    await Provider.of<ProjetController>(context, listen: false)._chargerProjet(projet);
   }
 
-  static Future actualiser(BuildContext context) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(
-      Provider.of<ProjetController>(context, listen: false).projet!,
-    );
+  // =========================================================
+  // Charger les projets
+  // =========================================================
+  /// Charger les projets lié à l'[utilisateur]
+  Future _chargerProjets(UtilisateurModel utilisateur) async {
+    // Réinitialiser le contenu actuel
+    projets = [];
+    projet = null;
+    evenements = null;
+    personnages = null;
+    lieux = null;
+    objets = null;
+
+    // Récupérer la liste des projets Firebase
+    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
+      ProjetModel projetModel = ProjetModel.fromMap(data);
+      if (projetModel.idCreateur == utilisateur.id) {
+        projets.add(ProjetModel.fromMap(data));
+      }
+    });
+
+    // Mettre à jour les interfaces
+    notifyListeners();
   }
 
+  /// Charger les projets lié au compte
   static Future chargerProjets(BuildContext context) async {
-    await Provider.of<ProjetController>(context, listen: false)._chargerProjets();
+    UtilisateurModel utilisateur = UtilisateurController.getUtilisateur(context);
+    await Provider.of<ProjetController>(context, listen: false)._chargerProjets(utilisateur);
   }
 }

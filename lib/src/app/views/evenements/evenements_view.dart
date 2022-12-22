@@ -45,7 +45,7 @@ class _EvenementsViewState extends State<EvenementsView> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Bouton(
-                      onTap: () => NavigationController.changerView(context, "/creer_evenement"),
+                      onTap: () => NavigationController.changerRoute(context, "/creer_evenement"),
                       child: Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -71,7 +71,7 @@ class _EvenementsViewState extends State<EvenementsView> {
 
   void choixEvenement(EvenementModel evenement) {
     EvenementController.changerEvenement(context, evenement);
-    NavigationController.changerView(context, "/evenement");
+    NavigationController.changerRoute(context, "/evenement");
   }
 
   List<Widget> getListe() {

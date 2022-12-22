@@ -58,10 +58,10 @@ class _EvenementViewState extends State<EvenementView> {
   }
 
   Future supprimer() async {
-    await ProjetController.actualiser(context);
+    await ProjetController.actualiserProjet(context);
   }
 
-  void retour() => NavigationController.changerView(context, "/evenements");
+  void retour() => NavigationController.changerRoute(context, "/evenements");
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _EvenementViewState extends State<EvenementView> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Bouton(
-                        onTap: () => NavigationController.changerView(context, "/modifier_evenement"),
+                        onTap: () => NavigationController.changerRoute(context, "/modifier_evenement"),
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(

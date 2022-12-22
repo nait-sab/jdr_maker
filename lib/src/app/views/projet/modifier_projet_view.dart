@@ -13,7 +13,7 @@ import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
-/// Classe : Modifier Projet
+/// Classe : Modifier un Projet
 ///
 /// Type : View
 ///
@@ -48,13 +48,13 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
       projet.nomProjet = nomProjet.text;
 
       await FirebaseGlobalTool.modifierDocument(ProjetModel.nomCollection, id, projet.toMap());
-      await actualiser();
+      //await actualiser();
 
-      setState(() => NavigationController.changerView(context, "/options"));
+      setState(() => NavigationController.changerRoute(context, "/options"));
     }
   }
 
-  Future actualiser() async => await ProjetController.actualiser(context);
+  //Future actualiser() async => await ProjetController.actualiser(context);
 
   @override
   Widget build(BuildContext context) {

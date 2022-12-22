@@ -53,7 +53,7 @@ class _InscriptionViewState extends State<InscriptionView> {
     ];
   }
 
-  void changerRoute(String route) => NavigationController.changerView(context, route);
+  void changerRoute(String route) => NavigationController.changerRoute(context, route);
   void afficherMessage(String texte) => Alerte.message(context, "Tentative d'inscription", texte);
 
   void chargerUtilisateur(UtilisateurModel utilisateurModel) {

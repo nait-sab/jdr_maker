@@ -49,11 +49,10 @@ class _EvenementEditViewState extends State<EvenementEditView> {
     evenement.description = champDescription.text;
     await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
     await actualiser();
-
-    setState(() => NavigationController.changerView(context, "/evenement"));
+    setState(() => NavigationController.changerRoute(context, "/evenement"));
   }
 
-  Future actualiser() async => await ProjetController.actualiser(context);
+  Future actualiser() async => await ProjetController.actualiserProjet(context);
 
   @override
   Widget build(BuildContext context) {
