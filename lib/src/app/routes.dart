@@ -25,6 +25,7 @@ import 'package:jdr_maker/src/app/views/projet/creer_projet_view.dart';
 import 'package:jdr_maker/src/app/views/projet/modifier_projet_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
+import 'package:provider/provider.dart';
 
 /// Liste des pages de l'application
 ///
@@ -38,13 +39,14 @@ import 'package:jdr_maker/src/app/widgets/lance_des.dart';
 /// - /inscription
 List<Page> applicationRoutes(context) {
   List<Page> liste = [];
+  NavigationController navigation = Provider.of<NavigationController>(context);
 
   // Route par défaut
   liste.add(MaterialPage(child: ConnexionView()));
 
   // Routing
   // Toujours un / en début de route
-  switch (NavigationController.getRoute(context)) {
+  switch (navigation.route) {
     // =======================================================
     // Routes Connexion / Inscription
     // =======================================================

@@ -53,7 +53,7 @@ class _PersonnageCreateState extends State<PersonnageCreate> {
       await FirebaseAndroidTool.ajouterDocumentID(PersonnageModel.nomCollection, idPersonnage, newPersonnage.toMap());
     }
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/personnages"));
+    setState(() => NavigationController.changerView(context, "/personnages"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);

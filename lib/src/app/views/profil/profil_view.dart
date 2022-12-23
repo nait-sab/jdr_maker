@@ -33,11 +33,11 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   void goConnexion() {
-    NavigationController.changerRoute(context, "/connexion");
+    NavigationController.changerView(context, "/connexion");
   }
 
   void goAcceuil() {
-    NavigationController.changerRoute(context, "/accueil");
+    NavigationController.changerView(context, "/accueil");
   }
 
   Future updateAccount() async {

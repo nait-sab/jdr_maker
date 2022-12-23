@@ -43,7 +43,7 @@ class _LieuEditState extends State<LieuEdit> {
       await FirebaseAndroidTool.modifierDocument(LieuModel.nomCollection, lieu.id, lieu.toMap());
     }
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/lieux"));
+    setState(() => NavigationController.changerView(context, "/lieux"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);

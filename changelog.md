@@ -1,3 +1,14 @@
+## [1.0.7]() (2022-12-23)
+
+### Moteur
+
+* Correction d'un crash dans la navigation empêchant l'accès à l'app
+* Ajout de la possibilité de modifier le statut public d'un projet
+
+### Interface
+
+* Ajout d'une checkbox dans la modification d'un projet lié à son statut public
+
 ## [1.0.6]() (2022-12-22)
 
 ### Moteur

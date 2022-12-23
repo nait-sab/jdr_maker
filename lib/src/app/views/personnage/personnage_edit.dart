@@ -48,7 +48,7 @@ class _PersonnageEditState extends State<PersonnageEdit> {
       await FirebaseAndroidTool.modifierDocument(PersonnageModel.nomCollection, personnage.id, personnage.toMap());
     }
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/personnages"));
+    setState(() => NavigationController.changerView(context, "/personnages"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);

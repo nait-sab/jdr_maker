@@ -35,7 +35,7 @@ class _AccueilNavigationState extends State<AccueilNavigation> {
     return widget.isAndroid ? renduAndroid() : renduDesktop();
   }
 
-  void changerRoute(String route) => NavigationController.changerRoute(context, route);
+  void changerRoute(String route) => NavigationController.changerView(context, route);
 
   /// Action du bouton Accueil
   Future boutonAccueil() async {

@@ -63,7 +63,7 @@ class _ObjetViewState extends State<ObjetView> {
                   }
                   Navigator.pop(context, true);
                   await actualiser();
-                  setState(() => NavigationController.changerRoute(context, "/objets"));
+                  setState(() => NavigationController.changerView(context, "/objets"));
                 },
                 child: Text(
                   "Supprimer",
@@ -78,7 +78,7 @@ class _ObjetViewState extends State<ObjetView> {
   Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void goToEdit() {
-    NavigationController.changerRoute(context, "/modifier_objet");
+    NavigationController.changerView(context, "/modifier_objet");
   }
 
   @override

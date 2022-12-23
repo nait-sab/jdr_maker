@@ -22,7 +22,7 @@ class OptionsView extends StatefulWidget {
 class _OptionsViewState extends State<OptionsView> {
   late ProjetController projetController;
 
-  void changerRoute(String route) => NavigationController.changerRoute(context, route);
+  void changerRoute(String route) => NavigationController.changerView(context, route);
 
   @override
   Widget build(BuildContext context) {

@@ -26,11 +26,11 @@ class _PersonnagesViewState extends State<PersonnagesView> {
 
   void ouvrirPersonnage(PersonnageModel personnage) {
     PersonnageController.changerPersonnage(context, personnage);
-    NavigationController.changerRoute(context, "/personnage");
+    NavigationController.changerView(context, "/personnage");
   }
 
   void ouvrirCreatePersonnage() {
-    NavigationController.changerRoute(context, "/creer_personnage");
+    NavigationController.changerView(context, "/creer_personnage");
   }
 
   @override

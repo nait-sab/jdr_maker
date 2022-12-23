@@ -50,7 +50,7 @@ class _ConnexionViewState extends State<ConnexionView> {
     ];
   }
 
-  void changerRoute(String route) => NavigationController.changerRoute(context, route);
+  void changerRoute(String route) => NavigationController.changerView(context, route);
   void afficherMessage(String texte) => Alerte.message(context, "Tentative de connexion", texte);
 
   void chargerUtilisateur(UtilisateurModel utilisateur) {

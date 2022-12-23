@@ -49,7 +49,7 @@ class _LieuCreateState extends State<LieuCreate> {
       await FirebaseAndroidTool.ajouterDocumentID(LieuModel.nomCollection, idLieu, newLieu.toMap());
     }
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/lieux"));
+    setState(() => NavigationController.changerView(context, "/lieux"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);

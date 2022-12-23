@@ -52,6 +52,7 @@ class _AppInterfaceState extends State<AppInterface> {
   Future chargerProjet(ProjetModel projet) async {
     if (projetController.projet != projet) {
       switchChargement();
+      changerSelection();
       await ProjetController.chargerProjet(context, projet);
       switchChargement();
     } else {
@@ -61,7 +62,7 @@ class _AppInterfaceState extends State<AppInterface> {
 
   void switchChargement() => setState(() => chargement = !chargement);
   void changerSelection() => setState(() => selectionVisible = !selectionVisible);
-  void retourAccueil() => setState(() => NavigationController.changerRoute(context, "/accueil"));
+  void retourAccueil() => setState(() => NavigationController.changerView(context, "/accueil"));
 
   @override
   Widget build(BuildContext context) {

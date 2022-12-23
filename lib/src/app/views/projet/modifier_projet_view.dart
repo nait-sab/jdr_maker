@@ -6,6 +6,7 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/widgets/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/champ_checkbox.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
@@ -26,12 +27,16 @@ class ModifierProjetView extends StatefulWidget {
 class _ModifierProjetViewState extends State<ModifierProjetView> {
   late bool chargement;
   late ProjetController projetController;
+
+  // Données du projet
   late TextEditingController nomProjet;
+  late bool isPublic;
 
   @override
   void initState() {
     super.initState();
     chargement = false;
+    isPublic = false;
     nomProjet = TextEditingController();
   }
 
@@ -40,26 +45,21 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
       return;
     }
 
-    if (nomProjet.text != projetController.projet!.nomProjet) {
-      setState(() => chargement = true);
-
-      String id = projetController.projet!.id;
-      ProjetModel projet = projetController.projet!;
-      projet.nomProjet = nomProjet.text;
-
-      await FirebaseGlobalTool.modifierDocument(ProjetModel.nomCollection, id, projet.toMap());
-      //await actualiser();
-
-      setState(() => NavigationController.changerRoute(context, "/options"));
-    }
+    setState(() => chargement = true);
+    ProjetModel projet = projetController.projet!;
+    projet.nomProjet = nomProjet.text;
+    projet.isPublic = isPublic;
+    await FirebaseGlobalTool.modifierDocument(ProjetModel.nomCollection, projet.id, projet.toMap());
+    setState(() => NavigationController.changerView(context, "/options"));
   }
 
-  //Future actualiser() async => await ProjetController.actualiser(context);
+  void changerPublic() => isPublic = !isPublic;
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
     nomProjet.text = projetController.projet!.nomProjet;
+    isPublic = projetController.projet!.isPublic;
 
     return AppInterface(
       child: chargement
@@ -95,6 +95,20 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
                           nomChamp: "Nom du projet",
                           couleurTexte: Couleurs.texte,
                         ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Projet public :",
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Couleurs.texte,
+                              ),
+                            ),
+                            ChampCheckbox(etatInitial: isPublic, action: changerPublic),
+                          ],
+                        )
                       ],
                     ),
                   ),

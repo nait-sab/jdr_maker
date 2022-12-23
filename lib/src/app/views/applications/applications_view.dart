@@ -73,23 +73,23 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   }
 
   void ouvrirApplicationEvenement() {
-    NavigationController.changerRoute(context, "/evenements");
+    NavigationController.changerView(context, "/evenements");
   }
 
   void ouvrirApplicationPersonnage() {
-    NavigationController.changerRoute(context, "/personnages");
+    NavigationController.changerView(context, "/personnages");
   }
 
   void ouvrirApplicationLieu() {
-    NavigationController.changerRoute(context, "/lieux");
+    NavigationController.changerView(context, "/lieux");
   }
 
   void ouvrirApplicationObjet() {
-    NavigationController.changerRoute(context, "/objets");
+    NavigationController.changerView(context, "/objets");
   }
 
   void ouvrirApplicationLanceDes() {
-    NavigationController.changerRoute(context, "/lance");
+    NavigationController.changerView(context, "/lance");
   }
 
   Widget renduMobile(BuildContext context) {

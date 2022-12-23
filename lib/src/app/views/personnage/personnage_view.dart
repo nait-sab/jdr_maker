@@ -66,7 +66,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                     Navigator.pop(context, true);
                     setState(() {
                       //ProjetController.actualiser(context);
-                      NavigationController.changerRoute(context, "/personnages");
+                      NavigationController.changerView(context, "/personnages");
                     });
                   },
                   child: Text(
@@ -79,7 +79,7 @@ class _PersonnageViewState extends State<PersonnageView> {
   }
 
   void goToEdit() {
-    NavigationController.changerRoute(context, "/modifier_personnage");
+    NavigationController.changerView(context, "/modifier_personnage");
   }
 
   @override

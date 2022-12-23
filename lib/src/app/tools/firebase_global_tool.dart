@@ -21,7 +21,7 @@ class FirebaseGlobalTool {
   // Nécéssite le [nomCollection], l'[id] du document et le [json] du model
   static Future modifierDocument(String nomCollection, String id, Map<String, dynamic> json) async {
     return Platform.isAndroid
-        ? await FirebaseAndroidTool.modifierDocument(EvenementModel.nomCollection, id, json)
-        : await FirebaseDesktopTool.modifierDocument(EvenementModel.nomCollection, id, json);
+        ? await FirebaseAndroidTool.modifierDocument(nomCollection, id, json)
+        : await FirebaseDesktopTool.modifierDocument(nomCollection, id, json);
   }
 }

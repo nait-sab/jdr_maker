@@ -43,7 +43,7 @@ class _ObjetEditState extends State<ObjetEdit> {
       await FirebaseAndroidTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     }
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/objets"));
+    setState(() => NavigationController.changerView(context, "/objets"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);
