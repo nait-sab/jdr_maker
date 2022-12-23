@@ -64,7 +64,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
         : await FirebaseDesktopTool.ajouterDocumentID(EvenementModel.nomCollection, idEvenement, evenement.toMap());
 
     await actualiser();
-    setState(() => NavigationController.changerRoute(context, "/evenements"));
+    setState(() => NavigationController.changerView(context, "/evenements"));
   }
 
   Future actualiser() async => ProjetController.actualiserProjet(context);

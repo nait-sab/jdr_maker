@@ -26,11 +26,11 @@ class _ObjetsViewState extends State<ObjetsView> {
 
   void ouvrirObjet(ObjetModel objet) {
     ObjetController.changerObjet(context, objet);
-    NavigationController.changerRoute(context, "/objet");
+    NavigationController.changerView(context, "/objet");
   }
 
   void ouvrirCreateObjet() {
-    NavigationController.changerRoute(context, "/creer_objet");
+    NavigationController.changerView(context, "/creer_objet");
   }
 
   @override

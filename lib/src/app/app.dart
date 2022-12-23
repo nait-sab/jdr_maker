@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/routes.dart';
+import 'package:provider/provider.dart';
 
 /// Classe App
 ///
@@ -23,7 +24,7 @@ class App extends StatelessWidget {
         onPopPage: (route, resultat) {
           bool popStatus = route.didPop(resultat);
           if (popStatus) {
-            NavigationController.changerRoute(context, "/");
+            Provider.of<NavigationController>(context, listen: false).changerRoute("/");
           }
           return popStatus;
         },

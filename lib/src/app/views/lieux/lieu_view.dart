@@ -61,7 +61,7 @@ class _LieuViewState extends State<LieuView> {
                   }
                   Navigator.pop(context, true);
                   await actualiser();
-                  setState(() => NavigationController.changerRoute(context, "/lieux"));
+                  setState(() => NavigationController.changerView(context, "/lieux"));
                 },
                 child: Text(
                   "Supprimer",
@@ -76,7 +76,7 @@ class _LieuViewState extends State<LieuView> {
   Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void goToEdit() {
-    NavigationController.changerRoute(context, "/modifier_lieu");
+    NavigationController.changerView(context, "/modifier_lieu");
   }
 
   @override

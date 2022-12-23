@@ -59,7 +59,7 @@ class _CreerProjetViewState extends State<CreerProjetView> {
   }
 
   void retourAcceuil() {
-    NavigationController.changerRoute(context, "/accueil");
+    NavigationController.changerView(context, "/accueil");
   }
 
   @override

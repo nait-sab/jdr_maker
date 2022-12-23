@@ -26,11 +26,11 @@ class _LieuxViewState extends State<LieuxView> {
 
   void ouvrirLieu(LieuModel lieu) {
     LieuController.changerLieu(context, lieu);
-    NavigationController.changerRoute(context, "/lieu");
+    NavigationController.changerView(context, "/lieu");
   }
 
   void ouvrirCreateLieu() {
-    NavigationController.changerRoute(context, "/creer_lieu");
+    NavigationController.changerView(context, "/creer_lieu");
   }
 
   @override

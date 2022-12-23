@@ -26,7 +26,7 @@ class AccueilSelection extends StatefulWidget {
 
 class _AccueilSelectionState extends State<AccueilSelection> {
   void boutonCreation() => changerRoute("/creer_projet");
-  void changerRoute(String route) => NavigationController.changerRoute(context, route);
+  void changerRoute(String route) => NavigationController.changerView(context, route);
 
   @override
   Widget build(BuildContext context) {
