@@ -1,8 +1,14 @@
+## [1.0.8]() (2022-12-24)
+
+### Interface
+
+* Ajout de la page affichant la liste des membres du projet
+
 ## [1.0.7]() (2022-12-23)
 
 ### Moteur
 
-* Correction d'un crash dans la navigation empêchant l'accès à l'app
+* Correction d'un crash dans la navigation empêchant l'accès à l'application
 * Ajout de la possibilité de modifier le statut public d'un projet
 
 ### Interface

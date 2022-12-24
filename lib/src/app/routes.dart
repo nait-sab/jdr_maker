@@ -22,6 +22,7 @@ import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/profil/profil_view.dart';
 import 'package:jdr_maker/src/app/views/projet/creer_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/membres_projet_view.dart';
 import 'package:jdr_maker/src/app/views/projet/modifier_projet_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
@@ -55,9 +56,6 @@ List<Page> applicationRoutes(context) {
       break;
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
-      break;
-    case "/modifier_profil":
-      liste.add(MaterialPage(child: EditProfileView()));
       break;
 
     // =======================================================
@@ -153,8 +151,16 @@ List<Page> applicationRoutes(context) {
     // =======================================================
     // Routes liés aux options
     // =======================================================
+    case "/modifier_profil":
+      liste.add(MaterialPage(child: EditProfileView()));
+      break;
+
     case "/modifier_projet":
       liste.add(MaterialPage(child: ModifierProjetView()));
+      break;
+
+    case "/membres_projet":
+      liste.add(MaterialPage(child: MembresProjetView()));
       break;
   }
 

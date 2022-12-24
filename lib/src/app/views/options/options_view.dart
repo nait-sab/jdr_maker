@@ -89,6 +89,7 @@ class _OptionsViewState extends State<OptionsView> {
         liste.add(optionBoutonDesktop(
           "Membres du projet",
           Icons.manage_accounts_rounded,
+          action: () => changerRoute("/membres_projet"),
         ));
       }
     }

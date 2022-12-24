@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 
 /// Classe : Firebase Global
 ///
@@ -23,5 +22,13 @@ class FirebaseGlobalTool {
     return Platform.isAndroid
         ? await FirebaseAndroidTool.modifierDocument(nomCollection, id, json)
         : await FirebaseDesktopTool.modifierDocument(nomCollection, id, json);
+  }
+
+  /// Récupérer un document par son ID en gérant automatiquement le support
+  // Nécéssite le [nomCollection] et l'[id] du document
+  static Future getdocumentID(String nomCollection, String id) async {
+    return Platform.isAndroid
+        ? await FirebaseAndroidTool.getdocumentID(nomCollection, id)
+        : await FirebaseDesktopTool.getdocumentID(nomCollection, id);
   }
 }
