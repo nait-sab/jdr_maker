@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -42,23 +44,10 @@ class _EvenementsViewState extends State<EvenementsView> {
                       children: getListe(),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Bouton(
-                      onTap: () => NavigationController.changerView(context, "/creer_evenement"),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Couleurs.violet,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Icon(
-                          Icons.add_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                    ),
+                  FormBouton(
+                    boutonType: FormBoutonType.ajouter,
+                    alignement: Alignment.bottomRight,
+                    action: () => NavigationController.changerView(context, "/creer_evenement"),
                   ),
                 ],
               ),

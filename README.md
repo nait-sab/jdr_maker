@@ -9,7 +9,7 @@
 - [Romain Duciel](https://github.com/Rom10811)
 - [Florentin Allart](https://github.com/Flo-a)
 
-## Support
+## Supports
 - Windows (EXE)
 - Android >= 5  (APK)
 
@@ -28,11 +28,11 @@ Historique des modifications : __changelog.md__
 
 - Lancer depuis __Visual Studio Code__ :
     - __F5__ : Démarrage avec le debug
-    - __CTRL + F5__ : Démarrage sans le débug
+    - __CTRL + F5__ : Démarrage sans le debug
 
-## Autres commandes utile
+## Autres commandes utiles
 - Nettoyer le projet : __"flutter clean"__
-- Récupérer la liste des packages après nettoyage ou erreurs : __"flutter packages get"__
+- Récupérer la liste des packages après nettoyage ou erreur : __"flutter packages get"__
 
 ## Exemple
 - Une démo du provider se situe dans la branche demo
@@ -41,26 +41,26 @@ Historique des modifications : __changelog.md__
 - Lancement du programme depuis __lib/main.dart__
 
 - Contenu Application depuis __lib/src/app__ :
-    - Dossier Controllers : Contient les controllers de variables dynamique
+    - Dossier Controllers : Contient les controllers de variables dynamiques
     - Dossier Tools : Contients les outils / API utilisé
-    - Dossiers Views : Contient les vues de l'applications rangés avec leurs widgets
+    - Dossier Views : Contient les vues de l'application rangées avec leurs widgets
     - Dossier Widgets : Contient les widgets communs entre plusieurs vues
-    - __app.dart__ : Contient le démarrage de l'application lancé par le fichier main.dart
-    - __routes.dart__ : Contient l'ensemble des routes avec leurs UI correspondant
+    - __app.dart__ : Contient le démarrage de l'application lancée par le fichier main.dart
+    - __routes.dart__ : Contient l'ensemble des routes avec leurs UI correspondantes
 
 - Contenu Modèles, Énumérations et données fixes depuis __lib/src/domain__ :
-    - Dossier __data__ : Contient les données fixe
+    - Dossier __data__ : Contient les données fixes
     - Dossier __enums__ : Contient les types de données
     - Dossier __models__ : Contient les modèles de données
 
 - __android__ : Librairie interne générant l'APK
 - __windows__ : Librairie interne générant le EXE
 
-- __test__ : Tests unitaire
+- __test__ : Tests unitaires
 
 - __assets__ : Contenu des images
     - Dossier font : Polices d'écriture
     - Dossier img : Images
     - Dossier json : Fichiers json
     - Dossier music : Musiques
-    - Dossier sound : Sons d'éffets
+    - Dossier sound : Sons d'effets

@@ -6,7 +6,7 @@ import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +37,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                 style: TextStyle(color: Couleurs.texte),
                 children: <TextSpan>[
                   TextSpan(
-                    text:
-                        '${personnageController.personnage!.prenomPersonnage} ${personnageController.personnage!.nomPersonnage}',
+                    text: '${personnageController.personnage!.prenomPersonnage} ${personnageController.personnage!.nomPersonnage}',
                     style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
@@ -54,11 +53,9 @@ class _PersonnageViewState extends State<PersonnageView> {
               TextButton(
                   onPressed: () async {
                     if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(
-                          PersonnageModel.nomCollection, personnageController.personnage!.id);
+                      await FirebaseDesktopTool.supprimerDocument(PersonnageModel.nomCollection, personnageController.personnage!.id);
                     } else {
-                      await FirebaseAndroidTool.supprimerDocument(
-                          PersonnageModel.nomCollection, personnageController.personnage!.id);
+                      await FirebaseAndroidTool.supprimerDocument(PersonnageModel.nomCollection, personnageController.personnage!.id);
                     }
                     if (!mounted) {
                       return;
@@ -108,8 +105,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                             children: [
                               Flexible(
                                 child: Container(
-                                  constraints:
-                                      BoxConstraints(minWidth: 100, maxWidth: 200, maxHeight: 200, minHeight: 100),
+                                  constraints: BoxConstraints(minWidth: 100, maxWidth: 200, maxHeight: 200, minHeight: 100),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
@@ -166,8 +162,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
@@ -190,8 +185,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(

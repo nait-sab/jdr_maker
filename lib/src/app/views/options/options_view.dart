@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:provider/provider.dart';
 

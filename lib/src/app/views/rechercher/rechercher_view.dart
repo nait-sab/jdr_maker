@@ -5,7 +5,7 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';

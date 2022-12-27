@@ -7,11 +7,12 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/alerte.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -93,41 +94,15 @@ class _EvenementViewState extends State<EvenementView> {
                         children: afficherEvenement(),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Bouton(
-                        onTap: alerteSupprimer,
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Couleurs.rouge,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Icon(
-                            Icons.delete_rounded,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ),
+                    FormBouton(
+                      boutonType: FormBoutonType.supprimer,
+                      alignement: Alignment.bottomLeft,
+                      action: alerteSupprimer,
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Bouton(
-                        onTap: () => NavigationController.changerView(context, "/modifier_evenement"),
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Couleurs.violet,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Icon(
-                            Icons.edit_rounded,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ),
+                    FormBouton(
+                      boutonType: FormBoutonType.modifier,
+                      alignement: Alignment.bottomRight,
+                      action: () => NavigationController.changerView(context, "/modifier_evenement"),
                     ),
                   ],
                 ),

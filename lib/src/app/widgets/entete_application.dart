@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 
 /// Classe : Formulaire Entete
 ///
