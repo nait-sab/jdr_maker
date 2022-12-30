@@ -98,7 +98,7 @@ class _RechercherViewState extends State<RechercherView> {
                       color: Couleurs.fondSecondaire,
                       child: ListTile(
                         title: Text(
-                          projetsPublic[index].nomProjet,
+                          projetsPublic[index].nom,
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(

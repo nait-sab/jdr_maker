@@ -99,7 +99,7 @@ class _AccueilSelectionState extends State<AccueilSelection> {
         child: Row(
           children: [
             Text(
-              projet.nomProjet,
+              projet.nom,
               style: TextStyle(color: Couleurs.texte),
             ),
           ],

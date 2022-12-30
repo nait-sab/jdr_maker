@@ -22,7 +22,7 @@ class AccueilTitre extends StatefulWidget {
 
 class _AccueilTitreState extends State<AccueilTitre> {
   String nomProjet() {
-    return widget.projet == null ? "Projet JDR" : widget.projet!.nomProjet;
+    return widget.projet == null ? "Projet JDR" : widget.projet!.nom;
   }
 
   @override

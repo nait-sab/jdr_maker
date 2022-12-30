@@ -95,7 +95,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   Widget renduMobile(BuildContext context) {
     return Center(
       child: Text(
-        "Project actuel : ${projetController.projet!.nomProjet}",
+        "Project actuel : ${projetController.projet!.nom}",
         style: TextStyle(
           color: Colors.white,
         ),

@@ -130,7 +130,7 @@ class ProjetController extends ChangeNotifier {
     await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
       ProjetModel projetModel = ProjetModel.fromMap(data);
       if (projetModel.idCreateur == utilisateur.id) {
-        projets.add(ProjetModel.fromMap(data));
+        projets.add(projetModel);
       }
     });
 

@@ -74,12 +74,6 @@ class _OptionsViewState extends State<OptionsView> {
     if (Platform.isAndroid) {
       liste.add(optionBoutonMobile("Déconnexion", action: () => changerRoute("/connexion")));
     } else {
-      liste.add(optionBoutonDesktop(
-        "Modifier son profil",
-        Icons.person_rounded,
-        action: () => changerRoute("/modifier_profil"),
-      ));
-
       if (projetCharger) {
         liste.add(optionBoutonDesktop(
           "Modifier le projet",
@@ -92,6 +86,18 @@ class _OptionsViewState extends State<OptionsView> {
           action: () => changerRoute("/membres_projet"),
         ));
       }
+
+      liste.add(optionBoutonDesktop(
+        "Modifier son profil",
+        Icons.person_rounded,
+        action: () => changerRoute("/modifier_profil"),
+      ));
+
+      liste.add(optionBoutonDesktop(
+        "Rejoindre un projet",
+        Icons.share_rounded,
+        action: () => changerRoute("/rejoindre_projet_code"),
+      ));
     }
 
     return liste;

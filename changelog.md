@@ -1,3 +1,17 @@
+## [1.0.9]() (2022-12-31)
+
+### Moteur
+
+* Ajout d'un système de code d'invitation à usage unique pour les projets
+* Modification de la structure interne des projets pour intégrer les codes d'invitations
+* Création de la structure gérant les membres des projets
+
+### Interface
+
+* Ajout d'une option pour rejoindre un projet via code d'invitation
+* Création d'un code d'invitation avec son affichage dans la vue des membres d'un projet
+* Ajout des membres d'un projet dans la liste des membres
+
 ## [1.0.8]() (2022-12-24)
 
 ### Interface
