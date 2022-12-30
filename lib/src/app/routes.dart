@@ -24,6 +24,7 @@ import 'package:jdr_maker/src/app/views/profil/profil_view.dart';
 import 'package:jdr_maker/src/app/views/projet/creer_projet_view.dart';
 import 'package:jdr_maker/src/app/views/projet/membres_projet_view.dart';
 import 'package:jdr_maker/src/app/views/projet/modifier_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/rejoindre_projet_code_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
 import 'package:provider/provider.dart';
@@ -161,6 +162,10 @@ List<Page> applicationRoutes(context) {
 
     case "/membres_projet":
       liste.add(MaterialPage(child: MembresProjetView()));
+      break;
+
+    case "/rejoindre_projet_code":
+      liste.add(MaterialPage(child: RejoindreProjetCodeView()));
       break;
   }
 

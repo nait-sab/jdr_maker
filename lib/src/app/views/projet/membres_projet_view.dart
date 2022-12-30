@@ -3,11 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/tools/get_random_string.dart';
+import 'package:jdr_maker/src/app/widgets/alerte.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
+import 'package:jdr_maker/src/domain/models/membre_model.dart';
+import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +29,7 @@ class MembresProjetView extends StatefulWidget {
 
 class _MembresProjetViewState extends State<MembresProjetView> {
   late bool chargement;
+  late bool membresTrouver;
   late ProjetController projetController;
 
   /// Liste des [membres] du projet
@@ -33,24 +40,66 @@ class _MembresProjetViewState extends State<MembresProjetView> {
   void initState() {
     super.initState();
     chargement = true;
+    membresTrouver = false;
     membres = [];
   }
 
   Future recupererMembres() async {
-    membres = []; // A ajuster après avoir fait la mécanique d'ajout de membres
+    membres = [];
     String createurID = projetController.projet!.idCreateur;
+
     createur = UtilisateurModel.fromMap(
       await FirebaseGlobalTool.getdocumentID(UtilisateurModel.nomCollection, createurID),
     );
+
+    // Récupérer la liste des membres s'ils sont membre du même projet
+    List<MembreModel> cibles = [];
+    await FirebaseGlobalTool.recupererListe(MembreModel.nomCollection, (data) {
+      MembreModel cible = MembreModel.fromMap(data);
+      if (cible.idProjet == projetController.projet!.id) {
+        cibles.add(cible);
+      }
+    });
+
+    // Les ajouter à la liste des membres à afficher
+    for (MembreModel cible in cibles) {
+      UtilisateurModel membre = UtilisateurModel.fromMap(
+        await FirebaseGlobalTool.getdocumentID(UtilisateurModel.nomCollection, cible.idMembre),
+      );
+      membres.add(membre);
+    }
+
     if (mounted) {
+      membresTrouver = true;
       setState(() => chargement = false);
     }
+  }
+
+  Future genererCode() async {
+    setState(() => chargement = true);
+    ProjetModel projet = projetController.projet!;
+    String codeGenerer = getRandomString(8);
+    projet.codeMembre = codeGenerer;
+    projet.codeUtilisable = true;
+    await FirebaseGlobalTool.modifierDocument(ProjetModel.nomCollection, projet.id, projet.toMap());
+    afficherCode(codeGenerer);
+    setState(() => chargement = false);
+  }
+
+  void afficherCode(String code) {
+    Alerte.message(
+      context,
+      "Ajouter un membre",
+      "Nouveau code d'invitation : \"$code\"",
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
-    recupererMembres();
+    if (!membresTrouver) {
+      recupererMembres();
+    }
     return AppInterface(
       child: chargement
           ? Chargement()
@@ -78,23 +127,10 @@ class _MembresProjetViewState extends State<MembresProjetView> {
                     children: renduMembres(),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Bouton(
-                    onTap: () => {},
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Couleurs.violet,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Icon(
-                        Icons.add_rounded,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
+                FormBouton(
+                  boutonType: FormBoutonType.ajouter,
+                  alignement: Alignment.bottomRight,
+                  action: genererCode,
                 ),
               ],
             ),

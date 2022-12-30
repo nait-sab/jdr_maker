@@ -1,8 +1,8 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/interface/widgets/recherche.dart';
-import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/widgets/recherche.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 

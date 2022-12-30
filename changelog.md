@@ -1,3 +1,17 @@
+## [1.0.9]() (2022-12-31)
+
+### Moteur
+
+* Ajout d'un système de code d'invitation à usage unique pour les projets
+* Modification de la structure interne des projets pour intégrer les codes d'invitations
+* Création de la structure gérant les membres des projets
+
+### Interface
+
+* Ajout d'une option pour rejoindre un projet via code d'invitation
+* Création d'un code d'invitation avec son affichage dans la vue des membres d'un projet
+* Ajout des membres d'un projet dans la liste des membres
+
 ## [1.0.8]() (2022-12-24)
 
 ### Interface
@@ -8,33 +22,33 @@
 
 ### Moteur
 
-* Correction d'un crash dans la navigation empêchant l'accès à l'application
+* Correction d'une erreur dans la navigation empêchant l'accès à l'application
 * Ajout de la possibilité de modifier le statut public d'un projet
 
 ### Interface
 
-* Ajout d'une checkbox dans la modification d'un projet lié à son statut public
+* Ajout d'une case à cocher dans la modification d'un projet lié à son statut public
 
 ## [1.0.6]() (2022-12-22)
 
 ### Moteur
 
 * Optimisation du chargement des projets
-* Optimisation de l'interface de l'app
-* Création des projets via l'id de l'utilisateur
-* Récupération des projets avec le même id que l'utilisateur
+* Optimisation de l'interface de l'application
+* Création des projets via l'ID de l'utilisateur
+* Récupération des projets avec le même ID que l'utilisateur
 * Séparation des données des applications de la structure principale pour préparer les liaisons entre elles
 
 ### Interface
 
-* Ajout d'un chargement visible pendant les vérifications lors du login
+* Ajout d'un chargement visible pendant la vérification de la connexion
 
 ## [1.0.5]() (2022-12-16)
 
 ### Moteur
 
 * Amélioration du système de connexion et d'inscription
-* Amélioration des projets pour les rendre public
+* Amélioration des projets pour les rendre publics
 
 ### Interface
 
@@ -50,8 +64,8 @@
 
 ### Interface
 
-* Nouvelle fenêtre sur windows
-* Ajout des interfaces de l'applications objets
+* Nouvelle fenêtre sur Windows
+* Ajout des interfaces de l'application objets
 * Ajout des icônes des applications dans la navigation après le chargement d'un projet
 
 ## Applications
@@ -62,7 +76,7 @@
 
 ### Moteur
 
-* Récupération des données liés aux projets lors de leur sélection
+* Récupération des données liées aux projets lors de leur sélection
 * Gestion des données par projet 
 * Gestion de son profil
 
@@ -70,21 +84,21 @@
 
 * Ajout des applications dans l'accueil en sélectionnant un projet
 * Ajout des interfaces (listes, vues, éditions et créations) des événements, personnages et lieux
-* Ajout de la modification de son profil dans les options
+* Ajout de la modification du profil de l'utilisateur dans les options
 * Mise en couleur de la navigation selon la position dans l'application
 
 ## Applications
 
-* L'application événement permet de listé chronologiquement l'histoire
-* L'application personnage permet de créer des personnages liés à l'histoire
-* L'application lieux permet de créer des lieux liés à l'histoire
+* L'application événement permet de ranger chronologiquement les événéments historiques
+* L'application personnage permet de créer des personnages
+* L'application lieux permet de générer des lieux
 
 ## [1.0.2]() (2022-11-01)
 
 ### Moteur
 
-* Trouver les projets créer
-* Sélectionner un projet créer
+* Trouver les projets crées
+* Sélectionner un projet créé
 
 ### Interface 
 

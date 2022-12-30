@@ -6,12 +6,14 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -76,6 +78,7 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
   }
 
   Widget renduFormulaire() {
+    Size ecran = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(
@@ -91,40 +94,66 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
               child: Stack(
                 children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Champ(
+                      ChampSaisie(
                         typeChamp: TextInputType.text,
                         controller: champNom,
                         nomChamp: "Nom de l'événement",
                         couleurTexte: Couleurs.texte,
                       ),
                       SizedBox(height: 20),
-                      Champ(
+                      ChampSaisie(
                         typeChamp: TextInputType.multiline,
                         controller: champDescription,
                         nomChamp: "Description de l'événement",
                         couleurTexte: Couleurs.texte,
                       ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Bouton(
-                      onTap: creer,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Couleurs.violet,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Icon(
-                          Icons.done_rounded,
-                          color: Colors.white,
-                          size: 30,
+                      SizedBox(height: 20),
+                      Text(
+                        "Personnages",
+                        style: TextStyle(
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
                         ),
                       ),
-                    ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listePersonnages()),
+                      SizedBox(height: 20),
+                      Text(
+                        "Lieux",
+                        style: TextStyle(
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listeLieux()),
+                      SizedBox(height: 20),
+                      Text(
+                        "Objets",
+                        style: TextStyle(
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listeObjets()),
+                    ],
+                  ),
+                  FormBouton(
+                    boutonType: FormBoutonType.valider,
+                    alignement: Alignment.bottomRight,
+                    action: creer,
                   ),
                 ],
               ),
@@ -133,5 +162,59 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
         ],
       ),
     );
+  }
+
+  List<Widget> listePersonnages() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  List<Widget> listeLieux() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  List<Widget> listeObjets() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  Widget boutonAjouter() {
+    Size ecran = MediaQuery.of(context).size;
+    return Bouton(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Couleurs.fondPrincipale,
+        ),
+        padding: EdgeInsets.all(5),
+        child: Center(
+          child: Text(
+            "Ajouter",
+            style: TextStyle(
+              color: Couleurs.texte,
+              fontWeight: FontWeight.bold,
+              fontSize: ecran.width * 0.015,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget boutonPersonnage() {
+    return Container();
+  }
+
+  Widget boutonLieu() {
+    return Container();
+  }
+
+  Widget boutonObjet() {
+    return Container();
   }
 }

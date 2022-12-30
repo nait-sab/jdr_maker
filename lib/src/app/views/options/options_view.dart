@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:provider/provider.dart';
 
@@ -74,12 +74,6 @@ class _OptionsViewState extends State<OptionsView> {
     if (Platform.isAndroid) {
       liste.add(optionBoutonMobile("Déconnexion", action: () => changerRoute("/connexion")));
     } else {
-      liste.add(optionBoutonDesktop(
-        "Modifier son profil",
-        Icons.person_rounded,
-        action: () => changerRoute("/modifier_profil"),
-      ));
-
       if (projetCharger) {
         liste.add(optionBoutonDesktop(
           "Modifier le projet",
@@ -92,6 +86,18 @@ class _OptionsViewState extends State<OptionsView> {
           action: () => changerRoute("/membres_projet"),
         ));
       }
+
+      liste.add(optionBoutonDesktop(
+        "Modifier son profil",
+        Icons.person_rounded,
+        action: () => changerRoute("/modifier_profil"),
+      ));
+
+      liste.add(optionBoutonDesktop(
+        "Rejoindre un projet",
+        Icons.share_rounded,
+        action: () => changerRoute("/rejoindre_projet_code"),
+      ));
     }
 
     return liste;

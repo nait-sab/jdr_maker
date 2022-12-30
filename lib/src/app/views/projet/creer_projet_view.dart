@@ -45,8 +45,10 @@ class _CreerProjetViewState extends State<CreerProjetView> {
     ProjetModel newProjet = ProjetModel(
       id: idProjet,
       idCreateur: utilisateurController.utilisateur!.id,
-      nomProjet: champNom.text,
+      nom: champNom.text,
       isPublic: false,
+      codeMembre: "",
+      codeUtilisable: false,
     );
 
     if (Platform.isWindows) {

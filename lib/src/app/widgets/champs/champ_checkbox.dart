@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 class ChampCheckbox extends StatefulWidget {
