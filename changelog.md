@@ -1,3 +1,26 @@
+## [1.1.1]() (2023-01-06)
+
+### Moteur
+
+* La création d'un nouveau projet l'ouvre automatiquement après sa création
+
+### Correctif
+
+* Correction d'un bug n'affichant pas les projets créer
+
+## [1.1.0]() (2023-01-06)
+
+### Moteur
+
+* Création d'un outil pour les générateurs aléatoire nécéssaire au projet
+* Ajout de la suppresion de toutes les données d'un projet
+
+### Interface
+
+* Amélioration des boutons desktop dans les options
+* Ajout d'un icone globale pour les boutons rond à icones
+* Ajout d'un bouton pour supprimer le projet depuis sa modification dans les options
+
 ## [1.0.9]() (2022-12-31)
 
 ### Moteur

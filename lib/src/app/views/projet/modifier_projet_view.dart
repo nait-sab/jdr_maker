@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/alerte.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/champs/champ_checkbox.dart';
 import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +56,28 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
 
   void changerPublic() => isPublic = !isPublic;
 
+  Future supprimerProjet() async {
+    Alerte.demander(
+      context,
+      "Supprimer le projet",
+      "Souhaitez-vous vraiment supprimer le projet \"${projetController.projet!.nom}\" ?",
+      () async {
+        setState(() {
+          chargement = true;
+        });
+
+        await _supprimer();
+        accueil();
+      },
+    );
+  }
+
+  Future _supprimer() async {
+    await ProjetController.supprimerProjet(context);
+  }
+
+  void accueil() => NavigationController.changerView(context, "/accueil");
+
   @override
   Widget build(BuildContext context) {
     projetController = Provider.of<ProjetController>(context);
@@ -89,6 +111,7 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
                 children: [
                   SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ChampSaisie(
                           typeChamp: TextInputType.text,
@@ -109,14 +132,25 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
                             ),
                             ChampCheckbox(etatInitial: isPublic, action: changerPublic),
                           ],
-                        )
+                        ),
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),
-                  FormBouton(
-                    boutonType: FormBoutonType.valider,
-                    alignement: Alignment.bottomRight,
-                    action: modifierProjet,
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: BoutonIcone(
+                      icone: Icons.delete_rounded,
+                      action: supprimerProjet,
+                      couleur: Couleurs.rouge,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: BoutonIcone(
+                      icone: Icons.done_rounded,
+                      action: modifierProjet,
+                    ),
                   ),
                 ],
               ),

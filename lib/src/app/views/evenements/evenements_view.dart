@@ -5,11 +5,10 @@ import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -44,10 +43,12 @@ class _EvenementsViewState extends State<EvenementsView> {
                       children: getListe(),
                     ),
                   ),
-                  FormBouton(
-                    boutonType: FormBoutonType.ajouter,
-                    alignement: Alignment.bottomRight,
-                    action: () => NavigationController.changerView(context, "/creer_evenement"),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: BoutonIcone(
+                      icone: Icons.add_rounded,
+                      action: () => NavigationController.changerView(context, "/creer_evenement")
+                    ),
                   ),
                 ],
               ),

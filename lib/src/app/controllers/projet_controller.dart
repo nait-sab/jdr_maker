@@ -143,4 +143,54 @@ class ProjetController extends ChangeNotifier {
     UtilisateurModel utilisateur = UtilisateurController.getUtilisateur(context);
     await Provider.of<ProjetController>(context, listen: false)._chargerProjets(utilisateur);
   }
+
+  // =========================================================
+  // Supprimer le projet
+  // =========================================================
+  Future _supprimer() async {
+    // Changer le projet actuel et réinitialiser les applications liées
+    if (projet == null) {
+      return;
+    }
+
+    // Supprimer l'ensemble des données liées au projet
+    if (evenements!.isNotEmpty) {
+      for (EvenementModel evenement in evenements!) {
+        await FirebaseGlobalTool.supprimerDocument(EvenementModel.nomCollection, evenement.id);
+      }
+    }
+
+    if (personnages!.isNotEmpty) {
+      for (PersonnageModel personnage in personnages!) {
+        await FirebaseGlobalTool.supprimerDocument(PersonnageModel.nomCollection, personnage.id);
+      }
+    }
+
+    if (lieux!.isNotEmpty) {
+      for (LieuModel lieu in lieux!) {
+        await FirebaseGlobalTool.supprimerDocument(LieuModel.nomCollection, lieu.id);
+      }
+    }
+
+    if (objets!.isNotEmpty) {
+      for (ObjetModel objet in objets!) {
+        await FirebaseGlobalTool.supprimerDocument(ObjetModel.nomCollection, objet.id);
+      }
+    }
+
+    await FirebaseGlobalTool.supprimerDocument(ProjetModel.nomCollection, projet!.id);
+  }
+
+  /// supprimer le [projet] actuel
+  static Future supprimerProjet(BuildContext context) async {
+    UtilisateurModel utilisateur = UtilisateurController.getUtilisateur(context);
+    ProjetController projetController = Provider.of<ProjetController>(context, listen: false);
+
+    // Vérifier que le projet contient la totalité des donnéés avant de le supprimer
+    await projetController._actualiser();
+    await projetController._supprimer();
+
+    // Récupérer à nouveau les données de l'utilisateur
+    await projetController._chargerProjets(utilisateur);
+  }
 }

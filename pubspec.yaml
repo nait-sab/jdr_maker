@@ -28,6 +28,7 @@ dependencies:
   auto_size_text: ^3.0.0
   bitsdojo_window: ^0.1.5
   email_validator: ^2.1.17
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

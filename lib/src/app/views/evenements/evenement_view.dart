@@ -7,12 +7,11 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/alerte.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -94,15 +93,20 @@ class _EvenementViewState extends State<EvenementView> {
                         children: afficherEvenement(),
                       ),
                     ),
-                    FormBouton(
-                      boutonType: FormBoutonType.supprimer,
-                      alignement: Alignment.bottomLeft,
-                      action: alerteSupprimer,
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: BoutonIcone(
+                        icone: Icons.delete_rounded,
+                        action: alerteSupprimer,
+                        couleur: Couleurs.rouge,
+                      ),
                     ),
-                    FormBouton(
-                      boutonType: FormBoutonType.modifier,
-                      alignement: Alignment.bottomRight,
-                      action: () => NavigationController.changerView(context, "/modifier_evenement"),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: BoutonIcone(
+                        icone: Icons.edit_rounded,
+                        action: () => NavigationController.changerView(context, "/modifier_evenement"),
+                      ),
                     ),
                   ],
                 ),
