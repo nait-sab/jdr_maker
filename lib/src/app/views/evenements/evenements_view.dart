@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -34,21 +37,29 @@ class _EvenementsViewState extends State<EvenementsView> {
           children: [
             EnteteApplication(routeRetour: "/accueil", titreFormulaire: "Événements"),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: getListe(),
-                ),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      children: getListe(),
+                    ),
+                  ),
+                  FormBouton(
+                    boutonType: FormBoutonType.ajouter,
+                    alignement: Alignment.bottomRight,
+                    action: () => NavigationController.changerView(context, "/creer_evenement"),
+                  ),
+                ],
               ),
             ),
-            boutonNouveauEvenement(),
           ],
         ),
       ),
     );
   }
 
-  void choixEvenement(String evenementID) {
-    ProjetController.changerEvenement(context, evenementID);
+  void choixEvenement(EvenementModel evenement) {
+    EvenementController.changerEvenement(context, evenement);
     NavigationController.changerView(context, "/evenement");
   }
 
@@ -66,32 +77,10 @@ class _EvenementsViewState extends State<EvenementsView> {
     return liste;
   }
 
-  Widget boutonNouveauEvenement() {
-    Size ecran = MediaQuery.of(context).size;
-    return Bouton(
-      onTap: () => NavigationController.changerView(context, "/creer_evenement"),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Couleurs.violet,
-        ),
-        child: Text(
-          "Créer un événement",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: Platform.isAndroid ? 20 : ecran.width * 0.015,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget boutonEvenement(EvenementModel evenement) {
     Size ecran = MediaQuery.of(context).size;
     return Bouton(
-      onTap: () => choixEvenement(evenement.id),
+      onTap: () => choixEvenement(evenement),
       child: Container(
         padding: EdgeInsets.all(20),
         width: double.infinity,

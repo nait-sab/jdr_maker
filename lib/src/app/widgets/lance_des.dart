@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jdr_maker/src/app/tools/get_random_nb.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
 class LanceDes extends StatefulWidget {
@@ -72,7 +72,7 @@ class _LanceDesState extends State<LanceDes> {
                           padding: const EdgeInsets.all(8),
                           child: SizedBox(
                             width: 100,
-                            child: Champ(
+                            child: ChampSaisie(
                               nomChamp: "Max",
                               couleurTexte: Couleurs.texte,
                               typeChamp: TextInputType.number,

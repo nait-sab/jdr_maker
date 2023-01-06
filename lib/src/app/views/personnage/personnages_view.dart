@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,7 @@ class _PersonnagesViewState extends State<PersonnagesView> {
   }
 
   void ouvrirPersonnage(PersonnageModel personnage) {
-    projetController.personnage = personnage;
-
-    ProjetController.changerPersonnage(context, personnage.id);
+    PersonnageController.changerPersonnage(context, personnage);
     NavigationController.changerView(context, "/personnage");
   }
 
@@ -48,8 +47,7 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                 children: [
                   GridView.builder(
                     itemCount: projetController.personnages?.length,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 300, crossAxisSpacing: 15, mainAxisSpacing: 15),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300, crossAxisSpacing: 15, mainAxisSpacing: 15),
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
@@ -57,8 +55,7 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                         },
                         child: Container(
                           height: 14,
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Couleurs.fondSecondaire),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Couleurs.fondSecondaire),
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Column(
@@ -66,8 +63,7 @@ class _PersonnagesViewState extends State<PersonnagesView> {
                               children: [
                                 Flexible(
                                   child: Container(
-                                    constraints:
-                                        BoxConstraints(minWidth: 100, maxWidth: 170, maxHeight: 170, minHeight: 100),
+                                    constraints: BoxConstraints(minWidth: 100, maxWidth: 170, maxHeight: 170, minHeight: 100),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(

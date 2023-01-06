@@ -6,12 +6,14 @@ import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -63,11 +65,11 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
         ? await FirebaseAndroidTool.ajouterDocumentID(EvenementModel.nomCollection, idEvenement, evenement.toMap())
         : await FirebaseDesktopTool.ajouterDocumentID(EvenementModel.nomCollection, idEvenement, evenement.toMap());
 
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/evenements");
-    });
+    await actualiser();
+    setState(() => NavigationController.changerView(context, "/evenements"));
   }
+
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   @override
   Widget build(BuildContext context) {
@@ -89,39 +91,69 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
                 color: Couleurs.fondSecondaire,
               ),
               padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Stack(
                 children: [
-                  Champ(
-                    typeChamp: TextInputType.text,
-                    controller: champNom,
-                    nomChamp: "Nom de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  SizedBox(height: 20),
-                  Champ(
-                    typeChamp: TextInputType.multiline,
-                    controller: champDescription,
-                    nomChamp: "Description de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  Spacer(),
-                  Bouton(
-                    onTap: creer,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Couleurs.violet,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ChampSaisie(
+                        typeChamp: TextInputType.text,
+                        controller: champNom,
+                        nomChamp: "Nom de l'événement",
+                        couleurTexte: Couleurs.texte,
                       ),
-                      padding: EdgeInsets.all(20),
-                      child: Text(
-                        "Créer",
+                      SizedBox(height: 20),
+                      ChampSaisie(
+                        typeChamp: TextInputType.multiline,
+                        controller: champDescription,
+                        nomChamp: "Description de l'événement",
+                        couleurTexte: Couleurs.texte,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "Personnages",
                         style: TextStyle(
-                          fontSize: Platform.isAndroid ? 22 : ecran.width * 0.015,
-                          color: Colors.white,
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
                         ),
                       ),
-                    ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listePersonnages()),
+                      SizedBox(height: 20),
+                      Text(
+                        "Lieux",
+                        style: TextStyle(
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listeLieux()),
+                      SizedBox(height: 20),
+                      Text(
+                        "Objets",
+                        style: TextStyle(
+                          color: Couleurs.texte,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ecran.width * 0.02,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(width: double.infinity, height: 1, color: Couleurs.texte),
+                      SizedBox(height: 10),
+                      Column(children: listeObjets()),
+                    ],
+                  ),
+                  FormBouton(
+                    boutonType: FormBoutonType.valider,
+                    alignement: Alignment.bottomRight,
+                    action: creer,
                   ),
                 ],
               ),
@@ -130,5 +162,59 @@ class _EvenementCreateViewState extends State<EvenementCreateView> {
         ],
       ),
     );
+  }
+
+  List<Widget> listePersonnages() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  List<Widget> listeLieux() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  List<Widget> listeObjets() {
+    List<Widget> liste = [];
+    liste.add(boutonAjouter());
+    return liste;
+  }
+
+  Widget boutonAjouter() {
+    Size ecran = MediaQuery.of(context).size;
+    return Bouton(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Couleurs.fondPrincipale,
+        ),
+        padding: EdgeInsets.all(5),
+        child: Center(
+          child: Text(
+            "Ajouter",
+            style: TextStyle(
+              color: Couleurs.texte,
+              fontWeight: FontWeight.bold,
+              fontSize: ecran.width * 0.015,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget boutonPersonnage() {
+    return Container();
+  }
+
+  Widget boutonLieu() {
+    return Container();
+  }
+
+  Widget boutonObjet() {
+    return Container();
   }
 }

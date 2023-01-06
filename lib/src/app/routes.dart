@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/views/accueil_view.dart';
-import 'package:jdr_maker/src/app/views/connexion_view.dart';
-import 'package:jdr_maker/src/app/views/creerJDR/debut_jdr_view.dart';
+import 'package:jdr_maker/src/app/views/connexion/connexion_view.dart';
+import 'package:jdr_maker/src/app/views/connexion/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_create_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_edit_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenement_view.dart';
 import 'package:jdr_maker/src/app/views/evenements/evenements_view.dart';
-import 'package:jdr_maker/src/app/views/inscription_view.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_create.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_edit.dart';
 import 'package:jdr_maker/src/app/views/lieux/lieu_view.dart';
@@ -22,6 +21,10 @@ import 'package:jdr_maker/src/app/views/personnage/personnage_edit.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnage_view.dart';
 import 'package:jdr_maker/src/app/views/personnage/personnages_view.dart';
 import 'package:jdr_maker/src/app/views/profil/profil_view.dart';
+import 'package:jdr_maker/src/app/views/projet/creer_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/membres_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/modifier_projet_view.dart';
+import 'package:jdr_maker/src/app/views/projet/rejoindre_projet_code_view.dart';
 import 'package:jdr_maker/src/app/views/rechercher/rechercher_view.dart';
 import 'package:jdr_maker/src/app/widgets/lance_des.dart';
 import 'package:provider/provider.dart';
@@ -37,15 +40,15 @@ import 'package:provider/provider.dart';
 /// - /connexion
 /// - /inscription
 List<Page> applicationRoutes(context) {
-  NavigationController navigation = Provider.of<NavigationController>(context);
   List<Page> liste = [];
+  NavigationController navigation = Provider.of<NavigationController>(context);
 
   // Route par défaut
-  liste.add(MaterialPage(child: AccueilView()));
+  liste.add(MaterialPage(child: ConnexionView()));
 
   // Routing
   // Toujours un / en début de route
-  switch (navigation.currentRoute) {
+  switch (navigation.route) {
     // =======================================================
     // Routes Connexion / Inscription
     // =======================================================
@@ -54,9 +57,6 @@ List<Page> applicationRoutes(context) {
       break;
     case "/inscription":
       liste.add(MaterialPage(child: InscriptionView()));
-      break;
-    case "/modifier_profil":
-      liste.add(MaterialPage(child: EditProfileView()));
       break;
 
     // =======================================================
@@ -71,8 +71,8 @@ List<Page> applicationRoutes(context) {
     case "/options":
       liste.add(MaterialPage(child: OptionsView()));
       break;
-    case "/creer_jdr":
-      liste.add(MaterialPage(child: DebutJDR()));
+    case "/creer_projet":
+      liste.add(MaterialPage(child: CreerProjetView()));
       break;
     case "/jouer":
       //liste.add(MaterialPage(child: ));
@@ -147,6 +147,25 @@ List<Page> applicationRoutes(context) {
     // =======================================================
     case "/lance":
       liste.add(MaterialPage(child: LanceDes()));
+      break;
+
+    // =======================================================
+    // Routes liés aux options
+    // =======================================================
+    case "/modifier_profil":
+      liste.add(MaterialPage(child: EditProfileView()));
+      break;
+
+    case "/modifier_projet":
+      liste.add(MaterialPage(child: ModifierProjetView()));
+      break;
+
+    case "/membres_projet":
+      liste.add(MaterialPage(child: MembresProjetView()));
+      break;
+
+    case "/rejoindre_projet_code":
+      liste.add(MaterialPage(child: RejoindreProjetCodeView()));
       break;
   }
 

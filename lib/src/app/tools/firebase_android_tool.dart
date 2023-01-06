@@ -77,19 +77,33 @@ class FirebaseAndroidTool {
   // Fonctions Auth
   // =============================================================
   /// Créer un nouveau compte à partir d'un [mail] et d'un [passe]
-  static Future creerCompte(String mail, String passe) async {
-    await _getAuthInstance().createUserWithEmailAndPassword(email: mail, password: passe);
+  static Future<bool> creerCompte(String mail, String passe) async {
+    try {
+      await _getAuthInstance().createUserWithEmailAndPassword(email: mail, password: passe);
+      return true;
+    } on FirebaseAuthException {
+      return false;
+    }
   }
 
   /// Se connecter à un compte à partir d'un [mail] et d'un [passe]
-  static Future connexion(String mail, String passe) async {
-    await _getAuthInstance().signInWithEmailAndPassword(email: mail, password: passe);
+  static Future<bool> connexion(String mail, String passe) async {
+    try {
+      await _getAuthInstance().signInWithEmailAndPassword(email: mail, password: passe);
+      return true;
+    } on FirebaseAuthException {
+      return false;
+    }
   }
 
   /// Récupérer l'utilisateur connecter actuellement
   /// Voir https://firebase.flutter.dev/docs/auth/start authStateChanges()
   static User? getUtilisateur() {
     return _getAuthInstance().currentUser;
+  }
+
+  static Stream<User?> getChangementAuthentification() {
+    return _getAuthInstance().authStateChanges();
   }
 
   /// Déconnecter l'utilisateur

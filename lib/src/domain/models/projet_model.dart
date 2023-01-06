@@ -6,21 +6,41 @@
 class ProjetModel {
   static String nomCollection = "Projets";
 
+  /// ID du projet
   String id;
+
+  /// ID du créateur
   String idCreateur;
-  String nomProjet;
+
+  /// Nom du projet
+  String nom;
+
+  /// Projet public ou non
+  bool isPublic;
+
+  /// Code d'ajout de membre
+  String codeMembre;
+
+  /// Code utilisable ou non
+  bool codeUtilisable;
 
   ProjetModel({
     required this.id,
     required this.idCreateur,
-    required this.nomProjet,
+    required this.nom,
+    required this.isPublic,
+    required this.codeMembre,
+    required this.codeUtilisable,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "idCreateur": idCreateur,
-      "nomProjet": nomProjet,
+      "nom": nom,
+      "isPublic": isPublic,
+      "codeMembre": codeMembre,
+      "codeUtilisable": codeUtilisable,
     };
   }
 
@@ -28,7 +48,10 @@ class ProjetModel {
     return ProjetModel(
       id: data["id"],
       idCreateur: data["idCreateur"],
-      nomProjet: data["nomProjet"],
+      nom: data["nom"],
+      isPublic: data["isPublic"],
+      codeMembre: data["codeMembre"],
+      codeUtilisable: data["codeUtilisable"],
     );
   }
 }

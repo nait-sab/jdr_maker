@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,7 @@ class _LieuxViewState extends State<LieuxView> {
   }
 
   void ouvrirLieu(LieuModel lieu) {
-    projetController.lieu = lieu;
-
-    ProjetController.changerLieu(context, lieu.id);
+    LieuController.changerLieu(context, lieu);
     NavigationController.changerView(context, "/lieu");
   }
 
@@ -49,8 +48,7 @@ class _LieuxViewState extends State<LieuxView> {
                 children: [
                   GridView.builder(
                     itemCount: projetController.lieux?.length,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 400, crossAxisSpacing: 15, mainAxisSpacing: 15),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 400, crossAxisSpacing: 15, mainAxisSpacing: 15),
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
@@ -58,8 +56,7 @@ class _LieuxViewState extends State<LieuxView> {
                         },
                         child: Container(
                           height: 14,
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondSecondaire),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondSecondaire),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -67,8 +64,7 @@ class _LieuxViewState extends State<LieuxView> {
                                 flex: 3,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                                     image: DecorationImage(
                                         image: NetworkImage(
                                           projetController.lieux![index].lienImage,

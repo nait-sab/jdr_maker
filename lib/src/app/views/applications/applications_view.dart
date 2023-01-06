@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Accueil - Applications
@@ -95,7 +95,7 @@ class _ApplicationsViewState extends State<ApplicationsView> {
   Widget renduMobile(BuildContext context) {
     return Center(
       child: Text(
-        "Project actuel : ${projetController.projet!.nomProjet}",
+        "Project actuel : ${projetController.projet!.nom}",
         style: TextStyle(
           color: Colors.white,
         ),

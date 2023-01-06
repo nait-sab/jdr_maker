@@ -1,79 +1,79 @@
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/lieu_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:provider/provider.dart';
 
 class LieuView extends StatefulWidget {
-  const LieuView({super.key});
-
   @override
   State<LieuView> createState() => _LieuViewState();
 }
 
 class _LieuViewState extends State<LieuView> {
-  late ProjetController projetController;
+  late LieuController lieuController;
 
   Future<void> deleteDialog() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Couleurs.fondSecondaire,
-            title: Text(
-              'Supprimer un Lieu',
-              style: TextStyle(color: Couleurs.violet),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Couleurs.fondSecondaire,
+          title: Text(
+            'Supprimer un Lieu',
+            style: TextStyle(color: Couleurs.violet),
+          ),
+          content: RichText(
+            text: TextSpan(
+              text: 'Supprimer le Lieu : ',
+              style: TextStyle(color: Couleurs.texte),
+              children: <TextSpan>[
+                TextSpan(
+                  text: lieuController.lieu!.nomLieu,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
+                ),
+                TextSpan(text: ' ?'),
+              ],
             ),
-            content: RichText(
-              text: TextSpan(
-                text: 'Supprimer le Lieu : ',
-                style: TextStyle(color: Couleurs.texte),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: projetController.lieu!.nomLieu,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
-                  ),
-                  TextSpan(text: ' ?'),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Annuler")),
-              TextButton(
-                  onPressed: () async {
-                    if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(LieuModel.nomCollection, projetController.lieu!.id);
-                    } else {
-                      await FirebaseAndroidTool.supprimerDocument(LieuModel.nomCollection, projetController.lieu!.id);
-                    }
-                    if (!mounted) {
-                      return;
-                    }
-                    Navigator.pop(context, true);
-                    setState(() {
-                      ProjetController.actualiser(context);
-                      NavigationController.changerView(context, "/lieux");
-                    });
-                  },
-                  child: Text(
-                    "Supprimer",
-                    style: TextStyle(color: Colors.red),
-                  ))
-            ],
-          );
-        });
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Annuler")),
+            TextButton(
+                onPressed: () async {
+                  if (Platform.isWindows) {
+                    await FirebaseDesktopTool.supprimerDocument(LieuModel.nomCollection, lieuController.lieu!.id);
+                  } else {
+                    await FirebaseAndroidTool.supprimerDocument(LieuModel.nomCollection, lieuController.lieu!.id);
+                  }
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pop(context, true);
+                  await actualiser();
+                  setState(() => NavigationController.changerView(context, "/lieux"));
+                },
+                child: Text(
+                  "Supprimer",
+                  style: TextStyle(color: Colors.red),
+                ))
+          ],
+        );
+      },
+    );
   }
+
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void goToEdit() {
     NavigationController.changerView(context, "/modifier_lieu");
@@ -81,14 +81,13 @@ class _LieuViewState extends State<LieuView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    lieuController = Provider.of<LieuController>(context);
     return AppInterface(
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
           child: Container(
-            decoration:
-                BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -101,7 +100,7 @@ class _LieuViewState extends State<LieuView> {
                       ),
                       image: DecorationImage(
                         colorFilter: ColorFilter.mode(Couleurs.fondPrincipale.withOpacity(0.2), BlendMode.dstIn),
-                        image: NetworkImage(projetController.lieu!.lienImage),
+                        image: NetworkImage(lieuController.lieu!.lienImage),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,7 +110,7 @@ class _LieuViewState extends State<LieuView> {
                         children: [
                           EnteteApplication(routeRetour: "/lieux", titreFormulaire: "Fiche du lieu"),
                           AutoSizeText(
-                            projetController.lieu!.nomLieu,
+                            lieuController.lieu!.nomLieu,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -142,7 +141,7 @@ class _LieuViewState extends State<LieuView> {
                       padding: const EdgeInsets.all(8),
                       child: SingleChildScrollView(
                         child: Text(
-                          projetController.lieu!.description,
+                          lieuController.lieu!.description,
                           style: TextStyle(
                             color: Couleurs.texte,
                           ),

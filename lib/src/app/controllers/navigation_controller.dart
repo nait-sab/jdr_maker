@@ -7,14 +7,20 @@ import 'package:provider/provider.dart';
 ///
 /// Contient la route actuelle dans l'application
 class NavigationController extends ChangeNotifier {
-  String currentRoute = "/";
+  String route = "/";
 
-  void changerRoute(String routeName) {
-    currentRoute = routeName;
+  void changerRoute(String route) {
+    this.route = route;
     notifyListeners();
   }
 
+  /// Changer la route actuelle
   static void changerView(BuildContext context, String route) {
     Provider.of<NavigationController>(context, listen: false).changerRoute(route);
+  }
+
+  /// Récupérer la route actuelle
+  static String getRoute(BuildContext context) {
+    return Provider.of<NavigationController>(context, listen: false).route;
   }
 }

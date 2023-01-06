@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:jdr_maker/src/domain/models/lieu_model.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
+import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 import 'package:provider/provider.dart';
 
 /// Classe : Projet
@@ -13,138 +15,132 @@ import 'package:provider/provider.dart';
 ///
 /// Contient le projet actuel dans l'application
 class ProjetController extends ChangeNotifier {
-  /// Projets
+  /// Liste des projets
   List<ProjetModel> projets = [];
+
+  /// Données du projet actuel
   ProjetModel? projet;
-
-  /// Événements
   List<EvenementModel>? evenements;
-  EvenementModel? evenement;
-
-  /// Personnages
   List<PersonnageModel>? personnages;
-  PersonnageModel? personnage;
-
-  /// Lieux
   List<LieuModel>? lieux;
-  LieuModel? lieu;
-
-  /// Objets
   List<ObjetModel>? objets;
-  ObjetModel? objet;
 
-  Future _actualiserProjet(ProjetModel projet) async {
+  // =========================================================
+  // Actualiser le projet
+  // =========================================================
+  Future _actualiser() async {
+    // Changer le projet actuel et réinitialiser les applications liées
+    if (projet == null) {
+      return;
+    }
+    evenements = await _chargerEvenements(projet!);
+    personnages = await _chargerPersonnages(projet!);
+    lieux = await _chargerLieux(projet!);
+    objets = await _chargerObjets(projet!);
+    print("actualisation terminé");
+    notifyListeners();
+  }
+
+  /// Actualiser le [projet] actuel
+  static Future actualiserProjet(BuildContext context) async {
+    await Provider.of<ProjetController>(context, listen: false)._actualiser();
+  }
+
+  // =========================================================
+  // Changer de projet
+  // =========================================================
+  Future _chargerProjet(ProjetModel projet) async {
+    // Changer le projet actuel et réinitialiser les applications liées
     this.projet = projet;
-    await _actualiserApplications();
+    evenements = await _chargerEvenements(projet);
+    personnages = await _chargerPersonnages(projet);
+    lieux = await _chargerLieux(projet);
+    objets = await _chargerObjets(projet);
+    print("chargement terminé");
     notifyListeners();
   }
 
-  Future _chargerProjets() async {
-    projets = [];
-    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
-      projets.add(ProjetModel.fromMap(data));
-    });
-    notifyListeners();
-  }
-
-  Future _actualiserApplications() async {
-    evenements = [];
-    personnages = [];
-    lieux = [];
-    objets = [];
-
+  /// Charger les evenements du [projet]
+  Future<List<EvenementModel>> _chargerEvenements(ProjetModel projet) async {
+    List<EvenementModel> liste = [];
     await FirebaseGlobalTool.recupererListe(EvenementModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        evenements!.add(EvenementModel.fromMap(data));
+      EvenementModel evenement = EvenementModel.fromMap(data);
+      if (evenement.idProjet == projet.id) {
+        liste.add(evenement);
       }
     });
+    return liste;
+  }
 
-    if (evenements!.isNotEmpty) {
-      evenements!.sort((event1, event2) => event1.numero.compareTo(event2.numero));
-    }
-
+  /// Charger les personnages du [projet]
+  Future<List<PersonnageModel>> _chargerPersonnages(ProjetModel projet) async {
+    List<PersonnageModel> liste = [];
     await FirebaseGlobalTool.recupererListe(PersonnageModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        personnages!.add(PersonnageModel.fromMap(data));
+      PersonnageModel personnage = PersonnageModel.fromMap(data);
+      if (personnage.idProjet == projet.id) {
+        liste.add(personnage);
       }
     });
+    return liste;
+  }
 
+  /// Charger les lieux du [projet]
+  Future<List<LieuModel>> _chargerLieux(ProjetModel projet) async {
+    List<LieuModel> liste = [];
     await FirebaseGlobalTool.recupererListe(LieuModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        lieux!.add(LieuModel.fromMap(data));
+      LieuModel lieu = LieuModel.fromMap(data);
+      if (lieu.idProjet == projet.id) {
+        liste.add(lieu);
       }
     });
+    return liste;
+  }
 
+  /// Charger les objets du [projet]
+  Future<List<ObjetModel>> _chargerObjets(ProjetModel projet) async {
+    List<ObjetModel> liste = [];
     await FirebaseGlobalTool.recupererListe(ObjetModel.nomCollection, (data) {
-      if (data["idProjet"] == projet!.id) {
-        objets!.add(ObjetModel.fromMap(data));
+      ObjetModel objet = ObjetModel.fromMap(data);
+      if (objet.idProjet == projet.id) {
+        liste.add(objet);
       }
     });
+    return liste;
   }
 
-  Future _actualiserEvenement(String evenementID) async {
-    for (EvenementModel event in evenements!) {
-      if (event.id == evenementID) {
-        evenement = event;
+  /// Charger ou changer le [projet] actuel
+  static Future chargerProjet(BuildContext context, ProjetModel projet) async {
+    await Provider.of<ProjetController>(context, listen: false)._chargerProjet(projet);
+  }
+
+  // =========================================================
+  // Charger les projets
+  // =========================================================
+  /// Charger les projets lié à l'[utilisateur]
+  Future _chargerProjets(UtilisateurModel utilisateur) async {
+    // Réinitialiser le contenu actuel
+    projets = [];
+    projet = null;
+    evenements = null;
+    personnages = null;
+    lieux = null;
+    objets = null;
+
+    // Récupérer la liste des projets Firebase
+    await FirebaseGlobalTool.recupererListe(ProjetModel.nomCollection, (data) {
+      ProjetModel projetModel = ProjetModel.fromMap(data);
+      if (projetModel.idCreateur == utilisateur.id) {
+        projets.add(projetModel);
       }
-    }
+    });
+
+    // Mettre à jour les interfaces
     notifyListeners();
   }
 
-  Future _actualiserPersonnage(String personnageID) async {
-    for (PersonnageModel perso in personnages!) {
-      if (perso.id == personnageID) {
-        personnage = perso;
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _actualiserLieu(String lieuID) async {
-    for (LieuModel li in lieux!) {
-      if (li.id == lieuID) {
-        lieu = li;
-      }
-    }
-    notifyListeners();
-  }
-
-  Future _actualiserObjet(String objetID) async {
-    for (ObjetModel ob in objets!) {
-      if (ob.id == objetID) {
-        objet = ob;
-      }
-    }
-    notifyListeners();
-  }
-
-  static Future changerProjet(BuildContext context, ProjetModel projet) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(projet);
-  }
-
-  static Future actualiser(BuildContext context) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserProjet(
-      Provider.of<ProjetController>(context, listen: false).projet!,
-    );
-  }
-
+  /// Charger les projets lié au compte
   static Future chargerProjets(BuildContext context) async {
-    await Provider.of<ProjetController>(context, listen: false)._chargerProjets();
-  }
-
-  static Future changerEvenement(BuildContext context, String evenementID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserEvenement(evenementID);
-  }
-
-  static Future changerPersonnage(BuildContext context, String personnageID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserPersonnage(personnageID);
-  }
-
-  static Future changerLieu(BuildContext context, String lieuID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserLieu(lieuID);
-  }
-
-  static Future changerObjet(BuildContext context, String objetID) async {
-    await Provider.of<ProjetController>(context, listen: false)._actualiserObjet(objetID);
+    UtilisateurModel utilisateur = UtilisateurController.getUtilisateur(context);
+    await Provider.of<ProjetController>(context, listen: false)._chargerProjets(utilisateur);
   }
 }

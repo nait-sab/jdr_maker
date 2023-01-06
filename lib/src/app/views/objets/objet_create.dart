@@ -6,9 +6,9 @@ import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:provider/provider.dart';
@@ -50,15 +50,11 @@ class _ObjetCreateState extends State<ObjetCreate> {
     } else {
       await FirebaseAndroidTool.ajouterDocumentID(ObjetModel.nomCollection, idObjet, newObjet.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerView(context, "/objets"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/objets");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +73,13 @@ class _ObjetCreateState extends State<ObjetCreate> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(15))),
+                    decoration: BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Champ(
+                          child: ChampSaisie(
                             typeChamp: TextInputType.text,
                             controller: textEditingControllerNomObjet,
                             nomChamp: "Nom de l'objet",
@@ -95,8 +90,7 @@ class _ObjetCreateState extends State<ObjetCreate> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             height: 300,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Center(
                                 child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -129,8 +123,7 @@ class _ObjetCreateState extends State<ObjetCreate> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             height: ecran.height * 0.3,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: TextField(

@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:provider/provider.dart';
@@ -19,61 +20,62 @@ class ObjetView extends StatefulWidget {
 }
 
 class _ObjetViewState extends State<ObjetView> {
-  late ProjetController projetController;
+  late ObjetController objetController;
 
   Future<void> deleteDialog() async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Couleurs.fondSecondaire,
-            title: Text(
-              'Supprimer un objet',
-              style: TextStyle(color: Couleurs.violet),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Couleurs.fondSecondaire,
+          title: Text(
+            'Supprimer un objet',
+            style: TextStyle(color: Couleurs.violet),
+          ),
+          content: RichText(
+            text: TextSpan(
+              text: 'Supprimer l\'objet : ',
+              style: TextStyle(color: Couleurs.texte),
+              children: <TextSpan>[
+                TextSpan(
+                  text: objetController.objet!.nomObjet,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
+                ),
+                TextSpan(text: ' ?'),
+              ],
             ),
-            content: RichText(
-              text: TextSpan(
-                text: 'Supprimer l\'objet : ',
-                style: TextStyle(color: Couleurs.texte),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: projetController.objet!.nomObjet,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
-                  ),
-                  TextSpan(text: ' ?'),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Annuler")),
-              TextButton(
-                  onPressed: () async {
-                    if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, projetController.objet!.id);
-                    } else {
-                      await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, projetController.objet!.id);
-                    }
-                    if (!mounted) {
-                      return;
-                    }
-                    Navigator.pop(context, true);
-                    setState(() {
-                      ProjetController.actualiser(context);
-                      NavigationController.changerView(context, "/objets");
-                    });
-                  },
-                  child: Text(
-                    "Supprimer",
-                    style: TextStyle(color: Colors.red),
-                  ))
-            ],
-          );
-        });
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Annuler")),
+            TextButton(
+                onPressed: () async {
+                  if (Platform.isWindows) {
+                    await FirebaseDesktopTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
+                  } else {
+                    await FirebaseAndroidTool.supprimerDocument(ObjetModel.nomCollection, objetController.objet!.id);
+                  }
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.pop(context, true);
+                  await actualiser();
+                  setState(() => NavigationController.changerView(context, "/objets"));
+                },
+                child: Text(
+                  "Supprimer",
+                  style: TextStyle(color: Colors.red),
+                ))
+          ],
+        );
+      },
+    );
   }
+
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void goToEdit() {
     NavigationController.changerView(context, "/modifier_objet");
@@ -81,14 +83,13 @@ class _ObjetViewState extends State<ObjetView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    objetController = Provider.of<ObjetController>(context);
     return AppInterface(
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
           child: Container(
-            decoration:
-                BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -101,7 +102,7 @@ class _ObjetViewState extends State<ObjetView> {
                       ),
                       image: DecorationImage(
                         colorFilter: ColorFilter.mode(Couleurs.fondPrincipale.withOpacity(0.2), BlendMode.dstIn),
-                        image: NetworkImage(projetController.objet!.lienImage),
+                        image: NetworkImage(objetController.objet!.lienImage),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,7 +112,7 @@ class _ObjetViewState extends State<ObjetView> {
                         children: [
                           EnteteApplication(routeRetour: "/objets", titreFormulaire: "Fiche de l'objet"),
                           AutoSizeText(
-                            projetController.objet!.nomObjet,
+                            objetController.objet!.nomObjet,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -142,7 +143,7 @@ class _ObjetViewState extends State<ObjetView> {
                       padding: const EdgeInsets.all(8),
                       child: SingleChildScrollView(
                         child: Text(
-                          projetController.objet!.description,
+                          objetController.objet!.description,
                           style: TextStyle(
                             color: Couleurs.texte,
                           ),

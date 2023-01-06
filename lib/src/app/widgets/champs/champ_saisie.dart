@@ -7,7 +7,7 @@ import 'package:jdr_maker/src/domain/data/couleurs.dart';
 /// Type : Widget (Commun)
 ///
 /// Créer un champ de formulaire personnalisé
-class Champ extends StatefulWidget {
+class ChampSaisie extends StatefulWidget {
   final TextInputType typeChamp;
   final TextEditingController controller;
 
@@ -17,21 +17,23 @@ class Champ extends StatefulWidget {
   final bool? contenuCacher;
   final int? longueurMax;
   final List<TextInputFormatter>? inputFormatters;
-  Champ(
-      {required this.typeChamp,
-      required this.controller,
-      this.nomChamp,
-      this.tailleTexte,
-      this.couleurTexte,
-      this.contenuCacher,
-      this.longueurMax,
-      this.inputFormatters});
+
+  ChampSaisie({
+    required this.typeChamp,
+    required this.controller,
+    this.nomChamp,
+    this.tailleTexte,
+    this.couleurTexte,
+    this.contenuCacher,
+    this.longueurMax,
+    this.inputFormatters,
+  });
 
   @override
-  State<Champ> createState() => _ChampState();
+  State<ChampSaisie> createState() => _ChampSaisieState();
 }
 
-class _ChampState extends State<Champ> {
+class _ChampSaisieState extends State<ChampSaisie> {
   @override
   Widget build(BuildContext context) {
     return TextField(

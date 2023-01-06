@@ -1,24 +1,11 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/interface/widgets/recherche.dart';
-import 'package:jdr_maker/src/app/widgets/interface/widgets/titre.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 
-/// Classe : Accueil - Entête
-///
-/// Type : Widget
-///
-/// Contient l'entête de l'accueil
-class AccueilEntete extends StatelessWidget {
-  final VoidCallback actionTitre;
-
-  AccueilEntete({
-    required this.actionTitre,
-  });
-
+class ConnexionEntete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size ecran = MediaQuery.of(context).size;
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -31,11 +18,18 @@ class AccueilEntete extends StatelessWidget {
       child: MoveWindow(
         child: Row(
           children: [
-            Bouton(
-              onTap: actionTitre,
-              child: AccueilTitre(isAndroid: false),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                "Projet JDR",
+                style: TextStyle(
+                  fontSize: ecran.width * 0.01,
+                  color: Couleurs.texte,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            AccueilRecherche(),
+            Spacer(),
             Container(
               width: 1,
               decoration: BoxDecoration(border: Border(right: BorderSide())),

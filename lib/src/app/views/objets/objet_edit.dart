@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/objet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/objet_model.dart';
 import 'package:provider/provider.dart';
@@ -22,51 +23,40 @@ class _ObjetEditState extends State<ObjetEdit> {
   late TextEditingController textEditingControllerNomObjet;
   late TextEditingController textEditingControllerDescription;
   late String lienImage;
-  late ProjetController projetController;
+  late ObjetController objetController;
 
   @override
   void initState() {
     super.initState();
     textEditingControllerNomObjet = TextEditingController();
     textEditingControllerDescription = TextEditingController();
-
     lienImage = 'https://picsum.photos/1920/1080';
   }
 
   Future modifierObjet() async {
-    ObjetModel newObjet = ObjetModel(
-        id: projetController.objet!.id,
-        idProjet: projetController.projet!.id,
-        lienImage: lienImage,
-        description: textEditingControllerDescription.text,
-        idCreateur: projetController.objet!.idCreateur,
-        nomObjet: textEditingControllerNomObjet.text);
+    ObjetModel objet = objetController.objet!;
+    objet.description = textEditingControllerDescription.text;
+    objet.nomObjet = textEditingControllerNomObjet.text;
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.modifierDocument(
-          ObjetModel.nomCollection, projetController.objet!.id, newObjet.toMap());
+      await FirebaseDesktopTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     } else {
-      await FirebaseAndroidTool.modifierDocument(
-          ObjetModel.nomCollection, projetController.objet!.id, newObjet.toMap());
+      await FirebaseAndroidTool.modifierDocument(ObjetModel.nomCollection, objet.id, objet.toMap());
     }
-    leave();
+    await actualiser();
+    setState(() => NavigationController.changerView(context, "/objets"));
   }
 
-  void leave() {
-    setState(() {
-      ProjetController.actualiser(context);
-      NavigationController.changerView(context, "/objets");
-    });
-  }
+  Future actualiser() async => ProjetController.actualiserProjet(context);
 
   void chargerObjet() {
-    textEditingControllerNomObjet.text = projetController.objet!.nomObjet;
+    textEditingControllerNomObjet.text = objetController.objet!.nomObjet;
 
-    textEditingControllerDescription.text = projetController.objet!.description;
+    textEditingControllerDescription.text = objetController.objet!.description;
   }
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    objetController = Provider.of<ObjetController>(context);
     chargerObjet();
     Size ecran = MediaQuery.of(context).size;
     return AppInterface(
@@ -81,14 +71,13 @@ class _ObjetEditState extends State<ObjetEdit> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(15))),
+                    decoration: BoxDecoration(color: Couleurs.fondSecondaire, borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Champ(
+                          child: ChampSaisie(
                             typeChamp: TextInputType.text,
                             controller: textEditingControllerNomObjet,
                             nomChamp: "Nom de l'objet",
@@ -99,8 +88,7 @@ class _ObjetEditState extends State<ObjetEdit> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             height: 300,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Center(
                                 child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -133,8 +121,7 @@ class _ObjetEditState extends State<ObjetEdit> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             height: ecran.height * 0.3,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: TextField(

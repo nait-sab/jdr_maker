@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
 import 'package:provider/provider.dart';
@@ -37,20 +37,17 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   void goAcceuil() {
-    NavigationController.changerView(context, "/");
+    NavigationController.changerView(context, "/accueil");
   }
 
   Future updateAccount() async {
     String usernameValue = userController.text;
     String firstPassValue = firstPassController.text;
     String secondPassValue = secondPassController.text;
-    UtilisateurModel userInfos = UtilisateurModel(
-        id: utilisateurController.utilisateur!.id,
-        mail: utilisateurController.utilisateur!.mail,
-        username: usernameValue);
+    UtilisateurModel userInfos =
+        UtilisateurModel(id: utilisateurController.utilisateur!.id, mail: utilisateurController.utilisateur!.mail, username: usernameValue);
     if (utilisateurController.utilisateur?.username != usernameValue) {
-      await FirebaseDesktopTool.modifierDocument(
-          UtilisateurModel.nomCollection, utilisateurController.utilisateur!.id, userInfos.toMap());
+      await FirebaseDesktopTool.modifierDocument(UtilisateurModel.nomCollection, utilisateurController.utilisateur!.id, userInfos.toMap());
       utilisateurController.actualiser(userInfos);
     }
     if (firstPassValue.isNotEmpty && secondPassValue.isNotEmpty) {

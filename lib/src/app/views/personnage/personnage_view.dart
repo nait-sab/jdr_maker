@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
-import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/controllers/personnage_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/personnage_model.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class PersonnageView extends StatefulWidget {
 }
 
 class _PersonnageViewState extends State<PersonnageView> {
-  late ProjetController projetController;
+  late PersonnageController personnageController;
 
   Future<void> deleteDialog() async {
     await showDialog(
@@ -37,8 +37,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                 style: TextStyle(color: Couleurs.texte),
                 children: <TextSpan>[
                   TextSpan(
-                    text:
-                        '${projetController.personnage!.prenomPersonnage} ${projetController.personnage!.nomPersonnage}',
+                    text: '${personnageController.personnage!.prenomPersonnage} ${personnageController.personnage!.nomPersonnage}',
                     style: TextStyle(fontWeight: FontWeight.bold, color: Couleurs.violet),
                   ),
                   TextSpan(text: ' ?'),
@@ -54,18 +53,16 @@ class _PersonnageViewState extends State<PersonnageView> {
               TextButton(
                   onPressed: () async {
                     if (Platform.isWindows) {
-                      await FirebaseDesktopTool.supprimerDocument(
-                          PersonnageModel.nomCollection, projetController.personnage!.id);
+                      await FirebaseDesktopTool.supprimerDocument(PersonnageModel.nomCollection, personnageController.personnage!.id);
                     } else {
-                      await FirebaseAndroidTool.supprimerDocument(
-                          PersonnageModel.nomCollection, projetController.personnage!.id);
+                      await FirebaseAndroidTool.supprimerDocument(PersonnageModel.nomCollection, personnageController.personnage!.id);
                     }
                     if (!mounted) {
                       return;
                     }
                     Navigator.pop(context, true);
                     setState(() {
-                      ProjetController.actualiser(context);
+                      //ProjetController.actualiser(context);
                       NavigationController.changerView(context, "/personnages");
                     });
                   },
@@ -84,7 +81,7 @@ class _PersonnageViewState extends State<PersonnageView> {
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
+    personnageController = Provider.of<PersonnageController>(context);
     return AppInterface(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: Platform.isAndroid ? 20 : 50),
@@ -108,14 +105,13 @@ class _PersonnageViewState extends State<PersonnageView> {
                             children: [
                               Flexible(
                                 child: Container(
-                                  constraints:
-                                      BoxConstraints(minWidth: 100, maxWidth: 200, maxHeight: 200, minHeight: 100),
+                                  constraints: BoxConstraints(minWidth: 100, maxWidth: 200, maxHeight: 200, minHeight: 100),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                          projetController.personnage!.lienImage != ""
-                                              ? projetController.personnage!.lienImage
+                                          personnageController.personnage!.lienImage != ""
+                                              ? personnageController.personnage!.lienImage
                                               : 'https://picsum.photos/200/300',
                                         ),
                                         fit: BoxFit.fill),
@@ -126,7 +122,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                 child: Column(
                                   children: [
                                     AutoSizeText(
-                                      projetController.personnage!.prenomPersonnage,
+                                      personnageController.personnage!.prenomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -135,7 +131,7 @@ class _PersonnageViewState extends State<PersonnageView> {
                                       maxFontSize: 50,
                                     ),
                                     AutoSizeText(
-                                      projetController.personnage!.nomPersonnage,
+                                      personnageController.personnage!.nomPersonnage,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Couleurs.texte,
@@ -166,12 +162,11 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                projetController.personnage!.description,
+                                personnageController.personnage!.description,
                                 style: TextStyle(
                                   color: Couleurs.texte,
                                 ),
@@ -190,12 +185,11 @@ class _PersonnageViewState extends State<PersonnageView> {
                           padding: const EdgeInsets.all(8),
                           child: Container(
                             width: double.infinity,
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Couleurs.fondPrincipale),
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                projetController.personnage!.histoire,
+                                personnageController.personnage!.histoire,
                                 style: TextStyle(
                                   color: Couleurs.texte,
                                 ),

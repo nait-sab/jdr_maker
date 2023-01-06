@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 ///
 /// Type : Model
 ///
-/// Contient la route actuelle dans l'application
+/// Modèle des utilisateurs
 class UtilisateurModel extends ChangeNotifier {
-  // Contenu d'exemple pour RoRo
   static String nomCollection = "Utilisateurs";
 
   String id;
   String mail;
   String username;
 
-  UtilisateurModel({required this.id, required this.mail, required this.username});
+  UtilisateurModel({
+    required this.id,
+    required this.mail,
+    required this.username,
+  });
 
   Map<String, dynamic> toMap() {
     return {

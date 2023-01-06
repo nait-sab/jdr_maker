@@ -1,15 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:jdr_maker/src/app/controllers/evenement_controller.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
-import 'package:jdr_maker/src/app/widgets/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/champ.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
-import 'package:jdr_maker/src/app/widgets/interface/app_interface.dart';
+import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
+import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/evenement_model.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class _EvenementEditViewState extends State<EvenementEditView> {
   late bool chargement;
   late TextEditingController champNom;
   late TextEditingController champDescription;
-  late ProjetController projetController;
+  late EvenementController evenementController;
 
   @override
   void initState() {
@@ -44,29 +44,27 @@ class _EvenementEditViewState extends State<EvenementEditView> {
 
     setState(() => chargement = true);
 
-    String id = projetController.evenement!.id;
-    EvenementModel evenement = projetController.evenement!;
+    EvenementModel evenement = evenementController.evenement!;
+    String id = evenement.id;
     evenement.nom = champNom.text;
     evenement.description = champDescription.text;
     await FirebaseGlobalTool.modifierDocument(EvenementModel.nomCollection, id, evenement.toMap());
     await actualiser();
-
     setState(() => NavigationController.changerView(context, "/evenement"));
   }
 
-  Future actualiser() async => await ProjetController.actualiser(context);
+  Future actualiser() async => await ProjetController.actualiserProjet(context);
 
   @override
   Widget build(BuildContext context) {
-    projetController = Provider.of<ProjetController>(context);
-    champNom.text = projetController.evenement!.nom;
-    champDescription.text = projetController.evenement!.description;
+    evenementController = Provider.of<EvenementController>(context);
+    champNom.text = evenementController.evenement!.nom;
+    champDescription.text = evenementController.evenement!.description;
 
     return AppInterface(child: chargement ? Chargement() : renduFormulaire());
   }
 
   Widget renduFormulaire() {
-    Size ecran = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Column(
@@ -79,39 +77,30 @@ class _EvenementEditViewState extends State<EvenementEditView> {
                 color: Couleurs.fondSecondaire,
               ),
               padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Stack(
                 children: [
-                  Champ(
-                    typeChamp: TextInputType.text,
-                    controller: champNom,
-                    nomChamp: "Nom de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  SizedBox(height: 20),
-                  Champ(
-                    typeChamp: TextInputType.multiline,
-                    controller: champDescription,
-                    nomChamp: "Description de l'événement",
-                    couleurTexte: Couleurs.texte,
-                  ),
-                  Spacer(),
-                  Bouton(
-                    onTap: modifier,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Couleurs.violet,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ChampSaisie(
+                        typeChamp: TextInputType.text,
+                        controller: champNom,
+                        nomChamp: "Nom de l'événement",
+                        couleurTexte: Couleurs.texte,
                       ),
-                      padding: EdgeInsets.all(20),
-                      child: Text(
-                        "Modifier",
-                        style: TextStyle(
-                          fontSize: Platform.isAndroid ? 22 : ecran.width * 0.015,
-                          color: Colors.white,
-                        ),
+                      SizedBox(height: 20),
+                      ChampSaisie(
+                        typeChamp: TextInputType.multiline,
+                        controller: champDescription,
+                        nomChamp: "Description de l'événement",
+                        couleurTexte: Couleurs.texte,
                       ),
-                    ),
+                    ],
+                  ),
+                  FormBouton(
+                    boutonType: FormBoutonType.valider,
+                    alignement: Alignment.bottomRight,
+                    action: modifier,
                   ),
                 ],
               ),
