@@ -6,12 +6,11 @@ import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
 import 'package:jdr_maker/src/app/widgets/alerte.dart';
 import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/form_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
 import 'package:jdr_maker/src/domain/data/couleurs.dart';
-import 'package:jdr_maker/src/domain/enums/form_bouton_type.dart';
 import 'package:jdr_maker/src/domain/models/membre_model.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:jdr_maker/src/domain/models/utilisateur_model.dart';
@@ -127,10 +126,12 @@ class _MembresProjetViewState extends State<MembresProjetView> {
                     children: renduMembres(),
                   ),
                 ),
-                FormBouton(
-                  boutonType: FormBoutonType.ajouter,
-                  alignement: Alignment.bottomRight,
-                  action: genererCode,
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: BoutonIcone(
+                    icone: Icons.add_rounded,
+                    action: genererCode,
+                  ),
                 ),
               ],
             ),

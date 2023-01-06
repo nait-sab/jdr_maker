@@ -228,16 +228,13 @@ class _RejoindreProjetCodeViewState extends State<RejoindreProjetCodeView> {
   }
 
   Widget icone() {
-    return projetTrouver
-        ? IconeBouton(
-            icone: Icons.done_rounded,
-            alignement: Alignment.bottomRight,
-            action: ajouterProjet,
-          )
-        : IconeBouton(
-            icone: Icons.search_rounded,
-            alignement: Alignment.bottomRight,
-            action: chercherProjet,
-          );
+    Widget icone = projetTrouver
+        ? BoutonIcone(icone: Icons.done_rounded, action: ajouterProjet)
+        : BoutonIcone(icone: Icons.search_rounded, action: chercherProjet);
+
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: icone,
+    );
   }
 }

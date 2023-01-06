@@ -31,4 +31,12 @@ class FirebaseGlobalTool {
         ? await FirebaseAndroidTool.getdocumentID(nomCollection, id)
         : await FirebaseDesktopTool.getdocumentID(nomCollection, id);
   }
+
+  /// Supprimer le document via son [id] depuis sa [collection] 
+  /// en gérant automatiquement le support
+  static Future supprimerDocument(String collection, String id) async {
+    return Platform.isAndroid
+        ? await FirebaseAndroidTool.supprimerDocument(collection, id)
+        : await FirebaseDesktopTool.supprimerDocument(collection, id);
+  }
 }

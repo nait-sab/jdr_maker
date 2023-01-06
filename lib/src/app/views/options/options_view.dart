@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
+import 'package:jdr_maker/src/app/views/options/widgets/option_bouton_desktop.dart';
 import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
@@ -75,28 +76,28 @@ class _OptionsViewState extends State<OptionsView> {
       liste.add(optionBoutonMobile("Déconnexion", action: () => changerRoute("/connexion")));
     } else {
       if (projetCharger) {
-        liste.add(optionBoutonDesktop(
-          "Modifier le projet",
-          Icons.layers_rounded,
-          action: () => changerRoute("/modifier_projet"),
+        liste.add(OptionBoutonDesktop(
+          routeOnTap: "/modifier_projet",
+          nom: "Modifier le projet",
+          icone: Icons.layers_rounded,
         ));
-        liste.add(optionBoutonDesktop(
-          "Membres du projet",
-          Icons.manage_accounts_rounded,
-          action: () => changerRoute("/membres_projet"),
+        liste.add(OptionBoutonDesktop(
+          routeOnTap: "/membres_projet",
+          nom: "Membres du projet",
+          icone: Icons.manage_accounts_rounded,
         ));
       }
 
-      liste.add(optionBoutonDesktop(
-        "Modifier son profil",
-        Icons.person_rounded,
-        action: () => changerRoute("/modifier_profil"),
+      liste.add(OptionBoutonDesktop(
+        routeOnTap: "/modifier_profil",
+        nom: "Modifier son profil",
+        icone: Icons.person_rounded,
       ));
 
-      liste.add(optionBoutonDesktop(
-        "Rejoindre un projet",
-        Icons.share_rounded,
-        action: () => changerRoute("/rejoindre_projet_code"),
+      liste.add(OptionBoutonDesktop(
+        routeOnTap: "/rejoindre_projet_code",
+        nom: "Rejoindre un projet",
+        icone: Icons.share_rounded,
       ));
     }
 
@@ -117,39 +118,6 @@ class _OptionsViewState extends State<OptionsView> {
         child: Text(
           texte,
           style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),
-    );
-  }
-
-  Widget optionBoutonDesktop(String texte, IconData icone, {VoidCallback? action}) {
-    Size ecran = MediaQuery.of(context).size;
-    return Bouton(
-      onTap: action ?? (() {}),
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Couleurs.fondSecondaire,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(
-                icone,
-                color: Couleurs.violet,
-                size: ecran.width * 0.04,
-              ),
-              Text(
-                texte,
-                style: TextStyle(
-                  color: Couleurs.texte,
-                  fontSize: ecran.width * 0.01,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
