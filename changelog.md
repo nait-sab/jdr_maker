@@ -1,3 +1,13 @@
+## [1.1.1]() (2023-01-06)
+
+### Moteur
+
+* La création d'un nouveau projet l'ouvre automatiquement après sa création
+
+### Correctif
+
+* Correction d'un bug n'affichant pas les projets créer
+
 ## [1.1.0]() (2023-01-06)
 
 ### Moteur

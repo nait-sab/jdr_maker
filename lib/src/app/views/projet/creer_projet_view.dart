@@ -1,10 +1,11 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
+import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
-import 'package:jdr_maker/src/app/tools/get_random_string.dart';
+import 'package:jdr_maker/src/app/tools/generateur_tool.dart';
 import 'package:jdr_maker/src/app/views/projet/widgets/debut_jdr_widgets.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
@@ -40,10 +41,10 @@ class _CreerProjetViewState extends State<CreerProjetView> {
   }
 
   Future creationJDR() async {
-    String idProjet = getRandomString(20);
+    String id = GenerateurTool.genererID();
 
     ProjetModel newProjet = ProjetModel(
-      id: idProjet,
+      id: id,
       idCreateur: utilisateurController.utilisateur!.id,
       nom: champNom.text,
       isPublic: false,
@@ -52,17 +53,20 @@ class _CreerProjetViewState extends State<CreerProjetView> {
     );
 
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
+      await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, id, newProjet.toMap());
     } else {
-      await FirebaseAndroidTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
+      await FirebaseAndroidTool.ajouterDocumentID(ProjetModel.nomCollection, id, newProjet.toMap());
     }
 
-    retourAcceuil();
+    await _chargerProjets();
+    await _chargerProjet(newProjet);
+    _acceuil();
   }
 
-  void retourAcceuil() {
-    NavigationController.changerView(context, "/accueil");
-  }
+
+  Future _chargerProjets() async => await ProjetController.chargerProjets(context);
+  Future _chargerProjet(ProjetModel projet) async => await ProjetController.chargerProjet(context, projet);
+  void _acceuil() => NavigationController.changerView(context, "/accueil");
 
   @override
   Widget build(BuildContext context) {
