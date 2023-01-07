@@ -5,8 +5,8 @@ import 'package:jdr_maker/src/app/controllers/navigation_controller.dart';
 import 'package:jdr_maker/src/app/controllers/projet_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/widgets/alerte.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
-import 'package:jdr_maker/src/app/widgets/champs/champ_checkbox.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton_icone.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton_switch.dart';
 import 'package:jdr_maker/src/app/widgets/champs/champ_saisie.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
@@ -130,7 +130,7 @@ class _ModifierProjetViewState extends State<ModifierProjetView> {
                                 color: Couleurs.texte,
                               ),
                             ),
-                            ChampCheckbox(etatInitial: isPublic, action: changerPublic),
+                            BoutonSwitch(actif: isPublic, action: changerPublic),
                           ],
                         ),
                         SizedBox(height: 20),

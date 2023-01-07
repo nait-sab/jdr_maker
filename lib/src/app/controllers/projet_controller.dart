@@ -193,4 +193,27 @@ class ProjetController extends ChangeNotifier {
     // Récupérer à nouveau les données de l'utilisateur
     await projetController._chargerProjets(utilisateur);
   }
+
+  // =========================================================
+  // Getters
+  // =========================================================
+  /// Récupérer les evenements du projet sans listener
+  static List<EvenementModel> getEvenements(BuildContext context) {
+    return Provider.of<ProjetController>(context, listen: false).evenements ?? [];
+  }
+
+  /// Récupérer les personnages du projet sans listener
+  static List<PersonnageModel> getPersonnages(BuildContext context) {
+    return Provider.of<ProjetController>(context, listen: false).personnages ?? [];
+  }
+
+  /// Récupérer les evenements du projet sans listener
+  static List<LieuModel> getLieux(BuildContext context) {
+    return Provider.of<ProjetController>(context, listen: false).lieux ?? [];
+  }
+
+  /// Récupérer les evenements du projet sans listener
+  static List<ObjetModel> getObjets(BuildContext context) {
+    return Provider.of<ProjetController>(context, listen: false).objets ?? [];
+  }
 }

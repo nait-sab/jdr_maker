@@ -6,7 +6,7 @@ import 'package:jdr_maker/src/app/tools/firebase_global_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
 import 'package:jdr_maker/src/app/widgets/alerte.dart';
 import 'package:jdr_maker/src/app/widgets/boutons/bouton.dart';
-import 'package:jdr_maker/src/app/widgets/boutons/icone_bouton.dart';
+import 'package:jdr_maker/src/app/widgets/boutons/bouton_icone.dart';
 import 'package:jdr_maker/src/app/widgets/chargement.dart';
 import 'package:jdr_maker/src/app/widgets/entete_application.dart';
 import 'package:jdr_maker/src/app/widgets/interfaces/app_interface/app_interface.dart';
