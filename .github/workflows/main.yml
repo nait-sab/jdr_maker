@@ -42,5 +42,5 @@ jobs:
     - run: flutter build windows
     - uses: actions/upload-artifact@v3
       with:
-      name: release-windows
-      path: build/windows/runner/Release/
+        name: release-windows
+        path: build/windows/runner/Release/
