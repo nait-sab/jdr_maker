@@ -5,7 +5,8 @@ import 'package:jdr_maker/src/app/controllers/utilisateur_controller.dart';
 import 'package:jdr_maker/src/app/tools/firebase_android_tool.dart';
 import 'package:jdr_maker/src/app/tools/firebase_desktop_tool.dart';
 import 'package:jdr_maker/src/app/tools/get_random_string.dart';
-import 'package:jdr_maker/src/app/views/projet/widgets/debut_jdr_widgets.dart';
+import 'package:jdr_maker/src/app/views/projet/widgets/views_create_JDR_Widgets.dart';
+import 'package:jdr_maker/src/domain/data/couleurs.dart';
 import 'package:jdr_maker/src/domain/models/projet_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,11 @@ class _CreerProjetViewState extends State<CreerProjetView> {
     champNom = TextEditingController();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void etapeSuivante() {
     setState(() => etape++);
   }
@@ -52,9 +58,11 @@ class _CreerProjetViewState extends State<CreerProjetView> {
     );
 
     if (Platform.isWindows) {
-      await FirebaseDesktopTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
+      await FirebaseDesktopTool.ajouterDocumentID(
+          ProjetModel.nomCollection, idProjet, newProjet.toMap());
     } else {
-      await FirebaseAndroidTool.ajouterDocumentID(ProjetModel.nomCollection, idProjet, newProjet.toMap());
+      await FirebaseAndroidTool.ajouterDocumentID(
+          ProjetModel.nomCollection, idProjet, newProjet.toMap());
     }
 
     retourAcceuil();
@@ -68,18 +76,12 @@ class _CreerProjetViewState extends State<CreerProjetView> {
   Widget build(BuildContext context) {
     utilisateurController = Provider.of<UtilisateurController>(context);
     return Scaffold(
-      backgroundColor: Color(0xff1e1e1e),
+      backgroundColor: Couleurs.fondPrincipale,
       body: rendu(),
     );
   }
 
   Widget rendu() {
-    if (etape == 0) {
-      return DebutJDRWidgets.rendu1(context, bullet, etapeSuivante);
-    } else if (etape == 1) {
-      return DebutJDRWidgets.rendu2(context, etapeSuivante, champNom, nomJdr);
-    } else {
-      return DebutJDRWidgets.rendu3(context, creationJDR);
-    }
+    return ViewsCreateJDRWidgets.rendu1(context, champNom, nomJdr, creationJDR);
   }
 }
