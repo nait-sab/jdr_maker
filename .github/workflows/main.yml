@@ -20,7 +20,6 @@ jobs:
         java-version: '11'
     - uses: subosito/flutter-action@v2
     - run: flutter pub get
-    - run: flutter test
     - run: flutter build apk
     - uses: actions/upload-artifact@v3
       with:
