@@ -72,7 +72,7 @@ class ViewsCreateJDRWidgets {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Text(
-                          "Creer le jeu de rôle",
+                          "Créer le jeu de rôle",
                           style:
                               TextStyle(fontSize: Platform.isAndroid ? 20 : 30),
                         ),
